@@ -73,4 +73,79 @@ void main() {
     expect(storeList.items.map((i) => i.id), equals([1]));
     expect(storeList.itemsMap.keys.toList(), equals([1]));
   });
+
+  test('List of items is updated', () {
+    final storeList = StoreList([
+      NumberStoreListItem(1),
+      NumberStoreListItem(2),
+      NumberStoreListItem(3),
+    ]);
+
+    expect(storeList.itemsIds, equals([1, 2, 3]));
+    expect(storeList.items.map((i) => i.id), equals([1, 2, 3]));
+
+    storeList.updateList([
+      NumberStoreListItem(2),
+      null,
+      NumberStoreListItem(4),
+      NumberStoreListItem(5),
+      NumberStoreListItem(6),
+    ]);
+
+    expect(storeList.itemsIds, equals([2, 4, 5, 6]));
+    expect(storeList.items.map((i) => i.id), equals([2, 4, 5, 6]));
+  });
+
+  test('Item is updated in list', () {
+    final storeList = StoreList(<StoreListItem>[NumberStoreListItem(1)]);
+
+    expect(storeList.itemsIds, equals([1]));
+    expect(storeList.items.map((i) => i.id), equals([1]));
+
+    storeList.updateItem(1, NumberStoreListItem(3));
+
+    expect(storeList.itemsIds, equals([1]));
+    expect(storeList.items.map((i) => i.id), equals([3]));
+  });
+
+  test('Incorrect id is ignored on updating item in list', () {
+    final storeList = StoreList(<StoreListItem>[NumberStoreListItem(1)]);
+
+    expect(storeList.itemsIds, equals([1]));
+    expect(storeList.items.map((i) => i.id), equals([1]));
+
+    storeList.updateItem(2, NumberStoreListItem(3));
+
+    expect(storeList.itemsIds, equals([1]));
+    expect(storeList.items.map((i) => i.id), equals([1]));
+  });
+
+  test('Item is deletd from list', () {
+    final storeList = StoreList([
+      NumberStoreListItem(1),
+      NumberStoreListItem(2),
+      NumberStoreListItem(3),
+    ]);
+
+    storeList.deleteItem(2);
+
+    expect(storeList.itemsIds, equals([1, 3]));
+    expect(storeList.items.map((i) => i.id), equals([1, 3]));
+  });
+
+  test('Incorrect id is ignored on deleting item from list', () {
+    final storeList = StoreList([
+      NumberStoreListItem(1),
+      NumberStoreListItem(2),
+      NumberStoreListItem(3),
+    ]);
+
+    expect(storeList.itemsIds, equals([1, 2, 3]));
+    expect(storeList.items.map((i) => i.id), equals([1, 2, 3]));
+
+    storeList.deleteItem(4);
+
+    expect(storeList.itemsIds, equals([1, 2, 3]));
+    expect(storeList.items.map((i) => i.id), equals([1, 2, 3]));
+  });
 }
