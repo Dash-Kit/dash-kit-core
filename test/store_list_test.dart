@@ -120,7 +120,7 @@ void main() {
     expect(storeList.items.map((i) => i.id), equals([1]));
   });
 
-  test('Item is deletd from list', () {
+  test('Item is deleted from list', () {
     final storeList = StoreList([
       NumberStoreListItem(1),
       NumberStoreListItem(2),
@@ -147,5 +147,18 @@ void main() {
 
     expect(storeList.itemsIds, equals([1, 2, 3]));
     expect(storeList.items.map((i) => i.id), equals([1, 2, 3]));
+  });
+
+  test('Items is deleted from list on clear', () {
+    final storeList = StoreList([
+      NumberStoreListItem(1),
+      NumberStoreListItem(2),
+      NumberStoreListItem(3),
+    ]);
+
+    storeList.clear();
+
+    expect(storeList.itemsIds, equals([]));
+    expect(storeList.items.map((i) => i.id), equals([]));
   });
 }

@@ -60,4 +60,10 @@ class StoreList<T extends StoreListItem> {
     _items.remove(id);
     _itemsIds = _itemsIds.where((i) => i != id).toList();
   }
+
+  void clear() {
+    _itemListCache = null;
+    _items.clear();
+    _itemsIds.clear();
+  }
 }
