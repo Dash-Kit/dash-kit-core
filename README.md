@@ -1,0 +1,1 @@
+flutter_platform_core
