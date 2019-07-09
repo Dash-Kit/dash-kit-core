@@ -7,28 +7,6 @@ class IncrementAction extends Action {}
 class DecrementAction extends Action {}
 
 void main() {
-  test('Initialization of reducer', () {
-    expect(() => Reducer(isRoot: false), returnsNormally);
-
-    expect(
-      () => Reducer(isRoot: false, rootReducerAction: (s, a) => s),
-      returnsNormally,
-    );
-    expect(
-      () => Reducer(isRoot: false, rootReducerAction: null),
-      returnsNormally,
-    );
-
-    expect(
-      () => Reducer(isRoot: true),
-      throwsA(TypeMatcher<AssertionError>()),
-    );
-    expect(
-      () => Reducer(isRoot: true, rootReducerAction: (s, a) => s),
-      returnsNormally,
-    );
-  });
-
   test('Empty reducer should return the same state', () {
     var reducer = Reducer<int>();
 
