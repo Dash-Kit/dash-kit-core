@@ -1,0 +1,1 @@
+library flutter_platform_core;
