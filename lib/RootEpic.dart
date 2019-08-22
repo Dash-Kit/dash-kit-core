@@ -10,7 +10,7 @@ class RootEpic<S extends State> {
 
   Epic<S> get epic {
     return (action$, store) => _onEpicsChangedController.stream
-        .map((_) => combineEpics(_epics.asList()));
+        .map((_) => combineEpics(_epics.asList())(action$, store));
   }
 
   void addEpic(Epic<S> epic) {
