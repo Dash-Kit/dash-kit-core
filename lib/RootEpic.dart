@@ -3,14 +3,15 @@ import 'dart:async';
 import 'package:flutter_platform_core/State.dart';
 import 'package:kt_dart/kt.dart';
 import 'package:redux_epics/redux_epics.dart';
+import 'package:rxdart/rxdart.dart';
 
 class RootEpic<S extends State> {
   final _epics = mutableListOf<Epic<S>>();
   final _onEpicsChangedController = StreamController();
 
   Epic<S> get epic {
-    return (action$, store) => _onEpicsChangedController.stream
-        .map((_) => combineEpics(_epics.asList())(action$, store));
+    return (action$, store) => Observable(_onEpicsChangedController.stream)
+        .flatMap((_) => combineEpics(_epics.asList())(action$, store));
   }
 
   void addEpic(Epic<S> epic) {
