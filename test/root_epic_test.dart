@@ -1,7 +1,7 @@
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_platform_core/Action.dart';
-import 'package:flutter_platform_core/RootEpic.dart';
-import 'package:flutter_platform_core/State.dart';
+import 'package:flutter_platform_core/action.dart';
+import 'package:flutter_platform_core/root_epic.dart';
+import 'package:flutter_platform_core/state.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';

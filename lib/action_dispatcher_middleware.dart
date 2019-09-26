@@ -1,5 +1,5 @@
-import 'package:flutter_platform_core/Action.dart';
-import 'package:flutter_platform_core/State.dart';
+import 'package:flutter_platform_core/action.dart';
+import 'package:flutter_platform_core/state.dart';
 import 'package:redux/redux.dart';
 import 'package:rxdart/rxdart.dart';
 

@@ -1,9 +1,9 @@
-import 'package:flutter_platform_core/Action.dart';
-import 'package:flutter_platform_core/ActionDispatcherMiddleware.dart';
-import 'package:flutter_platform_core/RootEpic.dart';
-import 'package:flutter_platform_core/RootReducer.dart';
-import 'package:flutter_platform_core/Reducer.dart' as PlatformReducer;
-import 'package:flutter_platform_core/State.dart';
+import 'package:flutter_platform_core/action.dart';
+import 'package:flutter_platform_core/action_dispatcher_middleware.dart';
+import 'package:flutter_platform_core/root_epic.dart';
+import 'package:flutter_platform_core/root_reducer.dart';
+import 'package:flutter_platform_core/reducer.dart' as PlatformReducer;
+import 'package:flutter_platform_core/state.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_epics/redux_epics.dart';
 
@@ -32,7 +32,6 @@ class StoreProvider<S extends State> {
       epicMiddleware,
     ];
 
-
     if (appReducer != null) {
       rootReducer.addReducer(appReducer);
     }
@@ -41,8 +40,8 @@ class StoreProvider<S extends State> {
       rootEpic.addEpic(appEpic);
     }
 
-    final reducer = (Object state, dynamic action) =>
-        rootReducer.reduce(state, action);
+    final reducer =
+        (Object state, dynamic action) => rootReducer.reduce(state, action);
 
     _store = Store<S>(
       reducer,
