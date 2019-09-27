@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter_platform_core/state.dart';
+import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:kt_dart/kt.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';

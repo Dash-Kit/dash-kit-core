@@ -1,6 +1,4 @@
-import 'package:flutter_platform_core/action.dart';
-import 'package:flutter_platform_core/reducer.dart';
-import 'package:flutter_platform_core/state.dart';
+import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:kt_dart/kt.dart';
 
 class RootReducer<S extends State> {

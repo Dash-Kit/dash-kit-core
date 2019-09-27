@@ -1,10 +1,5 @@
-import 'package:flutter_platform_core/action.dart';
-import 'package:flutter_platform_core/action_dispatcher_middleware.dart';
-import 'package:flutter_platform_core/root_epic.dart';
-import 'package:flutter_platform_core/root_reducer.dart';
-import 'package:flutter_platform_core/reducer.dart' as PlatformReducer;
-import 'package:flutter_platform_core/state.dart';
-import 'package:redux/redux.dart';
+import 'package:flutter_platform_core/flutter_platform_core.dart';
+import 'package:redux/redux.dart' hide Reducer;
 import 'package:redux_epics/redux_epics.dart';
 
 class StoreProvider<S extends State> {
@@ -20,7 +15,7 @@ class StoreProvider<S extends State> {
 
   StoreProvider({
     S initialState,
-    PlatformReducer.Reducer<S> appReducer,
+    Reducer<S> appReducer,
     Epic<S> appEpic,
     List<Middleware<State>> middleware = const [],
   }) {
