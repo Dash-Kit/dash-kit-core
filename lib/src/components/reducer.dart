@@ -1,4 +1,4 @@
-import 'package:flutter_platform_core/Action.dart';
+import 'package:flutter_platform_core/flutter_platform_core.dart';
 
 class Reducer<State> {
   final _reducerActions = Map<String, State Function(State, Action)>();

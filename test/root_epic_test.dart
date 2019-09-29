@@ -1,7 +1,5 @@
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_platform_core/Action.dart';
-import 'package:flutter_platform_core/RootEpic.dart';
-import 'package:flutter_platform_core/State.dart';
+import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
@@ -52,7 +50,7 @@ void main() {
 
 Epic<CounterState> createCounterEpic({VoidCallback handler}) {
   return (action$, store) => Observable(action$)
-      .ofType(TypeToken<IncrementStartAction>())
+      .whereType<IncrementStartAction>()
       .flatMap((action) => Observable.just(null)
           .doOnData((_) {
             if (handler != null) {

@@ -1,7 +1,4 @@
-import 'package:flutter_platform_core/Action.dart';
-import 'package:flutter_platform_core/Reducer.dart';
-import 'package:flutter_platform_core/RootReducer.dart';
-import 'package:flutter_platform_core/State.dart';
+import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:flutter_test/flutter_test.dart' as flutter_test;
 import 'package:test/test.dart';
 
