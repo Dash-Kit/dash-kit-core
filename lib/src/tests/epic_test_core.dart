@@ -8,7 +8,7 @@ import 'epic_test_session.dart';
 final _epicTestSession = EpicTestSession();
 
 void setupEpicTest({
-  EpicStore<State> epicStore,
+  EpicStore<GlobalState> epicStore,
   Duration epicBufferTime,
 }) {
   _epicTestSession.setupEpicTestSession(
@@ -21,7 +21,7 @@ void actions(List<Action> actions) {
   _epicTestSession.actions = actions;
 }
 
-Stream<dynamic> runEpic(Epic<State> epic) {
+Stream<dynamic> runEpic(Epic<GlobalState> epic) {
   return _epicTestSession.runEpic(epic);
 }
 

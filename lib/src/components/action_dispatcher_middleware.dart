@@ -2,7 +2,7 @@ import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:redux/redux.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ActionDispatcherMiddleware<S extends State>
+class ActionDispatcherMiddleware<S extends GlobalState>
     implements MiddlewareClass<S> {
   final PublishSubject<Action> _onActionSubject = PublishSubject();
 

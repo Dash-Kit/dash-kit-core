@@ -1,1 +1,1 @@
-abstract class State {}
+abstract class GlobalState {}
