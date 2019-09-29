@@ -10,6 +10,7 @@ export './src/components/root_epic.dart';
 export './src/components/root_reducer.dart';
 
 export './src/utils/store_list.dart';
+export './src/utils/redux_component.dart';
 
 export './src/tests/epic_test_core.dart';
 
