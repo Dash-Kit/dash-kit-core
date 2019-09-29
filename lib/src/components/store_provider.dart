@@ -2,7 +2,7 @@ import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:redux/redux.dart' hide Reducer;
 import 'package:redux_epics/redux_epics.dart';
 
-class StoreProvider<S extends State> {
+class StoreProvider<S extends GlobalState> {
   ActionDispatcherMiddleware _actionDispatcher;
   Store<S> _store;
 
@@ -17,12 +17,12 @@ class StoreProvider<S extends State> {
     S initialState,
     Reducer<S> appReducer,
     Epic<S> appEpic,
-    List<Middleware<State>> middleware = const [],
+    List<Middleware<GlobalState>> middleware = const [],
   }) {
     final epicMiddleware = EpicMiddleware<S>(rootEpic.epic);
     _actionDispatcher = ActionDispatcherMiddleware();
 
-    final List<Middleware<State>> platformMiddleware = [
+    final List<Middleware<GlobalState>> platformMiddleware = [
       _actionDispatcher,
       epicMiddleware,
     ];
