@@ -1,6 +1,7 @@
 library flutter_platform_core;
 
 export './src/components/action.dart';
+export './src/components/async_action.dart';
 export './src/components/reducer.dart';
 export './src/components/state.dart';
 export './src/components/store_provider.dart';
