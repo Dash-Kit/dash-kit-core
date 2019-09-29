@@ -1,5 +1,4 @@
-import 'package:flutter_platform_core/Action.dart';
-import 'package:flutter_platform_core/Reducer.dart';
+import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:test/test.dart';
 
 class IncrementAction extends Action {}

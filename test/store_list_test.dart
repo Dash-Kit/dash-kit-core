@@ -1,4 +1,4 @@
-import 'package:flutter_platform_core/StoreList.dart';
+import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class NumberStoreListItem extends StoreListItem {
