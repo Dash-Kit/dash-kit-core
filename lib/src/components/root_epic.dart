@@ -5,7 +5,7 @@ import 'package:kt_dart/kt.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 
-class RootEpic<S extends State> {
+class RootEpic<S extends GlobalState> {
   final _epics = mutableListOf<Epic<S>>();
   final _onEpicsChangedController = StreamController();
 

@@ -2,7 +2,7 @@ import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:flutter_test/flutter_test.dart' as flutter_test;
 import 'package:test/test.dart';
 
-class CounterState implements State {
+class CounterState implements GlobalState {
   final int counter;
 
   CounterState(this.counter);

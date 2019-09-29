@@ -10,7 +10,7 @@ class IncrementSuccessAction extends Action {}
 
 class IncrementErrorAction extends Action {}
 
-class CounterState implements State {
+class CounterState implements GlobalState {
   final int counter;
 
   CounterState(this.counter);

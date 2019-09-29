@@ -1,7 +1,7 @@
 import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:kt_dart/kt.dart';
 
-class RootReducer<S extends State> {
+class RootReducer<S extends GlobalState> {
   KtMutableList<Reducer<S>> _reducers = mutableListOf<Reducer<S>>();
 
   S reduce(S state, Action action) {

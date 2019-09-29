@@ -3,7 +3,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 
 abstract class ReduxConfig {
-  static StoreProvider<State> storeProvider;
+  static StoreProvider<GlobalState> storeProvider;
 }
 
 mixin ReduxComponent {

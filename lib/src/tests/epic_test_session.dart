@@ -4,7 +4,7 @@ import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 
-class EpicTestSession<S extends State> {
+class EpicTestSession<S extends GlobalState> {
   Stream<dynamic> _action$;
   EpicStore<S> _epicStore;
   Duration _epicBufferTime;
