@@ -4,9 +4,9 @@ import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 
-class EpicTestSession<S extends GlobalState> {
+class EpicTestSession {
   Stream<dynamic> _action$;
-  EpicStore<S> _epicStore;
+  EpicStore _epicStore;
   Duration _epicBufferTime;
 
   bool _isSetupEpicTestCalled = false;
@@ -22,7 +22,7 @@ class EpicTestSession<S extends GlobalState> {
     _action$ = Stream.fromIterable(actions).asBroadcastStream();
   }
 
-  void setupEpicTestSession({
+  void setupEpicTestSession<S extends GlobalState>({
     EpicStore<S> epicStore,
     Duration epicBufferTime,
   }) {
@@ -35,14 +35,15 @@ class EpicTestSession<S extends GlobalState> {
     _isSetupEpicTestCalled = true;
   }
 
-  Stream<dynamic> runEpic(Epic<S> epic) {
+  Stream<dynamic> runEpic<S extends GlobalState>(Epic<S> epic) {
     _ensureSetupEpicTestCalled();
     _ensureEpicRunningOnlyOnceForTest();
     _ensureEpicSessionValid();
 
     _isEpicRunning = true;
 
-    return Observable(epic(_action$, _epicStore)).bufferTime(_epicBufferTime);
+    final epicStore = _epicStore as EpicStore<S>;
+    return Observable(epic(_action$, epicStore)).bufferTime(_epicBufferTime);
   }
 
   void runAfterEpic(void Function() callback) {

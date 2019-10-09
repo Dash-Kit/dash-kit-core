@@ -5,13 +5,15 @@ import 'package:redux_epics/redux_epics.dart';
 
 import 'epic_test_session.dart';
 
-final _epicTestSession = EpicTestSession();
+EpicTestSession _epicTestSession;
 
-void setupEpicTest({
-  EpicStore<GlobalState> epicStore,
+void setupEpicTest<S extends GlobalState>({
+  EpicStore<S> epicStore,
   Duration epicBufferTime,
 }) {
-  _epicTestSession.setupEpicTestSession(
+  _epicTestSession = EpicTestSession();
+
+  _epicTestSession.setupEpicTestSession<S>(
     epicStore: epicStore,
     epicBufferTime: epicBufferTime,
   );
@@ -21,8 +23,8 @@ void actions(List<Action> actions) {
   _epicTestSession.actions = actions;
 }
 
-Stream<dynamic> runEpic(Epic<GlobalState> epic) {
-  return _epicTestSession.runEpic(epic);
+Stream<dynamic> runEpic<S extends GlobalState>(Epic<S> epic) {
+  return _epicTestSession.runEpic<S>(epic);
 }
 
 void runAfterEpic(void Function() callback) {
