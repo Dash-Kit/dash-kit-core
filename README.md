@@ -1,5 +1,5 @@
 # Flutter Platform Architecture Core
----
+
 ### 1. Action
 
 Action is an object with data that represents events in the app. 
@@ -7,6 +7,7 @@ Must extend from base class Action or AsyncAction.
 Actions are grouped by type in files.
 
 **Sync Action**
+
 Sync action is a simple action in the app that usually used to change some data in the global application state. 
 For example, an action intended to set user email in the global app state: 
 
@@ -19,6 +20,7 @@ class SetCurrentUserEmailAction extends Action {
 ```
 
 **Async action**
+
 Async action represents a process in the application that can start for execution and should be completed with a success or an error. AsyncAction contains 2 type parameters that represent the success model and error model that will be stored in the action when the process completes. Also, AsyncAction can include any information used to perform the process.
 
 For example, login in the application, when login completed we'll receive an enum with a result of login, or on failure, we'll receive a description with the reason of error:
@@ -91,9 +93,11 @@ That brings clarity to the changing of app data, and all changes in the data can
 For easier achieving immutability goals, we are using the built_value package provided by Google.
 
 **built_value docs:**
+
 https://github.com/google/built_value.dart
 
 **built_value article:**
+
 https://medium.com/dartlang/darts-built-value-for-immutable-object-models-83e2497922d4
 
 When app state models defined, you should use a command attached below to generate code that provides immutability for the app data models.
@@ -153,6 +157,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
   }
 }
 ```
+
 ### 4. Epic
 
 Epic is a component that is providing access to the business logic layer of the app.
