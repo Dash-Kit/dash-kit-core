@@ -21,10 +21,10 @@ void main() {
   final store = Store<AppState>(reducer, initialState: AppState(0));
 
   setUp(() {
-    setupEpicTest(epicStore: EpicStore(store));
+    setupEpicTest(store: store);
   });
 
-  test('Epic test runs successfully', () {
+  test('Epic test runs successfully', () async {
     actions([
       IncrementAsyncAction(0),
     ]);
@@ -38,7 +38,7 @@ void main() {
 
     expect(store.state.count, 0);
 
-    runAfterEpic(() {
+    await runAfterEpic(() {
       expect(store.state.count, 1);
     });
   });
@@ -56,8 +56,14 @@ AppState reducer(AppState state, dynamic action) {
 
 Epic<AppState> createEpic() {
   return (action$, store) {
-    return Observable(action$).whereType<IncrementAsyncAction>().flatMap(
-        (action) => Observable.just(action.complete(action.initialCount + 1))
-            .onErrorReturnWith((_) => action.fail('Error')));
+    return Observable(action$)
+        .whereType<IncrementAsyncAction>()
+        .where((action) => action.isStarted)
+        .flatMap((action) {
+      final count = action.initialCount + 1;
+
+      return Observable.just(action.complete(count))
+          .onErrorReturnWith((_) => action.fail('Error'));
+    });
   };
 }

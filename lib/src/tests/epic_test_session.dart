@@ -3,10 +3,11 @@ library epic_test_core;
 import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:redux/redux.dart';
 
 class EpicTestSession {
   Stream<dynamic> _action$;
-  EpicStore _epicStore;
+  Store _store;
   Duration _epicBufferTime;
 
   bool _isSetupEpicTestCalled = false;
@@ -23,7 +24,7 @@ class EpicTestSession {
   }
 
   void setupEpicTestSession<S extends GlobalState>({
-    EpicStore<S> epicStore,
+    Store<S> store,
     Duration epicBufferTime,
   }) {
     _isEpicRunning = false;
@@ -31,7 +32,7 @@ class EpicTestSession {
     _action$ = null;
     _epicBufferTime = epicBufferTime ?? Duration(milliseconds: 50);
 
-    _epicStore = epicStore;
+    _store = store;
     _isSetupEpicTestCalled = true;
   }
 
@@ -42,15 +43,19 @@ class EpicTestSession {
 
     _isEpicRunning = true;
 
-    final epicStore = _epicStore as EpicStore<S>;
-    return Observable(epic(_action$, epicStore)).bufferTime(_epicBufferTime);
+    final epicStore = EpicStore<S>(_store);
+    final actionStream = epic(_action$, epicStore);
+
+    return Observable(actionStream)
+        .doOnData(_store.dispatch)
+        .bufferTime(_epicBufferTime);
   }
 
-  void runAfterEpic(void Function() callback) {
+  Future<void> runAfterEpic(void Function() callback) {
     _ensureSetupEpicTestCalled();
     _ensureEpicIsRunning();
 
-    Future.delayed(_epicBufferTime).then((_) {
+    return Future.delayed(_epicBufferTime).then((_) {
       if (callback != null) {
         callback();
       }
@@ -76,9 +81,9 @@ class EpicTestSession {
       _throwError('Epic buffer time can not be null');
     }
 
-    if (_epicStore == null) {
+    if (_store == null) {
       _throwError(
-          'Epic Store can not be null. Set Epic Store in setup stage of the test');
+          'Store can not be null. Set Store in setup stage of the test');
     }
 
     if (_action$ == null) {
