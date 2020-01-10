@@ -1,41 +1,44 @@
+import 'package:built_collection/built_collection.dart';
+
 abstract class StoreListItem {
   Object get id;
 }
 
 class StoreList<T extends StoreListItem> {
-  List<T> _itemListCache;
+  BuiltList<T> _itemListCache;
 
-  List<Object> _itemsIds;
-  Map<Object, T> _items;
+  BuiltList<Object> _itemsIds;
+  BuiltMap<Object, T> _items;
 
   StoreList([List<T> items = const []]) {
     final filteredItems = (items ?? <T>[]).where((i) => i != null).toList();
 
-    _itemListCache = filteredItems;
-    _itemsIds = filteredItems.map((i) => i.id).toList();
-    _items = Map<Object, T>.fromIterable(filteredItems,
-        key: (v) => v.id, value: (v) => v);
+    _itemsIds = filteredItems.map((i) => i.id).toBuiltList();
+    _items = Map<Object, T>.fromIterable(
+      filteredItems,
+      key: (v) => v.id,
+      value: (v) => v,
+    ).build();
   }
 
-  List<T> get items {
-    if (_itemListCache == null) {
-      _itemListCache = _itemsIds.map((id) => _items[id]).toList();
-    }
+  BuiltList<T> get items {
+    _itemListCache ??= _itemsIds.map((id) => _items[id]).toBuiltList();
+
     return _itemListCache;
   }
 
-  List<Object> get itemsIds => _itemsIds.toList();
-  Map<Object, T> get itemsMap => Map<Object, T>.from(_items);
+  BuiltList<Object> get itemsIds => _itemsIds;
+  BuiltMap<Object, T> get itemsMap => _items;
 
   T getItem(Object id) => _items[id];
 
   void updateList(List<T> items) {
-    final filteredItems = items.where((i) => i != null).toList();
+    final filteredItems = items.where((i) => i != null).toBuiltList();
 
     _itemListCache = filteredItems;
-    _itemsIds = filteredItems.map((i) => i.id).toList();
+    _itemsIds = filteredItems.map((i) => i.id).toBuiltList();
 
-    filteredItems.forEach((i) => _items[i.id] = i);
+    filteredItems.forEach((i) => _items = _items.rebuild((b) => b[i.id] = i));
   }
 
   void addItem(Object id, T value) {
@@ -43,27 +46,28 @@ class StoreList<T extends StoreListItem> {
       return;
     }
 
-    _itemListCache.add(value);
+    _itemListCache = _itemListCache.rebuild((b) => b.add(value));
 
-    _items[id] = value;
-    _itemsIds.add(id);
+    _items = _items.rebuild((b) => b[id] = value);
+    _itemsIds = _itemsIds.rebuild((b) => b.add(id));
   }
 
   void updateItem(Object id, T value) {
     _itemListCache = null;
-    _items[id] = value;
+    _items = _items.rebuild((b) => b[id] = value);
   }
 
   void deleteItem(Object id) {
     _itemListCache = null;
 
-    _items.remove(id);
-    _itemsIds = _itemsIds.where((i) => i != id).toList();
+    _items = _items.rebuild((b) => b.remove(id));
+    _itemsIds = _itemsIds.rebuild((b) => b.removeWhere((i) => i == id));
   }
 
   void clear() {
     _itemListCache = null;
-    _items.clear();
-    _itemsIds.clear();
+
+    _items = _items.rebuild((b) => b.clear());
+    _itemsIds = _itemsIds.rebuild((b) => b.clear());
   }
 }
