@@ -1,8 +1,7 @@
 import 'package:flutter_platform_core/flutter_platform_core.dart';
-import 'package:kt_dart/kt.dart';
 
 class RootReducer<S extends GlobalState> {
-  KtMutableList<Reducer<S>> _reducers = mutableListOf<Reducer<S>>();
+  final _reducers = List<Reducer<S>>();
 
   S reduce(S state, Action action) {
     return _reducers.fold(state, (newState, reducer) {
