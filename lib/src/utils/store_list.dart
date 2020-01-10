@@ -11,8 +11,10 @@ class StoreList<T extends StoreListItem> {
   BuiltMap<Object, T> _items;
 
   StoreList([List<T> items = const []]) {
-    final filteredItems = (items ?? <T>[]).where((i) => i != null).toList();
+    final filteredItems =
+        (items ?? <T>[]).where((i) => i != null).toBuiltList();
 
+    _itemListCache = filteredItems;
     _itemsIds = filteredItems.map((i) => i.id).toBuiltList();
     _items = Map<Object, T>.fromIterable(
       filteredItems,
