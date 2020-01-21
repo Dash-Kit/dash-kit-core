@@ -6,17 +6,17 @@ enum AsyncActionState {
   failed,
 }
 
-class AsyncAction<SuccessModel, ErrorModel> extends Action {
+class AsyncAction<SuccessModel> extends Action {
   AsyncAction();
 
   AsyncActionState _state = AsyncActionState.started;
 
   SuccessModel _successModel;
-  ErrorModel _errorModel;
+  dynamic _errorModel;
 
   AsyncActionState get state => _state;
   SuccessModel get successModel => _successModel;
-  ErrorModel get errorModel => _errorModel;
+  dynamic get errorModel => _errorModel;
 
   bool get isStarted => _state == AsyncActionState.started;
   bool get isSucceed => _state == AsyncActionState.succeed;
@@ -34,7 +34,7 @@ class AsyncAction<SuccessModel, ErrorModel> extends Action {
     return 'ACTION `$actionType: $actionState`';
   }
 
-  AsyncAction<SuccessModel, ErrorModel> complete(SuccessModel model) {
+  AsyncAction<SuccessModel> complete(SuccessModel model) {
     assert(
       _state == AsyncActionState.started,
       'ERROR: The action was already completed or failed. '
@@ -47,7 +47,7 @@ class AsyncAction<SuccessModel, ErrorModel> extends Action {
     return this;
   }
 
-  AsyncAction<SuccessModel, ErrorModel> fail(ErrorModel model) {
+  AsyncAction<SuccessModel> fail(dynamic model) {
     assert(
       _state == AsyncActionState.started,
       'ERROR: The action was already completed or failed. '
@@ -60,7 +60,7 @@ class AsyncAction<SuccessModel, ErrorModel> extends Action {
     return this;
   }
 
-  AsyncAction<SuccessModel, ErrorModel> onStart(void Function() callback) {
+  AsyncAction<SuccessModel> onStart(void Function() callback) {
     if (_state == AsyncActionState.started) {
       callback();
     }
@@ -68,7 +68,7 @@ class AsyncAction<SuccessModel, ErrorModel> extends Action {
     return this;
   }
 
-  AsyncAction<SuccessModel, ErrorModel> onSuccess(
+  AsyncAction<SuccessModel> onSuccess(
     void Function(SuccessModel) callback,
   ) {
     if (_state == AsyncActionState.succeed) {
@@ -78,8 +78,8 @@ class AsyncAction<SuccessModel, ErrorModel> extends Action {
     return this;
   }
 
-  AsyncAction<SuccessModel, ErrorModel> onError(
-    void Function(ErrorModel) callback,
+  AsyncAction<SuccessModel> onError(
+    void Function(dynamic) callback,
   ) {
     if (_state == AsyncActionState.failed) {
       callback(_errorModel);

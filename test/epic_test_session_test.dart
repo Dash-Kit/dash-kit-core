@@ -10,7 +10,7 @@ class AppState extends GlobalState {
   AppState(this.count);
 }
 
-class IncrementAsyncAction extends AsyncAction<int, String> {
+class IncrementAsyncAction extends AsyncAction<int> {
   final int initialCount;
 
   IncrementAsyncAction(this.initialCount);
@@ -63,7 +63,7 @@ Epic<AppState> createEpic() {
       final count = action.initialCount + 1;
 
       return Observable.just(action.complete(count))
-          .onErrorReturnWith((_) => action.fail('Error'));
+          .onErrorReturnWith(action.fail);
     });
   };
 }
