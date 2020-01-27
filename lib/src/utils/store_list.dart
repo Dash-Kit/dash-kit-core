@@ -30,6 +30,7 @@ class StoreList<T extends StoreListItem> {
   }
 
   BuiltList<Object> get itemsIds => _itemsIds;
+
   BuiltMap<Object, T> get itemsMap => _items;
 
   T getItem(Object id) => _items[id];
@@ -52,6 +53,22 @@ class StoreList<T extends StoreListItem> {
 
     _items = _items.rebuild((b) => b[id] = value);
     _itemsIds = _itemsIds.rebuild((b) => b.add(id));
+  }
+
+  void addAll(List<T> values) {
+    if (values == null || values.isEmpty) {
+      return;
+    }
+
+    _itemListCache = _itemListCache.rebuild((b) => b.addAll(values));
+
+    _items = _items.rebuild(
+      (b) => values.forEach((value) => b[value.id] = value),
+    );
+
+    _itemsIds = _itemsIds.rebuild(
+      (b) => b.addAll(values.map((item) => item.id).toList()),
+    );
   }
 
   void updateItem(Object id, T value) {
