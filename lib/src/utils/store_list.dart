@@ -55,7 +55,7 @@ class StoreList<T extends StoreListItem> {
     _itemsIds = _itemsIds.rebuild((b) => b.add(id));
   }
 
-  void addAll(List<T> values) {
+  void addAll(Iterable<T> values) {
     if (values == null || values.isEmpty) {
       return;
     }
