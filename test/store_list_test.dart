@@ -161,4 +161,24 @@ void main() {
     expect(storeList.itemsIds, equals([]));
     expect(storeList.items.map((i) => i.id), equals([]));
   });
+
+  test('All of items were added', () {
+    final storeList = StoreList([
+      NumberStoreListItem(1),
+      NumberStoreListItem(2),
+      NumberStoreListItem(3),
+    ]);
+
+    expect(storeList.itemsIds, equals([1, 2, 3]));
+    expect(storeList.items.map((i) => i.id), equals([1, 2, 3]));
+
+    storeList.addAll([
+      NumberStoreListItem(4),
+      NumberStoreListItem(5),
+      NumberStoreListItem(6),
+    ]);
+
+    expect(storeList.itemsIds, equals([1, 2, 3, 4, 5, 6]));
+    expect(storeList.items.map((i) => i.id), equals([1, 2, 3, 4, 5, 6]));
+  });
 }
