@@ -21,7 +21,7 @@ class SetCurrentUserEmailAction extends Action {
 
 **Async action**
 
-Async action represents a process in the application that can start for execution and should be completed with a success or an error. AsyncAction contains 1 type parameter that represents the success model that will be stored in the action when the process completes. AsyncAction contains 1 type parameter that represents the success model that will be stored in the action when the process completes. The error model always has type 'dynamic'. Usually, it is the inheritor of the exception class. Also, AsyncAction can include any information used to perform the process.
+Async action represents a process in the application that can start for execution and should be completed with a success or an error. AsyncAction contains 1 type parameter that represents the success model that will be stored in the action when the process completes. The error model always has type 'dynamic'. Usually, it is the inheritor of the exception class. Also, AsyncAction can include any information used to perform the process.
 
 For example, login in the application, when login completed we'll receive an enum with a result of login, or on failure, we'll receive an exception with the reason of error:
 
@@ -45,7 +45,7 @@ Async action also includes API for accessing the current state of the action (th
 action
     .onStart(() => /* your code */)
     .onSuccess((result) => /* your code */)
-    .onError((errorException) => /* your code */);
+    .onError((error) => /* your code */);
 ```
 
 ### 2. Reducer
