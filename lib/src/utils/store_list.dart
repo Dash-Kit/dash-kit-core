@@ -35,7 +35,7 @@ class StoreList<T extends StoreListItem> {
 
   T getItem(Object id) => _items[id];
 
-  void updateList(List<T> items) {
+  void updateList(Iterable<T> items) {
     final filteredItems = items.where((i) => i != null).toBuiltList();
 
     _itemListCache = filteredItems;
