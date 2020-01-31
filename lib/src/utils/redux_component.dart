@@ -1,15 +1,16 @@
-import 'package:flutter_platform_core/flutter_platform_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_platform_core/flutter_platform_core.dart' as core;
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 
 abstract class ReduxConfig {
-  static StoreProvider<GlobalState> storeProvider;
+  static core.StoreProvider<core.GlobalState> storeProvider;
 }
 
-mixin ReduxComponent {
+mixin ReduxComponent on State {
   final _onDisposed = PublishSubject();
 
-  void dispatch(Action action) {
+  void dispatch(core.Action action) {
     assert(
       ReduxConfig.storeProvider != null,
       'ERROR: ReduxConfig.storeProvider is null. '
@@ -19,7 +20,7 @@ mixin ReduxComponent {
     ReduxConfig.storeProvider.store.dispatch(action);
   }
 
-  Observable<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
+  Observable<T> dispatchAsyncAction<T extends core.AsyncAction>(T action) {
     dispatch(action);
 
     return Observable(onAction<T>())
@@ -28,7 +29,7 @@ mixin ReduxComponent {
         .takeUntil(_onDisposed);
   }
 
-  Observable<T> onAction<T extends Action>() {
+  Observable<T> onAction<T extends core.Action>() {
     assert(
       ReduxConfig.storeProvider != null,
       'ERROR: ReduxConfig.storeProvider is null. '
@@ -42,5 +43,12 @@ mixin ReduxComponent {
 
   void disposeSubscriptions() {
     _onDisposed.add(true);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    disposeSubscriptions();
   }
 }
