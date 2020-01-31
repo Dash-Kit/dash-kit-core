@@ -21,14 +21,14 @@ class SetCurrentUserEmailAction extends Action {
 
 **Async action**
 
-Async action represents a process in the application that can start for execution and should be completed with a success or an error. AsyncAction contains 2 type parameters that represent the success model and error model that will be stored in the action when the process completes. Also, AsyncAction can include any information used to perform the process.
+Async action represents a process in the application that can start for execution and should be completed with a success or an error. AsyncAction contains 1 type parameter that represents the success model that will be stored in the action when the process completes. The error model always has type 'dynamic'. Usually, it is the inheritor of the exception class. Also, AsyncAction can include any information used to perform the process.
 
-For example, login in the application, when login completed we'll receive an enum with a result of login, or on failure, we'll receive a description with the reason of error:
+For example, login in the application, when login completed we'll receive an enum with a result of login, or on failure, we'll receive an exception with the reason of error:
 
 ```dart
 enum LoginResult { success, emailNotConfirmed }
 
-class LoginAsyncAction extends AsyncAction<LoginResult, String> {
+class LoginAsyncAction extends AsyncAction<LoginResult> {
   final UserCredentials credentials;
 
   LoginAsyncAction(this.credentials);
@@ -38,14 +38,14 @@ When the process completes, you should invoke the `complete` or `fail` method. I
 ```dart
 action.complete(LoginResult.success);
 action.complete(LoginResult.emailNotConfirmed);
-action.fail("Login Failed: Incorrect credentials");
+action.fail(InvalidCredentialsException());
 ```
 Async action also includes API for accessing the current state of the action (that usually used in the reducers):
 ```dart
 action
     .onStart(() => /* your code */)
     .onSuccess((result) => /* your code */)
-    .onError((errorModel) => /* your code */);
+    .onError((error) => /* your code */);
 ```
 
 ### 2. Reducer
