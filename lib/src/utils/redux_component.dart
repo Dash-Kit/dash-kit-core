@@ -7,7 +7,7 @@ abstract class ReduxConfig {
   static core.StoreProvider<core.GlobalState> storeProvider;
 }
 
-mixin ReduxComponent on State {
+mixin ReduxComponent<T extends StatefulWidget> on State<T> {
   final _onDisposed = PublishSubject();
 
   void dispatch(core.Action action) {
