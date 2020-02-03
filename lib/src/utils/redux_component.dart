@@ -7,7 +7,7 @@ abstract class ReduxConfig {
   static core.StoreProvider<core.GlobalState> storeProvider;
 }
 
-class IReduxComponent {
+class _IReduxComponent {
   void dispatch(core.Action action) {}
 
   Observable<T> dispatchAsyncAction<T extends core.AsyncAction>(T action) {}
@@ -17,7 +17,7 @@ class IReduxComponent {
   void disposeSubscriptions() {}
 }
 
-class ReduxComponentImpl implements IReduxComponent {
+class _ReduxComponentImpl implements _IReduxComponent {
   final _onDisposed = PublishSubject();
 
   void dispatch(core.Action action) {
@@ -56,8 +56,8 @@ class ReduxComponentImpl implements IReduxComponent {
   }
 }
 
-mixin ReduxComponent implements IReduxComponent {
-  final _reduxComponent = ReduxComponentImpl();
+mixin ReduxComponent implements _IReduxComponent {
+  final _reduxComponent = _ReduxComponentImpl();
 
   void dispatch(core.Action action) {
     _reduxComponent.dispatch(action);
@@ -77,14 +77,14 @@ mixin ReduxComponent implements IReduxComponent {
 }
 
 mixin ReduxState<T extends StatefulWidget> on State<T>
-    implements IReduxComponent {
-  ReduxComponentImpl _reduxComponent;
+    implements _IReduxComponent {
+  _ReduxComponentImpl _reduxComponent;
 
   @override
   void initState() {
     super.initState();
 
-    _reduxComponent = ReduxComponentImpl();
+    _reduxComponent = _ReduxComponentImpl();
   }
 
   @override
