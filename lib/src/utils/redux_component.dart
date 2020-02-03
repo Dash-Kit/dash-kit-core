@@ -109,6 +109,9 @@ mixin ReduxState<T extends material.StatefulWidget> on material.State<T>
   }
 
   void disposeSubscriptions() {
+    assert(_reduxComponent != null,
+        "disposeSubscriptions() should be called before super.dispose()");
+
     _reduxComponent.disposeSubscriptions();
   }
 }
