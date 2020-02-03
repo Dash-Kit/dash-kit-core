@@ -1,18 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_platform_core/flutter_platform_core.dart' as core;
+import 'package:flutter/material.dart' as material;
+import 'package:flutter_platform_core/flutter_platform_core.dart';
+import 'package:flutter_platform_core/src/components/async_action.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 
 abstract class ReduxConfig {
-  static core.StoreProvider<core.GlobalState> storeProvider;
+  static StoreProvider<GlobalState> storeProvider;
 }
 
 class _IReduxComponent {
-  void dispatch(core.Action action) {}
+  void dispatch(Action action) {}
 
-  Observable<T> dispatchAsyncAction<T extends core.AsyncAction>(T action) {}
+  Observable<T> dispatchAsyncAction<T extends AsyncAction>(T action) {}
 
-  Observable<T> onAction<T extends core.Action>() {}
+  Observable<T> onAction<T extends Action>() {}
 
   void disposeSubscriptions() {}
 }
@@ -20,7 +21,7 @@ class _IReduxComponent {
 class _ReduxComponentImpl implements _IReduxComponent {
   final _onDisposed = PublishSubject();
 
-  void dispatch(core.Action action) {
+  void dispatch(Action action) {
     assert(
       ReduxConfig.storeProvider != null,
       'ERROR: ReduxConfig.storeProvider is null. '
@@ -30,7 +31,7 @@ class _ReduxComponentImpl implements _IReduxComponent {
     ReduxConfig.storeProvider.store.dispatch(action);
   }
 
-  Observable<T> dispatchAsyncAction<T extends core.AsyncAction>(T action) {
+  Observable<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
     dispatch(action);
 
     return Observable(onAction<T>())
@@ -39,7 +40,7 @@ class _ReduxComponentImpl implements _IReduxComponent {
         .takeUntil(_onDisposed);
   }
 
-  Observable<T> onAction<T extends core.Action>() {
+  Observable<T> onAction<T extends Action>() {
     assert(
       ReduxConfig.storeProvider != null,
       'ERROR: ReduxConfig.storeProvider is null. '
@@ -59,15 +60,15 @@ class _ReduxComponentImpl implements _IReduxComponent {
 mixin ReduxComponent implements _IReduxComponent {
   final _reduxComponent = _ReduxComponentImpl();
 
-  void dispatch(core.Action action) {
+  void dispatch(Action action) {
     _reduxComponent.dispatch(action);
   }
 
-  Observable<T> dispatchAsyncAction<T extends core.AsyncAction>(T action) {
+  Observable<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
     return _reduxComponent.dispatchAsyncAction<T>(action);
   }
 
-  Observable<T> onAction<T extends core.Action>() {
+  Observable<T> onAction<T extends Action>() {
     return _reduxComponent.onAction<T>();
   }
 
@@ -76,7 +77,7 @@ mixin ReduxComponent implements _IReduxComponent {
   }
 }
 
-mixin ReduxState<T extends StatefulWidget> on State<T>
+mixin ReduxState<T extends material.StatefulWidget> on material.State<T>
     implements _IReduxComponent {
   _ReduxComponentImpl _reduxComponent;
 
@@ -95,15 +96,15 @@ mixin ReduxState<T extends StatefulWidget> on State<T>
     super.dispose();
   }
 
-  void dispatch(core.Action action) {
+  void dispatch(Action action) {
     _reduxComponent.dispatch(action);
   }
 
-  Observable<T> dispatchAsyncAction<T extends core.AsyncAction>(T action) {
+  Observable<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
     return _reduxComponent.dispatchAsyncAction<T>(action);
   }
 
-  Observable<T> onAction<T extends core.Action>() {
+  Observable<T> onAction<T extends Action>() {
     return _reduxComponent.onAction<T>();
   }
 
