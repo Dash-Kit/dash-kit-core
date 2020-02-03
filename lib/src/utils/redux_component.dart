@@ -7,7 +7,17 @@ abstract class ReduxConfig {
   static core.StoreProvider<core.GlobalState> storeProvider;
 }
 
-mixin ReduxComponent<T extends StatefulWidget> on State<T> {
+class IReduxComponent {
+  void dispatch(core.Action action) {}
+
+  Observable<T> dispatchAsyncAction<T extends core.AsyncAction>(T action) {}
+
+  Observable<T> onAction<T extends core.Action>() {}
+
+  void disposeSubscriptions() {}
+}
+
+class ReduxComponentImpl implements IReduxComponent {
   final _onDisposed = PublishSubject();
 
   void dispatch(core.Action action) {
@@ -44,11 +54,60 @@ mixin ReduxComponent<T extends StatefulWidget> on State<T> {
   void disposeSubscriptions() {
     _onDisposed.add(true);
   }
+}
+
+mixin ReduxComponent implements IReduxComponent {
+  final _reduxComponent = ReduxComponentImpl();
+
+  void dispatch(core.Action action) {
+    _reduxComponent.dispatch(action);
+  }
+
+  Observable<T> dispatchAsyncAction<T extends core.AsyncAction>(T action) {
+    return _reduxComponent.dispatchAsyncAction<T>(action);
+  }
+
+  Observable<T> onAction<T extends core.Action>() {
+    return _reduxComponent.onAction<T>();
+  }
+
+  void disposeSubscriptions() {
+    _reduxComponent.disposeSubscriptions();
+  }
+}
+
+mixin ReduxState<T extends StatefulWidget> on State<T>
+    implements IReduxComponent {
+  ReduxComponentImpl _reduxComponent;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _reduxComponent = ReduxComponentImpl();
+  }
 
   @override
   void dispose() {
-    super.dispose();
-
     disposeSubscriptions();
+    _reduxComponent = null;
+
+    super.dispose();
+  }
+
+  void dispatch(core.Action action) {
+    _reduxComponent.dispatch(action);
+  }
+
+  Observable<T> dispatchAsyncAction<T extends core.AsyncAction>(T action) {
+    return _reduxComponent.dispatchAsyncAction<T>(action);
+  }
+
+  Observable<T> onAction<T extends core.Action>() {
+    return _reduxComponent.onAction<T>();
+  }
+
+  void disposeSubscriptions() {
+    _reduxComponent.disposeSubscriptions();
   }
 }
