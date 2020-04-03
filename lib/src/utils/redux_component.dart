@@ -8,14 +8,14 @@ abstract class ReduxConfig {
   static StoreProvider<GlobalState> storeProvider;
 }
 
-class _IReduxComponent {
+abstract class _IReduxComponent {
   void dispatch(Action action) {}
 
-  Observable<T> dispatchAsyncAction<T extends AsyncAction>(T action) {}
+  Observable<T> dispatchAsyncAction<T extends AsyncAction>(T action);
 
-  Observable<T> onAction<T extends Action>() {}
+  Observable<T> onAction<T extends Action>();
 
-  void disposeSubscriptions() {}
+  void disposeSubscriptions();
 }
 
 class _ReduxComponentImpl implements _IReduxComponent {

@@ -15,3 +15,7 @@ export './src/utils/redux_component.dart';
 export './src/tests/epic_test_core.dart';
 
 export './src/components/action_dispatcher_middleware.dart';
+
+export './src/states/paginated_list.dart';
+export './src/states/refreshable_request_state.dart';
+export './src/states/request_state.dart';
