@@ -11,9 +11,9 @@ abstract class ReduxConfig {
 abstract class _IReduxComponent {
   void dispatch(Action action) {}
 
-  Observable<T> dispatchAsyncAction<T extends AsyncAction>(T action);
+  Stream<T> dispatchAsyncAction<T extends AsyncAction>(T action);
 
-  Observable<T> onAction<T extends Action>();
+  Stream<T> onAction<T extends Action>();
 
   void disposeSubscriptions();
 }
@@ -31,23 +31,23 @@ class _ReduxComponentImpl implements _IReduxComponent {
     ReduxConfig.storeProvider.store.dispatch(action);
   }
 
-  Observable<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
+  Stream<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
     dispatch(action);
 
-    return Observable(onAction<T>())
+    return onAction<T>()
         .where((a) => identical(a, action))
         .take(1)
         .takeUntil(_onDisposed);
   }
 
-  Observable<T> onAction<T extends Action>() {
+  Stream<T> onAction<T extends Action>() {
     assert(
       ReduxConfig.storeProvider != null,
       'ERROR: ReduxConfig.storeProvider is null. '
       'Initialize it before subscribing on actions',
     );
 
-    return Observable(ReduxConfig.storeProvider.onAction)
+    return ReduxConfig.storeProvider.onAction
         .whereType<T>()
         .takeUntil(_onDisposed);
   }
@@ -64,11 +64,11 @@ mixin ReduxComponent implements _IReduxComponent {
     _reduxComponent.dispatch(action);
   }
 
-  Observable<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
+  Stream<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
     return _reduxComponent.dispatchAsyncAction<T>(action);
   }
 
-  Observable<T> onAction<T extends Action>() {
+  Stream<T> onAction<T extends Action>() {
     return _reduxComponent.onAction<T>();
   }
 
@@ -100,11 +100,11 @@ mixin ReduxState<T extends material.StatefulWidget> on material.State<T>
     _reduxComponent.dispatch(action);
   }
 
-  Observable<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
+  Stream<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
     return _reduxComponent.dispatchAsyncAction<T>(action);
   }
 
-  Observable<T> onAction<T extends Action>() {
+  Stream<T> onAction<T extends Action>() {
     return _reduxComponent.onAction<T>();
   }
 

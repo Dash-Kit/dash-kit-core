@@ -11,10 +11,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_redux: ^0.5.3
-  redux_epics: ^0.10.4
+  flutter_redux: ^0.6.0
 
-  rxdart: ^0.22.0
+  redux_epics:
+    git:
+      url: git://github.com/w3ggy/dart_redux_epics
+
+  rxdart: ^0.24.0
   equatable: ^0.5.1
   built_collection: ^4.3.2
 

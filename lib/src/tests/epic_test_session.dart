@@ -46,7 +46,7 @@ class EpicTestSession {
     final epicStore = EpicStore<S>(_store);
     final actionStream = epic(_action$, epicStore);
 
-    return Observable(actionStream)
+    return actionStream
         .doOnData(_store.dispatch)
         .bufferTime(_epicBufferTime);
   }

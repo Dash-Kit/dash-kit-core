@@ -9,7 +9,7 @@ class RootEpic<S extends GlobalState> {
   final _onEpicsChangedController = StreamController();
 
   Epic<S> get epic {
-    return (action$, store) => Observable(_onEpicsChangedController.stream)
+    return (action$, store) => _onEpicsChangedController.stream
         .flatMap((_) => combineEpics(_epics)(action$, store));
   }
 
