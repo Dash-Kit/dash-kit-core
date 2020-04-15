@@ -56,13 +56,13 @@ AppState reducer(AppState state, dynamic action) {
 
 Epic<AppState> createEpic() {
   return (action$, store) {
-    return Observable(action$)
+    return action$
         .whereType<IncrementAsyncAction>()
         .where((action) => action.isStarted)
         .flatMap((action) {
       final count = action.initialCount + 1;
 
-      return Observable.just(action.complete(count))
+      return Stream.value(action.complete(count))
           .onErrorReturnWith(action.fail);
     });
   };

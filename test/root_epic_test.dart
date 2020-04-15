@@ -49,9 +49,9 @@ void main() {
 }
 
 Epic<CounterState> createCounterEpic({VoidCallback handler}) {
-  return (action$, store) => Observable(action$)
+  return (action$, store) => action$
       .whereType<IncrementStartAction>()
-      .flatMap((action) => Observable.just(null)
+      .flatMap((action) => Stream.value(null)
           .doOnData((_) {
             if (handler != null) {
               handler();
