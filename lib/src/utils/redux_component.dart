@@ -1,26 +1,14 @@
-import 'package:flutter/material.dart' as material;
 import 'package:flutter_platform_core/flutter_platform_core.dart';
 import 'package:flutter_platform_core/src/components/async_action.dart';
+import 'package:flutter_platform_core/src/utils/i_redux_component.dart';
+import 'package:flutter_platform_core/src/utils/redux_config.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 
-abstract class ReduxConfig {
-  static StoreProvider<GlobalState> storeProvider;
-}
-
-abstract class _IReduxComponent {
-  void dispatch(Action action) {}
-
-  Stream<T> dispatchAsyncAction<T extends AsyncAction>(T action);
-
-  Stream<T> onAction<T extends Action>();
-
-  void disposeSubscriptions();
-}
-
-class _ReduxComponentImpl implements _IReduxComponent {
+class ReduxComponent implements IReduxComponent {
   final _onDisposed = PublishSubject();
 
+  @override
   void dispatch(Action action) {
     assert(
       ReduxConfig.storeProvider != null,
@@ -31,6 +19,7 @@ class _ReduxComponentImpl implements _IReduxComponent {
     ReduxConfig.storeProvider.store.dispatch(action);
   }
 
+  @override
   Stream<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
     dispatch(action);
 
@@ -40,6 +29,7 @@ class _ReduxComponentImpl implements _IReduxComponent {
         .takeUntil(_onDisposed);
   }
 
+  @override
   Stream<T> onAction<T extends Action>() {
     assert(
       ReduxConfig.storeProvider != null,
@@ -52,66 +42,19 @@ class _ReduxComponentImpl implements _IReduxComponent {
         .takeUntil(_onDisposed);
   }
 
+  @override
   void disposeSubscriptions() {
     _onDisposed.add(true);
   }
-}
-
-mixin ReduxComponent implements _IReduxComponent {
-  final _reduxComponent = _ReduxComponentImpl();
-
-  void dispatch(Action action) {
-    _reduxComponent.dispatch(action);
-  }
-
-  Stream<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
-    return _reduxComponent.dispatchAsyncAction<T>(action);
-  }
-
-  Stream<T> onAction<T extends Action>() {
-    return _reduxComponent.onAction<T>();
-  }
-
-  void disposeSubscriptions() {
-    _reduxComponent.disposeSubscriptions();
-  }
-}
-
-mixin ReduxState<T extends material.StatefulWidget> on material.State<T>
-    implements _IReduxComponent {
-  _ReduxComponentImpl _reduxComponent;
 
   @override
-  void initState() {
-    super.initState();
+  Future<R> dispatchAsyncActionAsFuture<R>(AsyncAction<R> action) {
+    return dispatchAsyncAction(action).map((a) {
+      if (a.isSucceed) {
+        return a.successModel;
+      }
 
-    _reduxComponent = _ReduxComponentImpl();
-  }
-
-  @override
-  void dispose() {
-    disposeSubscriptions();
-    _reduxComponent = null;
-
-    super.dispose();
-  }
-
-  void dispatch(Action action) {
-    _reduxComponent.dispatch(action);
-  }
-
-  Stream<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
-    return _reduxComponent.dispatchAsyncAction<T>(action);
-  }
-
-  Stream<T> onAction<T extends Action>() {
-    return _reduxComponent.onAction<T>();
-  }
-
-  void disposeSubscriptions() {
-    assert(_reduxComponent != null,
-        "disposeSubscriptions() should be called before super.dispose()");
-
-    _reduxComponent.disposeSubscriptions();
+      throw a.errorModel;
+    }).first;
   }
 }
