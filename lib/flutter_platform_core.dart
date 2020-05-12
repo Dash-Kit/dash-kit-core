@@ -12,6 +12,7 @@ export './src/components/root_reducer.dart';
 export './src/utils/store_list.dart';
 export './src/utils/redux_config.dart';
 export './src/utils/hook_redux_component.dart';
+export './src/utils/redux_component.dart';
 export './src/utils/i_redux_component.dart';
 export './src/utils/mixin_redux_component.dart';
 
