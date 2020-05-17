@@ -294,11 +294,9 @@ packages:
   redux_epics:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "67758a8d5e72651f120b05414ce3502a31e3b483"
-      url: "git://github.com/w3ggy/dart_redux_epics"
-    source: git
+      name: redux_epics
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.14.0"
   rxdart:
     dependency: "direct main"
