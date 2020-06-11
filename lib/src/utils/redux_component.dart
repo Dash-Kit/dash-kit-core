@@ -48,13 +48,13 @@ class ReduxComponent implements IReduxComponent {
   }
 
   @override
-  Future<R> dispatchAsyncActionAsFuture<R>(AsyncAction<R> action) {
-    return dispatchAsyncAction(action).map((a) {
-      if (a.isSucceed) {
-        return a.successModel;
-      }
+  Future<R> dispatchAsyncActionAsFuture<R>(AsyncAction<R> action) async {
+    final asyncAction = await dispatchAsyncAction(action).first;
 
-      throw a.errorModel;
-    }).first;
+    if (asyncAction.isFailed) {
+      throw asyncAction.errorModel;
+    }
+
+    return action.successModel;
   }
 }
