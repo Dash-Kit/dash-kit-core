@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart' hide Action;
-import 'package:flutter_platform_core/flutter_platform_core.dart';
-import 'package:flutter_platform_core/src/components/async_action.dart';
-import 'package:flutter_platform_core/src/utils/i_redux_component.dart';
-import 'package:flutter_platform_core/src/utils/redux_component.dart';
+import 'package:dash_kit_core/dash_kit_core.dart';
+import 'package:dash_kit_core/src/components/async_action.dart';
+import 'package:dash_kit_core/src/utils/i_redux_component.dart';
+import 'package:dash_kit_core/src/utils/redux_component.dart';
 
 mixin ReduxState<T extends StatefulWidget> on State<T>
     implements IReduxComponent {

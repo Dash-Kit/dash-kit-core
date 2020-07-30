@@ -1,7 +1,7 @@
-import 'package:flutter_platform_core/flutter_platform_core.dart';
-import 'package:flutter_platform_core/src/components/async_action.dart';
-import 'package:flutter_platform_core/src/utils/i_redux_component.dart';
-import 'package:flutter_platform_core/src/utils/redux_config.dart';
+import 'package:dash_kit_core/dash_kit_core.dart';
+import 'package:dash_kit_core/src/components/async_action.dart';
+import 'package:dash_kit_core/src/utils/i_redux_component.dart';
+import 'package:dash_kit_core/src/utils/redux_config.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 

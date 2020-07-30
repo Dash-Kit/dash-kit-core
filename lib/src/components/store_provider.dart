@@ -1,4 +1,4 @@
-import 'package:flutter_platform_core/flutter_platform_core.dart';
+import 'package:dash_kit_core/dash_kit_core.dart';
 import 'package:redux/redux.dart' hide Reducer;
 import 'package:redux_epics/redux_epics.dart';
 

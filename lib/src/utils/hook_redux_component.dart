@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart' hide Action;
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_platform_core/flutter_platform_core.dart';
-import 'package:flutter_platform_core/src/utils/i_redux_component.dart';
-import 'package:flutter_platform_core/src/utils/redux_component.dart';
+import 'package:dash_kit_core/dash_kit_core.dart';
+import 'package:dash_kit_core/src/utils/i_redux_component.dart';
+import 'package:dash_kit_core/src/utils/redux_component.dart';
 
 _ActionRunner useActionRunner() {
   final reduxComponent = useReduxComponent();
@@ -25,7 +25,7 @@ class _ActionRunner {
 }
 
 IReduxComponent useReduxComponent() {
-  return Hook.use(ReduxComponentHook());
+  return use(ReduxComponentHook());
 }
 
 class ReduxComponentHook extends Hook<IReduxComponent> {

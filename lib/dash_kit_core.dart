@@ -1,4 +1,4 @@
-library flutter_platform_core;
+library dash_kit_core;
 
 export './src/components/action.dart';
 export './src/components/async_action.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_platform_core/flutter_platform_core.dart';
+import 'package:dash_kit_core/dash_kit_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
