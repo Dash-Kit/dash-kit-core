@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_core/flutter_platform_core.dart';
-import 'package:flutter_platform_core/src/states/refreshable_request_state.dart';
-import 'package:flutter_platform_core/src/states/request_state.dart';
+import 'package:dash_kit_core/dash_kit_core.dart';
+import 'package:dash_kit_core/src/states/refreshable_request_state.dart';
+import 'package:dash_kit_core/src/states/request_state.dart';
 
 class PaginatedList<T extends StoreListItem> {
   const PaginatedList({
