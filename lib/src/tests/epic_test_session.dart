@@ -46,9 +46,7 @@ class EpicTestSession {
     final epicStore = EpicStore<S>(_store);
     final actionStream = epic(_action$, epicStore);
 
-    return actionStream
-        .doOnData(_store.dispatch)
-        .bufferTime(_epicBufferTime);
+    return actionStream.doOnData(_store.dispatch).bufferTime(_epicBufferTime);
   }
 
   Future<void> runAfterEpic(void Function() callback) {
