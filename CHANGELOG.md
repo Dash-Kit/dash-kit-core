@@ -1,3 +1,7 @@
+## [1.0.3]
+
+* Fixed issue with using requests states in `switch`.
+
 ## [1.0.2]
 
 * Increased package score.

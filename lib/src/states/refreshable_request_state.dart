@@ -3,16 +3,6 @@ class RefreshableRequestState {
 
   final String name;
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is RefreshableRequestState &&
-          runtimeType == other.runtimeType &&
-          name == other.name;
-
-  @override
-  int get hashCode => name.hashCode;
-
   static const RefreshableRequestState idle = RefreshableRequestState._('idle');
   static const RefreshableRequestState inProgress =
       RefreshableRequestState._('inProgress');
