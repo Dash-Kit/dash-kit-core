@@ -3,16 +3,6 @@ class RequestState {
 
   final String name;
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is RequestState &&
-          runtimeType == other.runtimeType &&
-          name == other.name;
-
-  @override
-  int get hashCode => name.hashCode;
-
   static const RequestState idle = RequestState._('idle');
   static const RequestState inProgress = RequestState._('inProgress');
   static const RequestState success = RequestState._('success');
