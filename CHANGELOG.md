@@ -1,3 +1,7 @@
+## [1.0.4]
+
+* Fixed issue with equality for request states.
+
 ## [1.0.3]
 
 * Fixed issue with using requests states in `switch`.
