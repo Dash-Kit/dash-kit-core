@@ -1,3 +1,7 @@
+## [1.0.5]
+
+* Improved working with equality for request states.
+
 ## [1.0.4]
 
 * Fixed issue with equality for request states.
