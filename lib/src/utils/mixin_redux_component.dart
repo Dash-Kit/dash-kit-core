@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart' hide Action;
 import 'package:dash_kit_core/dash_kit_core.dart';
-import 'package:dash_kit_core/src/components/async_action.dart';
 import 'package:dash_kit_core/src/utils/i_redux_component.dart';
 import 'package:dash_kit_core/src/utils/redux_component.dart';
 
@@ -17,37 +16,16 @@ mixin ReduxState<T extends StatefulWidget> on State<T>
 
   @override
   void dispose() {
-    disposeSubscriptions();
     _reduxComponent = null;
 
     super.dispose();
   }
 
   @override
-  void dispatch(Action action) {
+  void dispatch<T extends GlobalState>(
+    Action<T> action, {
+    bool notify = true,
+  }) {
     _reduxComponent.dispatch(action);
-  }
-
-  @override
-  Stream<T> dispatchAsyncAction<T extends AsyncAction>(T action) {
-    return _reduxComponent.dispatchAsyncAction<T>(action);
-  }
-
-  @override
-  Stream<T> onAction<T extends Action>() {
-    return _reduxComponent.onAction<T>();
-  }
-
-  @override
-  void disposeSubscriptions() {
-    assert(_reduxComponent != null,
-        "disposeSubscriptions() should be called before super.dispose()");
-
-    _reduxComponent.disposeSubscriptions();
-  }
-
-  @override
-  Future<R> dispatchAsyncActionAsFuture<R>(AsyncAction<R> action) {
-    return _reduxComponent.dispatchAsyncActionAsFuture(action);
   }
 }

@@ -15,12 +15,8 @@ class _ActionRunner {
 
   final IReduxComponent _reduxComponent;
 
-  void runAction(Action action) {
+  void runAction<T extends GlobalState>(Action<T> action) {
     _reduxComponent.dispatch(action);
-  }
-
-  Future<R> runAsyncAction<R>(AsyncAction<R> action) {
-    return _reduxComponent.dispatchAsyncActionAsFuture(action);
   }
 }
 
@@ -46,12 +42,6 @@ class ReduxComponentStateHook
 
   @override
   void dispose() {
-    assert(
-      _reduxComponent != null,
-      'disposeSubscriptions() should be called before super.dispose()',
-    );
-
-    _reduxComponent.disposeSubscriptions();
     _reduxComponent = null;
 
     super.dispose();

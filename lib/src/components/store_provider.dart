@@ -1,51 +1,28 @@
+import 'package:async_redux/async_redux.dart';
 import 'package:dash_kit_core/dash_kit_core.dart';
-import 'package:redux/redux.dart' hide Reducer;
-import 'package:redux_epics/redux_epics.dart';
 
 class StoreProvider<S extends GlobalState> {
-  ActionDispatcherMiddleware _actionDispatcher;
   Store<S> _store;
-
-  final rootReducer = RootReducer<S>();
-  final rootEpic = RootEpic<S>();
 
   Store<S> get store => _store;
 
-  Stream<Action> get onAction => _actionDispatcher.onAction;
-
   StoreProvider({
     S initialState,
-    Reducer<S> appReducer,
-    Epic<S> appEpic,
-    List<Middleware<GlobalState>> middleware = const [],
+    List<ActionObserver> actionObservers,
+    List<StateObserver> stateObservers,
+    Persistor persistor,
+    ModelObserver modelObserver,
+    ErrorObserver errorObserver,
+    WrapError wrapError,
   }) {
-    final epicMiddleware = EpicMiddleware<S>(rootEpic.epic);
-    _actionDispatcher = ActionDispatcherMiddleware();
-
-    final List<Middleware<GlobalState>> platformMiddleware = [
-      _actionDispatcher,
-      epicMiddleware,
-    ];
-
-    if (appReducer != null) {
-      rootReducer.addReducer(appReducer);
-    }
-
-    if (appEpic != null) {
-      rootEpic.addEpic(appEpic);
-    }
-
-    final reducer =
-        (Object state, dynamic action) => rootReducer.reduce(state, action);
-
     _store = Store<S>(
-      reducer,
       initialState: initialState,
-      middleware: platformMiddleware + middleware,
+      actionObservers: actionObservers,
+      stateObservers: stateObservers,
+      persistor: persistor,
+      modelObserver: modelObserver,
+      errorObserver: errorObserver,
+      wrapError: wrapError,
     );
-  }
-
-  dispose() {
-    _actionDispatcher.dispose();
   }
 }

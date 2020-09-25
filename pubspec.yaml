@@ -10,9 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  redux: ^4.0.0+3
-  flutter_redux: ^0.6.0
-  redux_epics: ^0.14.0
+  async_redux: ^3.0.5
   flutter_hooks: ^0.12.0
 
   rxdart: ^0.24.1
