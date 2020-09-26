@@ -13,5 +13,5 @@ export './src/utils/i_redux_component.dart';
 export './src/utils/mixin_redux_component.dart';
 
 export './src/states/paginated_list.dart';
-export './src/states/refreshable_request_state.dart';
+export 'src/states/request_state.dart';
 export './src/states/request_state.dart';

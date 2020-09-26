@@ -1,14 +1,17 @@
 enum RequestState {
   idle,
   inProgress,
+  refreshing,
   success,
   error,
 }
 
-extension RequestStateExtension on RequestState {
+extension RefrershableRequestStateExtension on RequestState {
+  bool get isIdle => this == RequestState.idle;
+
   bool get isInProgress => this == RequestState.inProgress;
 
-  bool get isIdle => this == RequestState.idle;
+  bool get isRefreshing => this == RequestState.refreshing;
 
   bool get isSucceed => this == RequestState.success;
 
