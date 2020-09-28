@@ -45,7 +45,4 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
 
     return 'ACTION `$actionName`';
   }
-
-  @override
-  List get props => [];
 }
