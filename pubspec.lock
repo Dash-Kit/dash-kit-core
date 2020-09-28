@@ -139,13 +139,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_hooks:
-    dependency: "direct main"
-    description:
-      name: flutter_hooks
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.12.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -354,13 +347,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.3"
-  rxdart:
-    dependency: "direct main"
-    description:
-      name: rxdart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.24.1"
   shelf:
     dependency: transitive
     description:

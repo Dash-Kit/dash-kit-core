@@ -11,9 +11,6 @@ dependencies:
     sdk: flutter
 
   async_redux: ^3.0.5
-  flutter_hooks: ^0.12.0
-
-  rxdart: ^0.24.1
   built_collection: ^4.3.2
 
 dev_dependencies:
