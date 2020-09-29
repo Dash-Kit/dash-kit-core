@@ -16,33 +16,30 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
       return reduce;
     }
 
-    final ReduxAction<GlobalState> initialAction = SetOperationStateAction(
+    dispatch(SetOperationStateAction<T>(
       operationKey,
       isRefreshing == true
           ? OperationState.refreshing
           : OperationState.inProgress,
-    );
-    dispatch(initialAction);
+    ));
 
     return () async {
       try {
         final newState = await reduce();
 
-        final ReduxAction<GlobalState> successAction = SetOperationStateAction(
+        dispatch(SetOperationStateAction<T>(
           operationKey,
           OperationState.success,
-        );
-        dispatch(successAction);
+        ));
 
         return newState;
 
         // ignore: avoid_catches_without_on_clauses
       } catch (error) {
-        final ReduxAction<GlobalState> errorAction = SetOperationStateAction(
+        dispatch(SetOperationStateAction<T>(
           operationKey,
           OperationState.error,
-        );
-        dispatch(errorAction);
+        ));
 
         rethrow;
       }

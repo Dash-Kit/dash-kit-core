@@ -4,13 +4,10 @@ import 'package:dash_kit_core/dash_kit_core.dart';
 abstract class GlobalState {
   BuiltMap<Object, OperationState> get operationsState;
 
-  GlobalState updateOperation(
+  T updateOperation<T extends GlobalState>(
     Object operationKey,
     OperationState operationState,
   );
 
-  OperationState getOperationState(Object operationKey) {
-    assert(operationsState != null);
-    return operationsState[operationKey] ?? OperationState.idle;
-  }
+  OperationState getOperationState(Object operationKey);
 }
