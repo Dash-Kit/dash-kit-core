@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:async_redux/async_redux.dart';
 import 'package:dash_kit_core/src/components/actions/set_operation_state_action.dart';
 import 'package:dash_kit_core/src/components/global_state.dart';
@@ -7,14 +9,13 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
   Action({this.isRefreshing = false});
 
   final bool isRefreshing;
+  bool _isSuccessfullyCompleted = false;
 
   Object get operationKey => null;
 
   @override
-  Reducer<T> wrapReduce(Reducer<T> reduce) {
-    if (operationKey == null) {
-      return reduce;
-    }
+  FutureOr<void> before() {
+    super.before();
 
     dispatch(SetOperationStateAction<T>(
       operationKey,
@@ -22,28 +23,25 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
           ? OperationState.refreshing
           : OperationState.inProgress,
     ));
+  }
 
+  @override
+  Reducer<T> wrapReduce(Reducer<T> reduce) {
     return () async {
-      try {
-        final newState = await reduce();
-
-        dispatch(SetOperationStateAction<T>(
-          operationKey,
-          OperationState.success,
-        ));
-
-        return newState;
-
-        // ignore: avoid_catches_without_on_clauses
-      } catch (error) {
-        dispatch(SetOperationStateAction<T>(
-          operationKey,
-          OperationState.error,
-        ));
-
-        rethrow;
-      }
+      final newState = await reduce();
+      _isSuccessfullyCompleted = true;
+      return newState;
     };
+  }
+
+  @override
+  void after() {
+    super.after();
+
+    dispatch(SetOperationStateAction<T>(
+      operationKey,
+      _isSuccessfullyCompleted ? OperationState.success : OperationState.error,
+    ));
   }
 
   @override
