@@ -1,3 +1,8 @@
+## [2.0.0]
+
+* Switched to architecture components from Async Redux
+* Implemented Operation State API
+
 ## [1.0.5]
 
 * Improved working with equality for request states.

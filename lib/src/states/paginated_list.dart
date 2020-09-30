@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dash_kit_core/dash_kit_core.dart';
-import 'package:dash_kit_core/src/states/refreshable_request_state.dart';
-import 'package:dash_kit_core/src/states/request_state.dart';
+import 'package:dash_kit_core/src/states/operation_state.dart';
 
 class PaginatedList<T extends StoreListItem> {
   const PaginatedList({
@@ -17,19 +16,20 @@ class PaginatedList<T extends StoreListItem> {
   PaginatedList.empty()
       : this(
           items: StoreList<T>(),
-          loadListRequestState: RefreshableRequestState.idle,
-          loadPageRequestState: RequestState.idle,
+          loadListRequestState: OperationState.idle,
+          loadPageRequestState: OperationState.idle,
           isAllItemsLoaded: false,
         );
+
   final StoreList<T> items;
-  final RefreshableRequestState loadListRequestState;
-  final RequestState loadPageRequestState;
+  final OperationState loadListRequestState;
+  final OperationState loadPageRequestState;
   final bool isAllItemsLoaded;
 
   PaginatedList<T> update({
     StoreList<T> items,
-    RefreshableRequestState loadListRequestState,
-    RequestState loadPageRequestState,
+    OperationState loadListRequestState,
+    OperationState loadPageRequestState,
     bool isAllItemsLoaded,
   }) {
     return PaginatedList(
