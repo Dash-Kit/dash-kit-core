@@ -1,32 +1,36 @@
+## [2.0.2]
+
+- Fix BuildContext extension for action dispatching
+
 ## [2.0.1]
 
-* Added BuildContext extension for action dispatching
+- Added BuildContext extension for action dispatching
 
 ## [2.0.0]
 
-* Switched to architecture components from Async Redux
-* Implemented Operation State API
+- Switched to architecture components from Async Redux
+- Implemented Operation State API
 
 ## [1.0.5]
 
-* Improved working with equality for request states.
+- Improved working with equality for request states.
 
 ## [1.0.4]
 
-* Fixed issue with equality for request states.
+- Fixed issue with equality for request states.
 
 ## [1.0.3]
 
-* Fixed issue with using requests states in `switch`.
+- Fixed issue with using requests states in `switch`.
 
 ## [1.0.2]
 
-* Increased package score.
+- Increased package score.
 
 ## [1.0.1]
 
-* Fixed lint issues.
+- Fixed lint issues.
 
 ## [1.0.0]
 
-* Initial release of the core component.
+- Initial release of the core component.
