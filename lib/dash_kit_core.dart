@@ -2,7 +2,7 @@ library dash_kit_core;
 
 export './src/components/action.dart';
 export './src/components/global_state.dart';
-export 'src/components/store.dart';
+export './src/components/store.dart';
 
 export './src/utils/store_list.dart';
 
