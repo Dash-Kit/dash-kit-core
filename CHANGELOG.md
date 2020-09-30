@@ -1,3 +1,7 @@
+## [2.0.1]
+
+* Added BuildContext extension for action dispatching
+
 ## [2.0.0]
 
 * Switched to architecture components from Async Redux
