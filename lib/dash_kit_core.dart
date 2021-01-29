@@ -6,6 +6,7 @@ export './src/components/store.dart';
 
 export './src/utils/store_list.dart';
 export './src/utils/build_context_extensions.dart';
+export './src/utils/loggable.dart';
 
 export './src/states/paginated_list.dart';
 export './src/states/operation_state.dart';
