@@ -26,10 +26,10 @@ class StoreList<T extends StoreListItem> {
     return StoreList._(itemsIds, items, itemListCache);
   }
 
-  BuiltList<T>? get items {
-    _itemListCache ??= _itemsIds.map((id) => _items[id]).toBuiltList() as BuiltList<T>?;
+  BuiltList<T> get items {
+    _itemListCache ??= _itemsIds.map((id) => _items[id]!).toBuiltList();
 
-    return _itemListCache;
+    return _itemListCache!;
   }
 
   BuiltList<Object> get itemsIds => _itemsIds;
