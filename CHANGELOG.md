@@ -1,3 +1,7 @@
+## [3.0.0-dev.2]
+
+- Updated store list getter
+
 ## [3.0.0-dev.1]
 
 - Updated dependencies and added null-safety support
