@@ -11,7 +11,7 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
   final bool isRefreshing;
   bool _isSuccessfullyCompleted = false;
 
-  Object get operationKey => null;
+  Object? get operationKey => null;
 
   @override
   FutureOr<void> before() {

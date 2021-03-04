@@ -1,3 +1,7 @@
+## [3.0.0]
+
+- Updated dependencies and added null-safety support
+
 ## [2.0.2]
 
 - Fix BuildContext extension for action dispatching
