@@ -5,7 +5,7 @@ abstract class GlobalState {
   BuiltMap<Object, OperationState> get operationsState;
 
   T updateOperation<T extends GlobalState>(
-    Object operationKey,
+    Object? operationKey,
     OperationState operationState,
   );
 
