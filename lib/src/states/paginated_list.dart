@@ -1,38 +1,29 @@
 import 'package:dash_kit_core/dash_kit_core.dart';
-import 'package:dash_kit_core/src/states/operation_state.dart';
 
 class PaginatedList<T extends StoreListItem> {
-  const PaginatedList({
+  PaginatedList({
     required this.items,
-    required this.loadListRequestState,
-    required this.loadPageRequestState,
-    required this.isAllItemsLoaded,
+    required this.totalCount,
   });
 
   PaginatedList.empty()
       : this(
           items: StoreList<T>(),
-          loadListRequestState: OperationState.idle,
-          loadPageRequestState: OperationState.idle,
-          isAllItemsLoaded: false,
+          totalCount: 0,
         );
 
   final StoreList<T> items;
-  final OperationState loadListRequestState;
-  final OperationState loadPageRequestState;
-  final bool isAllItemsLoaded;
+  final int totalCount;
+
+  late final bool isAllItemsLoaded = items.items.length >= totalCount;
 
   PaginatedList<T> update({
     StoreList<T>? items,
-    OperationState? loadListRequestState,
-    OperationState? loadPageRequestState,
-    bool? isAllItemsLoaded,
+    int? totalCount,
   }) {
     return PaginatedList(
       items: items ?? this.items,
-      loadListRequestState: loadListRequestState ?? this.loadListRequestState,
-      loadPageRequestState: loadPageRequestState ?? this.loadPageRequestState,
-      isAllItemsLoaded: isAllItemsLoaded ?? this.isAllItemsLoaded,
+      totalCount: totalCount ?? this.totalCount,
     );
   }
 }
