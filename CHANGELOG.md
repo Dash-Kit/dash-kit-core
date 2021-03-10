@@ -1,3 +1,7 @@
+## [3.0.0-dev.5]
+
+- Fixed an issue with types
+
 ## [3.0.0-dev.4]
 
 - Fixed an issue with types
