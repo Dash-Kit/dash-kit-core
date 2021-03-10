@@ -14,7 +14,7 @@ class SetOperationStateAction<T extends GlobalState> extends ReduxAction<T> {
   bool abortDispatch() => operationKey == null;
 
   @override
-  FutureOr<T> reduce() {
+  T reduce() {
     return state.updateOperation<T>(operationKey, operationState);
   }
 
