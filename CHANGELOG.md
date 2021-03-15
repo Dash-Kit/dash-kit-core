@@ -1,3 +1,7 @@
+## [2.1.2]
+
+- Fixed `SetOperation` action
+
 ## [2.1.1]
 
 - Fixed `SetOperation` action
