@@ -1,6 +1,6 @@
 name: dash_kit_core
 description: The core component for DashKit that provides basic architecture components
-version: 1.0.5
+version: 1.0.6
 homepage: https://github.com/Dash-Kit/flutter-platform-core
 
 environment:

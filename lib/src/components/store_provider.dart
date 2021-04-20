@@ -18,8 +18,12 @@ class StoreProvider<S extends GlobalState> {
     Reducer<S> appReducer,
     Epic<S> appEpic,
     List<Middleware<GlobalState>> middleware = const [],
+    bool supportAsyncGenerators = true,
   }) {
-    final epicMiddleware = EpicMiddleware<S>(rootEpic.epic);
+    final epicMiddleware = EpicMiddleware<S>(
+      rootEpic.epic,
+      supportAsyncGenerators: supportAsyncGenerators,
+    );
     _actionDispatcher = ActionDispatcherMiddleware();
 
     final List<Middleware<GlobalState>> platformMiddleware = [

@@ -1,3 +1,7 @@
+## [1.0.6]
+
+* Implemented the `supportAsyncGenerators` flag support
+
 ## [1.0.5]
 
 * Improved working with equality for request states.
