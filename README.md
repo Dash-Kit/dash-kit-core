@@ -78,11 +78,14 @@ abstract class AppState
 
   AppState._();
 
+  // You should make ProfileState immutable either
   ProfileState get profile;
 
+  // And implementation of GlobalState interface
   @override
   BuiltMap<Object, OperationState> get operationsState;
 
+  // You should add an update of immutable state for operation inside this
   @override
   T updateOperation<T extends GlobalState>(
     Object operationKey,
@@ -107,7 +110,7 @@ abstract class AppState
 }
 ```
 
- then we will make approximately the next action:
+ Then we will make approximately the next action:
 ```Dart
 class LoginAction extends BaseAction {
   LoginAction({
@@ -151,12 +154,13 @@ class LoginPage extends StatelessWidget {
     return StoreConnector<AppState, OperationState>(
       converter: (store) => store.state.getOperationState(Operation.login),
       builder: (context, loginOperation) => LoadableView(
-        // loginOperation has .isInProgress
+        // Magic is here, loginOperation has .isInProgress
         isLoading: loginOperation.isInProgress,
         child: Column(
           children: <Widget>[
             const Spacer(flex: 5),
-            LoginForm(),
+            // Handle login button press
+            LoginForm(onLogin: onLogin),
             const Spacer(flex: 4),
           ],
         ),
@@ -164,12 +168,13 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-
-    void onLogin(String email, String password) {
-        dispatch(action)
-        .then((value) => _onLoginSuccess())
-        .catchError((error) => _onLoginError();
-    }
+  void onLogin(String email, String password) {
+    dispatch(action)
+      // We can route to some page here
+      .then((value) => _onLoginSuccess())
+      // And show some dialog here
+      .catchError((error) => _onLoginError();
+  }
 
 }
 ```
