@@ -130,7 +130,7 @@ class LoginAction extends BaseAction {
     // It's not neccessary to use GetIt;
     final userService = GetIt.I.get<UserService>();
 
-    // Here you can add any logic to get you user;
+    // Here you can add any logic to get your user;
     final currentUser = await userService.login(
       email: email,
       password: password,
@@ -175,9 +175,64 @@ class LoginPage extends StatelessWidget {
       // And show some dialog here
       .catchError((error) => _onLoginError();
   }
-
 }
 ```
 `LoadableView` is very simple widget which displays progress indicator above main content, you can find that widget on [GitHub here](https://github.com/Dash-Kit/dash-kit-loadable) or on [pub.dev here](https://pub.dev/packages/dash_kit_loadable).
 
+## StoreList
 
+We also added a wrapper for `BuiltList`(learn more [here](https://pub.dev/packages/built_collection)) to have a more convenient way to update data in store from reducers.
+
+If you need to store some `Map` (Dictionary), you can use `StoreList`:
+```Dart
+// E.g UserProfile, but it can be any data item
+class UserProfile implements StoreListItem {
+  UserProfile({Object id}) : super(id);
+}
+```
+Now you can use StoreList with this UserProfyle type everywhere, but the best place to use it is GlobalState of Redux.
+
+```Dart
+StoreList<UserProfile> get userProfiles;
+
+// And everywhere you need you can get Map with <id, UserProfile>
+state.userProfiles.itemsMap;
+// Or get all ids
+state.userProfiles.itemsIds;
+// Or get only one item
+state.userProfiles.getItem('Some ID according to type which you use');
+```
+
+Also, instead of calling `rebuild(...)`, copying lists and changing the copied list e.g for deleting item in list, you can use just `deleteItem`:
+```Dart
+// Before
+@override
+Future<AppState> reduce() async {
+  final updatedList = [...s.someOldList]
+      .where((item) => item.id != conditionItemId)
+      .toList();
+
+  return state.rebuild((s) {
+    s.dataStructure.someOldList = updatedList;
+  });
+}
+
+// After: You can use only one method right now
+@override
+Future<AppState> reduce() async {
+  return state.dataStructure
+          .someOldList
+          // someOldList will be rebuilt
+          .deleteItem(conditionItemId);
+}
+```
+
+### Availabe API
+All of this methods will rebuild the main list, so your list will be immutable, and you don't need to call `rebuild`:
+
+- void updateList(Iterable<T> items)
+- void addItem(Object id, T value)
+- void addAll(Iterable<T> values)
+- void updateItem(Object id, T value)
+- void deleteItem(Object id)
+- void clear()
