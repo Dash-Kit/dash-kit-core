@@ -14,7 +14,7 @@ So the conceptual difference with classical redux here is:
 
 #### Async Reducer
 
-If you want to do some asynchronous work, you simply declare the action’reducer to return Future<AppState> then change the state and return it. There is no need of any "middleware", like for other Redux versions.
+If you want to do some asynchronous work, you simply declare the async reducer to return Future<AppState> then change the state and return it. There is no need for any "middleware", like for other Redux versions.
 As an example, suppose you want to increment a counter by a value you get from the database. The database access is async, so you must use an async reducer:
 
 ```Dart
@@ -34,7 +34,7 @@ To learn more you can check:
 
 ## Operations
 
-During development you come across a lot of async operations which you need to execute and do something after they are finished.  
+During development, you come across many async operations that you need to execute and do something after they are finished.  
 So we went a little bit further and added opportunity to get state of async operations.  
 We added a wrapper on ReduxAction for it which is just `Action`, so basicaly you can use it, but `operationKey` is an `Object` there, so to use safe our own type we can write another wrapper:  
 ```Dart
@@ -61,7 +61,7 @@ enum Operation {
 }
 ```
 
-And lets imagine that we want to integrate sign in request to our app.
+And let's imagine that we want to integrate sign-in request to our app.
 
 Let's create our app state first:
 
@@ -177,7 +177,7 @@ class LoginPage extends StatelessWidget {
   }
 }
 ```
-`LoadableView` is very simple widget which displays progress indicator above main content, you can find that widget on [GitHub here](https://github.com/Dash-Kit/dash-kit-loadable) or on [pub.dev here](https://pub.dev/packages/dash_kit_loadable).
+`LoadableView` is a very simple widget that displays progress indicator above main content, you can find that widget on [GitHub here](https://github.com/Dash-Kit/dash-kit-loadable) or on [pub.dev here](https://pub.dev/packages/dash_kit_loadable).
 
 ## StoreList
 
@@ -227,8 +227,8 @@ Future<AppState> reduce() async {
 }
 ```
 
-### Availabe API
-All of this methods will rebuild the main list, so your list will be immutable, and you don't need to call `rebuild`:
+### Available API
+All of these methods will rebuild the main list, so your list will be immutable, and you don't need to call `rebuild`:
 
 - void updateList(Iterable<T> items)
 - void addItem(Object id, T value)
@@ -239,9 +239,9 @@ All of this methods will rebuild the main list, so your list will be immutable, 
 
 ## PaginatedList
 
-To incapsulate data for lists that you can download page by page, we wrote `PaginatedList`.
+To encapsulate data for lists that you can download page by page, we wrote `PaginatedList`.
 
-Ussualy you can meet the next meta information for paginated resources:
+Usually you can meet the next meta information for paginated resources:
 ```js
 'data': {
   'items':[YOUR_DATA],
