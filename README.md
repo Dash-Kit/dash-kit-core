@@ -236,3 +236,57 @@ All of this methods will rebuild the main list, so your list will be immutable, 
 - void updateItem(Object id, T value)
 - void deleteItem(Object id)
 - void clear()
+
+## PaginatedList
+
+To incapsulate data for lists that you can download page by page, we wrote `PaginatedList`.
+
+Ussualy you can meet the next meta information for paginated resources:
+```js
+'data': {
+  'items':[YOUR_DATA],
+  'meta': {
+    'prev_page': 0,
+    'current_page': 0,
+    'next_page': 1,
+    'total_count': 20
+  }
+}
+```
+
+But on UI all you need is to know the state of your requests and whether your data fully loaded or not.  
+It looks like:
+```Dart
+class PaginatedList<T extends StoreListItem> {
+  final StoreList<T> items;
+  // Use it when you load the list the first time
+  final OperationState loadListRequestState;
+  // Use it when you load the next page of data
+  final OperationState loadPageRequestState;
+  final bool isAllItemsLoaded;
+}
+```
+It allows you to put it into widgets as one object and it will be enough to draw UI according to the data of this object.
+
+To init data use `empty()` constructor: 
+```Dart
+// E.g you decided to use it in GlobalState, so you need to initialise it as empty
+static AppState initial() {
+  return AppState(
+    (b) => b.paginatedList = PaginatedList<YourType>.empty(),
+  );
+}
+```
+To update data use `update()` method: 
+```Dart
+@override
+Future<AppState> reduce() async {
+  // E.g after you got the first bunch of data
+  return state.paginatedList
+          .update(
+            items: newItems,
+            loadListRequestState: OperationState.success,
+            isAllItemsLoaded: false,
+          );
+}
+```
