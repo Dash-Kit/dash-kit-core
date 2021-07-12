@@ -1,7 +1,7 @@
 import 'package:dash_kit_core/src/loadable/loadable_grid_view.dart';
 import 'package:dash_kit_core/src/loadable/pagination_state.dart';
 import 'package:flutter/material.dart';
-import 'package:dash_kit_core/dash_kit_core.dart' hide PaginationState;
+import 'package:dash_kit_core/dash_kit_core.dart';
 
 class LoadablePaginatedGridView<T extends StoreListItem>
     extends LoadableGridView<T> {
