@@ -1,3 +1,8 @@
+## [3.0.0-dev.6]
+
+- Updated async_redux to version 12.0.0
+- Added loadable widgets
+
 ## [3.0.0-dev.5]
 
 - Fixed an issue with types
