@@ -19,11 +19,11 @@ class PaginatedList<T extends StoreListItem> {
 
   PaginatedList<T> update({
     StoreList<T>? items,
-    int? newTotalCount,
+    int? totalCount,
   }) {
     return PaginatedList(
       items: items ?? this.items,
-      totalCount: newTotalCount ?? totalCount,
+      totalCount: totalCount ?? this.totalCount,
     );
   }
 }
