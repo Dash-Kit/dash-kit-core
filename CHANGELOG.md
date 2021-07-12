@@ -1,3 +1,7 @@
+## [3.0.0-dev.7]
+
+- Renamed parameter in PaginatedList update function
+
 ## [3.0.0-dev.6]
 
 - Updated async_redux to version 12.0.0
