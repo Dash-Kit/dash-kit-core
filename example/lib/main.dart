@@ -80,12 +80,34 @@ class _MyHomePageState extends State<MyHomePage> {
             password: _passwordController.text,
           ),
         )
-        .then((_) => _openSuccessDialog());
+        .then((_) => _openSuccessDialog())
+        .catchError(_onError);
+  }
+
+  void _onError(dynamic error) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6.0),
+            ),
+            backgroundColor: Colors.white,
+            child: SizedBox(
+              height: 100,
+              width: 100,
+              child: Center(
+                child: Text('ERROR: something went wrong'),
+              ),
+            ),
+          );
+        });
   }
 
   void _openSuccessDialog() {
     final state = StoreProvider.state<AppState>(context);
     final userName = state!.profileState.name;
+
     showDialog(
         context: context,
         builder: (context) {
@@ -106,16 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-abstract class BaseAction extends Action<AppState> {
-  // Action<AppState> contains all logic for tracking state and uses ReduxAction inside;
-  BaseAction({bool isRefreshing = false}) : super(isRefreshing: isRefreshing);
-
-  @override
-  // We defined Operation type here instead of Object in base Action;
-  Operation? get operationKey => null;
-}
-
-class LoginAction extends BaseAction {
+class LoginAction extends Action<AppState> {
   LoginAction({
     required this.email,
     required this.password,
@@ -132,7 +145,7 @@ class LoginAction extends BaseAction {
     // Here you can add any logic to get your user;
     final currentUserName = await Future.delayed(Duration(seconds: 5), () {
       if (email.isNotEmpty && password.isNotEmpty) {
-        return 'Tim';
+        return 'UserName';
       }
     });
 
