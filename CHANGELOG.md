@@ -1,3 +1,7 @@
+## [3.0.0-dev.8]
+
+- Added example
+
 ## [3.0.0-dev.7]
 
 - Renamed parameter in PaginatedList update function
