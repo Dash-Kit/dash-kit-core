@@ -138,8 +138,7 @@ class LoadableListViewModel<Item extends StoreListItem> {
       return PaginationState.error;
     }
 
-    if (loadListRequestState.isInProgress ||
-        loadListRequestState.isRefreshing) {
+    if (loadListRequestState.isInProgress) {
       return PaginationState.loading;
     }
 

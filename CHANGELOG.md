@@ -1,3 +1,7 @@
+## [3.0.0-dev.9]
+
+- Fixed loading state for list refreshing
+
 ## [3.0.0-dev.8]
 
 - Added example
