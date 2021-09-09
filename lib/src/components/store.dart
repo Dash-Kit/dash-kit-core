@@ -3,13 +3,13 @@ import 'package:dash_kit_core/dash_kit_core.dart';
 
 class Store<S extends GlobalState> extends async_redux.Store<S> {
   Store({
-    S initialState,
-    List<ActionObserver> actionObservers,
-    List<StateObserver> stateObservers,
-    Persistor persistor,
-    ModelObserver modelObserver,
-    ErrorObserver errorObserver,
-    WrapError wrapError,
+    required S initialState,
+    List<ActionObserver<S>>? actionObservers,
+    List<StateObserver<S>>? stateObservers,
+    Persistor<S>? persistor,
+    ModelObserver? modelObserver,
+    ErrorObserver<S>? errorObserver,
+    WrapError<S>? wrapError,
   }) : super(
           initialState: initialState,
           actionObservers: actionObservers,

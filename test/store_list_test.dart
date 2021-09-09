@@ -8,12 +8,9 @@ class NumberStoreListItem extends StoreListItem {
 }
 
 void main() {
-  test('Initialisation with empty list and null', () {
+  test('Initialisation with empty list', () {
     final storeList1 = StoreList(<StoreListItem>[]);
     expect(storeList1.items.isEmpty, true);
-
-    final storeList2 = StoreList(null);
-    expect(storeList2.items.isEmpty, true);
   });
 
   test('Initialisation with not empty list', () {
@@ -29,39 +26,6 @@ void main() {
     final itemMapKeys = storeList.itemsMap.keys.toList();
     itemMapKeys.sort();
     expect(itemMapKeys, equals([1, 2, 3]));
-  });
-
-  test('Null items is ignored on initialisation', () {
-    final storeList = StoreList([
-      NumberStoreListItem(1),
-      null,
-      NumberStoreListItem(3),
-    ]);
-
-    expect(storeList.itemsIds, equals([1, 3]));
-    expect(storeList.items.map((i) => i.id), equals([1, 3]));
-
-    final itemMapKeys = storeList.itemsMap.keys.toList();
-    itemMapKeys.sort();
-    expect(itemMapKeys, equals([1, 3]));
-  });
-
-  test('Null items is ignored on updating list', () {
-    final storeList = StoreList(<StoreListItem>[]);
-    storeList.updateList([
-      NumberStoreListItem(1),
-      null,
-      NumberStoreListItem(3),
-    ]);
-
-    expect(storeList.itemsIds, equals([1, 3]));
-    expect(storeList.items.map((i) => i.id), equals([1, 3]));
-
-    var itemMapKeys = storeList.itemsMap.keys.toList();
-    itemMapKeys.sort();
-    expect(itemMapKeys, equals([1, 3]));
-
-    storeList.addItem(null, null);
   });
 
   test('Null item is ignored on adding it to list', () {
@@ -86,7 +50,6 @@ void main() {
 
     storeList.updateList([
       NumberStoreListItem(2),
-      null,
       NumberStoreListItem(4),
       NumberStoreListItem(5),
       NumberStoreListItem(6),

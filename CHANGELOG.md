@@ -1,3 +1,44 @@
+## [3.0.0]
+
+- Release 3.0.0
+
+## [3.0.0-dev.9]
+
+- Fixed loading state for list refreshing
+
+## [3.0.0-dev.8]
+
+- Added example
+
+## [3.0.0-dev.7]
+
+- Renamed parameter in PaginatedList update function
+
+## [3.0.0-dev.6]
+
+- Updated async_redux to version 12.0.0
+- Added loadable widgets
+
+## [3.0.0-dev.5]
+
+- Fixed an issue with types
+
+## [3.0.0-dev.4]
+
+- Fixed an issue with types
+
+## [3.0.0-dev.3]
+
+- Fixed an issue with types
+
+## [3.0.0-dev.2]
+
+- Updated store list getter
+
+## [3.0.0-dev.1]
+
+- Updated dependencies and added null-safety support
+
 ## [2.1.3]
 
 - Added README

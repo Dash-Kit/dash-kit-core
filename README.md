@@ -18,11 +18,11 @@ If you want to do some asynchronous work, you simply declare the async reducer t
 As an example, suppose you want to increment a counter by a value you get from the database. The database access is async, so you must use an async reducer:
 
 ```Dart
-class QueryAndIncrementAction extends ReduxAction<AppState> {                    
+class QueryAndIncrementAction extends ReduxAction<AppState> {
   @override
   Future<AppState> reduce() async {
     int value = await getAmount();
-    return state.copy(counter: state.counter + value));
+    return state.copy(counter: state.counter + value);
   }
 }
 ```
@@ -34,19 +34,19 @@ To learn more you can check:
 
 ## Operations
 
-During development, you come across many async operations that you need to execute and do something after they are finished.  
-So we went a little bit further and added opportunity to get state of async operations.  
-We added a wrapper on ReduxAction for it which is just `Action`, so basicaly you can use it, but `operationKey` is an `Object` there, so to use safe our own type we can write another wrapper:  
+During development, you come across many async operations that you need to execute and do something after they are finished.
+So we went a little bit further and added opportunity to get state of async operations.
+We added a wrapper on ReduxAction for it which is just `Action`, so basicaly you can use it, but `operationKey` is an `Object` there, so to use safe our own type we can write another wrapper:
 ```Dart
 abstract class BaseAction extends Action<AppState> {
   // Action<AppState> contains all logic for tracking state and uses ReduxAction inside;
   BaseAction({
-    bool isRefreshing,
+    bool isRefreshing = false,
   }) : super(isRefreshing: isRefreshing);
 
   @override
   // We defined Operation type here instead of Object in base Action;
-  Operation get operationKey => null;
+  Operation? get operationKey => null;
 }
 ```
 
@@ -88,13 +88,13 @@ abstract class AppState
   // You should add an update of immutable state for operation inside this
   @override
   T updateOperation<T extends GlobalState>(
-    Object operationKey,
+    Object? operationKey,
     OperationState operationState,
   ) {
     final GlobalState newState = rebuild(
       (s) => s.operationsState[operationKey] = operationState,
     );
-    return newState;
+    return newState as T;
   }
 
   @override
@@ -112,12 +112,11 @@ abstract class AppState
 
  Then we will make approximately the next action:
 ```Dart
-class LoginAction extends BaseAction {
+class LoginAction extends Action<AppState> {
   LoginAction({
-    @required this.email,
-    @required this.password,
-  })  : assert(email != null),
-        assert(password != null);
+    required this.email,
+    required this.password,
+  });
 
   final String email;
   final String password;
@@ -127,18 +126,16 @@ class LoginAction extends BaseAction {
 
   @override
   Future<AppState> reduce() async {
-    // It's not neccessary to use GetIt;
-    final userService = GetIt.I.get<UserService>();
-
     // Here you can add any logic to get your user;
-    final currentUser = await userService.login(
-      email: email,
-      password: password,
-    );
+    final currentUserName = await Future.delayed(Duration(seconds: 5), () {
+      if (email.isNotEmpty && password.isNotEmpty) {
+        return 'UserName';
+      }
+    });
 
-    // You should return the udated state;
+    // You should return the updated state;
     return state.rebuild((s) {
-      s.profile.currentUser = currentUser;
+      s.profileState.name = currentUserName;
     });
   }
 }
@@ -146,34 +143,101 @@ class LoginAction extends BaseAction {
 
 The rest is really simple, let's use the action and its state in our UI:
 ```Dart
-class LoginPage extends StatelessWidget {
+class _MyHomePageState extends State<MyHomePage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // Use default StoreConnector and convert data to OperationState
-    return StoreConnector<AppState, OperationState>(
-      converter: (store) => store.state.getOperationState(Operation.login),
-      builder: (context, loginOperation) => LoadableView(
-        // Magic is here, loginOperation has .isInProgress
-        isLoading: loginOperation.isInProgress,
-        child: Column(
-          children: <Widget>[
-            const Spacer(flex: 5),
-            // Handle login button press
-            LoginForm(onLogin: onLogin),
-            const Spacer(flex: 4),
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      // Use default StoreConnector and convert data to OperationState
+      body: StoreConnector<AppState, OperationState>(
+        converter: (store) => store.state.getOperationState(Operation.login),
+        builder: (context, operationState) => LoadableView(
+          // Magic is here, loginOperation has .isInProgress
+          isLoading: operationState.isInProgress,
+          child: Center(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: _emailController,
+                  ),
+                  TextFormField(
+                    controller: _passwordController,
+                    obscureText: true,
+                  ),
+                  // Handle login button press
+                  TextButton(onPressed: _onLoginPressed, child: Text('LOG IN')),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  void onLogin(String email, String password) {
-    dispatch(action)
-      // We can route to some page here
-      .then((value) => _onLoginSuccess())
-      // And show some dialog here
-      .catchError((error) => _onLoginError();
+  void _onLoginPressed() async {
+    context
+        .dispatch(
+          LoginAction(
+            email: _emailController.text,
+            password: _passwordController.text,
+          ),
+        )
+        // We can route to some page here
+        .then((_) => _openSuccessDialog())
+        // And and handle error here
+        .catchError(_onError);
+  }
+
+  void _onError(dynamic error) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6.0),
+            ),
+            backgroundColor: Colors.white,
+            child: SizedBox(
+              height: 100,
+              width: 100,
+              child: Center(
+                child: Text('ERROR: something went wrong'),
+              ),
+            ),
+          );
+        });
+  }
+
+  void _openSuccessDialog() {
+    final state = StoreProvider.state<AppState>(context);
+    final userName = state!.profileState.name;
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6.0),
+            ),
+            backgroundColor: Colors.white,
+            child: SizedBox(
+              height: 100,
+              width: 100,
+              child: Center(
+                child: Text('Hi, $userName!'),
+              ),
+            ),
+          );
+        });
   }
 }
 ```
@@ -254,21 +318,17 @@ Usually you can meet the next meta information for paginated resources:
 }
 ```
 
-But on UI all you need is to know the state of your requests and whether your data fully loaded or not.  
+But on UI all you need is to know total count of items you will get.
 It looks like:
 ```Dart
 class PaginatedList<T extends StoreListItem> {
   final StoreList<T> items;
-  // Use it when you load the list the first time
-  final OperationState loadListRequestState;
-  // Use it when you load the next page of data
-  final OperationState loadPageRequestState;
-  final bool isAllItemsLoaded;
+  final bool totalCount;
 }
 ```
 It allows you to put it into widgets as one object and it will be enough to draw UI according to the data of this object.
 
-To init data use `empty()` constructor: 
+To init data use `empty()` constructor:
 ```Dart
 // E.g you decided to use it in GlobalState, so you need to initialise it as empty
 static AppState initial() {
@@ -277,7 +337,7 @@ static AppState initial() {
   );
 }
 ```
-To update data use `update()` method: 
+To update data use `update()` method:
 ```Dart
 @override
 Future<AppState> reduce() async {
@@ -285,8 +345,7 @@ Future<AppState> reduce() async {
   return state.paginatedList
           .update(
             items: newItems,
-            loadListRequestState: OperationState.success,
-            isAllItemsLoaded: false,
+            totalCount: response.totalCount,
           );
 }
 ```

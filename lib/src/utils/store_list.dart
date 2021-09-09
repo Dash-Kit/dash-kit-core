@@ -5,38 +5,41 @@ abstract class StoreListItem {
 }
 
 class StoreList<T extends StoreListItem> {
-  BuiltList<T> _itemListCache;
+  BuiltList<T>? _itemListCache;
 
   BuiltList<Object> _itemsIds;
   BuiltMap<Object, T> _items;
 
-  StoreList([List<T> items = const []]) {
-    final filteredItems =
-        (items ?? <T>[]).where((i) => i != null).toBuiltList();
+  StoreList._(this._itemsIds, this._items, this._itemListCache);
 
-    _itemListCache = filteredItems;
-    _itemsIds = filteredItems.map((i) => i.id).toBuiltList();
-    _items = Map<Object, T>.fromIterable(
+  factory StoreList([List<T> list = const []]) {
+    final filteredItems = list.toBuiltList();
+
+    final itemListCache = filteredItems;
+    final itemsIds = filteredItems.map((i) => i.id).toBuiltList();
+    final items = Map<Object, T>.fromIterable(
       filteredItems,
       key: (v) => v.id,
       value: (v) => v,
     ).build();
+
+    return StoreList._(itemsIds, items, itemListCache);
   }
 
   BuiltList<T> get items {
-    _itemListCache ??= _itemsIds.map((id) => _items[id]).toBuiltList();
+    _itemListCache ??= _itemsIds.map((id) => _items[id]!).toBuiltList();
 
-    return _itemListCache;
+    return _itemListCache!;
   }
 
   BuiltList<Object> get itemsIds => _itemsIds;
 
   BuiltMap<Object, T> get itemsMap => _items;
 
-  T getItem(Object id) => _items[id];
+  T? getItem(Object id) => _items[id];
 
   void updateList(Iterable<T> items) {
-    final filteredItems = items.where((i) => i != null).toBuiltList();
+    final filteredItems = items.toBuiltList();
 
     _itemListCache = filteredItems;
     _itemsIds = filteredItems.map((i) => i.id).toBuiltList();
@@ -44,23 +47,23 @@ class StoreList<T extends StoreListItem> {
     filteredItems.forEach((i) => _items = _items.rebuild((b) => b[i.id] = i));
   }
 
-  void addItem(Object id, T value) {
+  void addItem(Object? id, T? value) {
     if (id == null || value == null) {
       return;
     }
 
-    _itemListCache = _itemListCache.rebuild((b) => b.add(value));
+    _itemListCache = _itemListCache?.rebuild((b) => b.add(value));
 
     _items = _items.rebuild((b) => b[id] = value);
     _itemsIds = _itemsIds.rebuild((b) => b.add(id));
   }
 
   void addAll(Iterable<T> values) {
-    if (values == null || values.isEmpty) {
+    if (values.isEmpty) {
       return;
     }
 
-    _itemListCache = _itemListCache.rebuild((b) => b.addAll(values));
+    _itemListCache = _itemListCache?.rebuild((b) => b.addAll(values));
 
     _items = _items.rebuild(
       (b) => values.forEach((value) => b[value.id] = value),
