@@ -10,12 +10,14 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
     this.scrollPhysics = const AlwaysScrollableScrollPhysics(),
     this.onChangeContentOffset,
     this.cacheExtent,
+    this.shrinkWrap = false,
   }) : super(key: key);
 
   final LoadableListViewModel<T> viewModel;
   final ScrollPhysics scrollPhysics;
   final void Function(double offset)? onChangeContentOffset;
   final double? cacheExtent;
+  final bool shrinkWrap;
 
   @override
   State<StatefulWidget> createState() {
@@ -58,6 +60,7 @@ class LoadableListViewState<T extends StoreListItem>
     }
 
     return ListView.separated(
+      shrinkWrap: widget.shrinkWrap,
       key: viewModel.key,
       physics: widget.scrollPhysics,
       padding: viewModel.padding,
