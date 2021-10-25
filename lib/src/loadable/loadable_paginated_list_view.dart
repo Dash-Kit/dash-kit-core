@@ -11,6 +11,7 @@ class LoadablePaginatedListView<T extends StoreListItem>
     ScrollPhysics scrollPhysics = const AlwaysScrollableScrollPhysics(),
     double? cacheExtent,
     bool shrinkWrap = false,
+    Axis scrollDirection = Axis.vertical,
     void Function(double offset)? onChangeContentOffset,
   }) : super(
           key: key,
@@ -19,6 +20,7 @@ class LoadablePaginatedListView<T extends StoreListItem>
           onChangeContentOffset: onChangeContentOffset,
           cacheExtent: cacheExtent,
           shrinkWrap: shrinkWrap,
+          scrollDirection: scrollDirection,
         );
 
   @override
