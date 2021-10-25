@@ -11,6 +11,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
     this.onChangeContentOffset,
     this.cacheExtent,
     this.shrinkWrap = false,
+    this.scrollDirection = Axis.vertical,
   }) : super(key: key);
 
   final LoadableListViewModel<T> viewModel;
@@ -18,6 +19,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
   final void Function(double offset)? onChangeContentOffset;
   final double? cacheExtent;
   final bool shrinkWrap;
+  final Axis scrollDirection;
 
   @override
   State<StatefulWidget> createState() {
@@ -69,6 +71,7 @@ class LoadableListViewState<T extends StoreListItem>
       cacheExtent: widget.cacheExtent,
       itemBuilder: buildListItem,
       separatorBuilder: buildSeparator,
+      scrollDirection: widget.scrollDirection,
     );
   }
 
