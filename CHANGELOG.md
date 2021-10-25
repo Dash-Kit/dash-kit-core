@@ -1,3 +1,7 @@
+## [3.0.2]
+
+- Added ability to set scrollDirection for PaginatedListView
+
 ## [3.0.1]
 
 - Added ability to change shrinkWrap for PaginatedListView
