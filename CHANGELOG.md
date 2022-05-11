@@ -1,3 +1,7 @@
+## [3.0.3]
+
+- Updated README and bumped dependencies
+
 ## [3.0.2]
 
 - Added ability to set scrollDirection for PaginatedListView
