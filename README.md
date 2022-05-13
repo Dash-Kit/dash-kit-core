@@ -88,9 +88,13 @@ abstract class AppState
   // You should add an update of immutable state for operation inside this
   @override
   T updateOperation<T extends GlobalState>(
-    Object? operationKey,
-    OperationState operationState,
+     Object? operationKey,
+     OperationState operationState,
   ) {
+    if (operationKey == null) {
+      return this as T;
+    }
+
     final GlobalState newState = rebuild(
       (s) => s.operationsState[operationKey] = operationState,
     );
