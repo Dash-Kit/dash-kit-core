@@ -1,3 +1,7 @@
+## [3.1.0]
+
+- Added Flutter 3.0 support
+
 ## [3.0.3]
 
 - Updated README and bumped dependencies

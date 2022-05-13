@@ -60,7 +60,7 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
   }
 
   Widget _getProgressPageWidget(ScrollController scrollController) {
-    WidgetsBinding.instance!
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => scrollController.animateTo(
       scrollController.position.maxScrollExtent,
       duration: const Duration(milliseconds: 100),
