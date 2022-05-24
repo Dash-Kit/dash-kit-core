@@ -1,6 +1,6 @@
 name: dash_kit_core
 description: The core component for DashKit that provides basic architecture components
-version: 3.1.0
+version: 3.1.1
 homepage: https://github.com/Dash-Kit/dash-kit-core
 
 environment:
@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  async_redux: ^14.1.5
+  async_redux: ^15.0.0
   built_collection: ^5.1.1
 
 dev_dependencies:

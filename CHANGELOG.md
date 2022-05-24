@@ -1,3 +1,7 @@
+## [3.1.1]
+
+- Fixed an issue with async_redux dependency version
+
 ## [3.1.0]
 
 - Added Flutter 3.0 support
