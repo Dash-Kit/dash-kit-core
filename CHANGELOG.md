@@ -1,3 +1,7 @@
+## [3.1.2]
+
+- Fixed an issue with wrap reduce method
+
 ## [3.1.1]
 
 - Fixed an issue with async_redux dependency version
