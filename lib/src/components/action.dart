@@ -27,6 +27,16 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
 
   @override
   Reducer<T> wrapReduce(Reducer<T> reduce) {
+    final reduceMethodIsSync = reduce is T? Function();
+
+    if (reduceMethodIsSync) {
+      return () {
+        final newState = reduce();
+        _isSuccessfullyCompleted = true;
+        return newState;
+      };
+    }
+
     return () async {
       final newState = await reduce();
       _isSuccessfullyCompleted = true;

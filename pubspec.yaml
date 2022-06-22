@@ -1,6 +1,6 @@
 name: dash_kit_core
 description: The core component for DashKit that provides basic architecture components
-version: 3.1.1
+version: 3.1.2
 homepage: https://github.com/Dash-Kit/dash-kit-core
 
 environment:
