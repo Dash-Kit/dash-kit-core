@@ -1,3 +1,7 @@
+## [3.1.3]
+
+- Added equals to paginated list
+
 ## [3.1.2]
 
 - Fixed an issue with wrap reduce method

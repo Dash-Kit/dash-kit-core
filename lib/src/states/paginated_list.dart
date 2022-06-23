@@ -26,4 +26,15 @@ class PaginatedList<T extends StoreListItem> {
       totalCount: totalCount ?? this.totalCount,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PaginatedList &&
+          runtimeType == other.runtimeType &&
+          items == other.items &&
+          totalCount == other.totalCount;
+
+  @override
+  int get hashCode => items.hashCode ^ totalCount.hashCode;
 }

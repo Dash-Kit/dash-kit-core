@@ -92,4 +92,14 @@ class StoreList<T extends StoreListItem> {
     _items = _items.rebuild((b) => b.clear());
     _itemsIds = _itemsIds.rebuild((b) => b.clear());
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StoreList &&
+          runtimeType == other.runtimeType &&
+          _items == other._items;
+
+  @override
+  int get hashCode => _items.hashCode;
 }
