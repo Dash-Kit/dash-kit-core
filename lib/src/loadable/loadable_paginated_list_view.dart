@@ -11,6 +11,7 @@ class LoadablePaginatedListView<T extends StoreListItem>
     double? cacheExtent,
     bool shrinkWrap = false,
     Axis scrollDirection = Axis.vertical,
+    bool reverse = false,
     void Function(double offset)? onChangeContentOffset,
   }) : super(
           key: key,
@@ -20,6 +21,7 @@ class LoadablePaginatedListView<T extends StoreListItem>
           cacheExtent: cacheExtent,
           shrinkWrap: shrinkWrap,
           scrollDirection: scrollDirection,
+          reverse: reverse,
         );
 
   @override

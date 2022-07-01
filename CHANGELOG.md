@@ -1,3 +1,7 @@
+## [3.1.4]
+
+- Added `reverse` to loadable and paginated lists
+
 ## [3.1.3]
 
 - Added equals to paginated list

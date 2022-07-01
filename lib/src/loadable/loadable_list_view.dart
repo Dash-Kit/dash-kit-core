@@ -12,6 +12,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
     this.cacheExtent,
     this.shrinkWrap = false,
     this.scrollDirection = Axis.vertical,
+    this.reverse = false,
   }) : super(key: key);
 
   final LoadableListViewModel<T> viewModel;
@@ -20,6 +21,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
   final double? cacheExtent;
   final bool shrinkWrap;
   final Axis scrollDirection;
+  final bool reverse;
 
   @override
   State<StatefulWidget> createState() {
@@ -72,6 +74,7 @@ class LoadableListViewState<T extends StoreListItem>
       itemBuilder: buildListItem,
       separatorBuilder: buildSeparator,
       scrollDirection: widget.scrollDirection,
+      reverse: widget.reverse,
     );
   }
 
