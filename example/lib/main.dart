@@ -1,6 +1,7 @@
 import 'package:example/app_state.dart';
 import 'package:flutter/material.dart' hide Action;
 import 'package:dash_kit_core/dash_kit_core.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(StoreProvider<AppState>(
@@ -50,16 +51,19 @@ class _MyHomePageState extends State<MyHomePage> {
         converter: (store) => store.state.getOperationState(Operation.login),
         builder: (context, operationState) => LoadableView(
           isLoading: operationState.isInProgress,
-          child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Form(
               key: _formKey,
               child: Column(
                 children: [
                   TextFormField(
                     controller: _emailController,
+                    decoration: InputDecoration(hintText: 'Email'),
                   ),
                   TextFormField(
                     controller: _passwordController,
+                    decoration: InputDecoration(hintText: 'Password'),
                     obscureText: true,
                   ),
                   TextButton(onPressed: _onLoginPressed, child: Text('LOG IN')),
