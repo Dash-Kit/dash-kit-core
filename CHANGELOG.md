@@ -1,3 +1,7 @@
+## [3.1.5]
+
+- Added endListWidget to PaginatedListView, temporary removed equals operator from paginated_list
+
 ## [3.1.4]
 
 - Added `reverse` to loadable and paginated lists

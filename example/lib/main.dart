@@ -1,7 +1,6 @@
+import 'package:dash_kit_core/dash_kit_core.dart';
 import 'package:example/app_state.dart';
 import 'package:flutter/material.dart' hide Action;
-import 'package:dash_kit_core/dash_kit_core.dart';
-import 'package:flutter/services.dart';
 
 void main() {
   runApp(StoreProvider<AppState>(
