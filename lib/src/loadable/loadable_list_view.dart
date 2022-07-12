@@ -117,28 +117,30 @@ class LoadableListViewState<T extends StoreListItem>
 
 class LoadableListViewModel<Item extends StoreListItem> {
   const LoadableListViewModel({
-    required this.itemBuilder,
     required this.items,
+    required this.itemBuilder,
+    required this.emptyStateWidget,
     required this.loadListRequestState,
     required this.loadPageRequestState,
     required this.errorWidget,
-    required this.emptyStateWidget,
     required this.itemSeparator,
-    this.key,
     this.loadList,
     this.padding,
+    this.endListWidget,
+    this.key,
   });
 
-  final Key? key;
-  final Widget errorWidget;
-  final Widget emptyStateWidget;
+  final StoreList<Item> items;
   final Widget Function(int) itemBuilder;
   final Widget Function(int) itemSeparator;
-  final VoidCallback? loadList;
-  final EdgeInsets? padding;
-  final StoreList<Item> items;
+  final Widget errorWidget;
+  final Widget emptyStateWidget;
   final OperationState loadListRequestState;
   final OperationState loadPageRequestState;
+  final VoidCallback? loadList;
+  final EdgeInsets? padding;
+  final Widget? endListWidget;
+  final Key? key;
 
   int get itemsCount => items.items.length;
 

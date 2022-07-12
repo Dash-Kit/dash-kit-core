@@ -1,6 +1,6 @@
+import 'package:dash_kit_core/dash_kit_core.dart';
 import 'package:dash_kit_core/src/loadable/pagination_state.dart';
 import 'package:flutter/material.dart';
-import 'package:dash_kit_core/dash_kit_core.dart';
 
 class LoadablePaginatedListView<T extends StoreListItem>
     extends LoadableListView<T> {
@@ -56,9 +56,7 @@ class LoadablePaginatedListState<T extends StoreListItem>
   @override
   Widget buildListItem(BuildContext context, int index) {
     return index == viewModel.itemsCount - 1
-        ? _getLastItem(
-            viewModel.getPaginationState(),
-          )
+        ? _getLastItem(viewModel.getPaginationState())
         : super.buildListItem(context, index);
   }
 
@@ -70,8 +68,15 @@ class LoadablePaginatedListState<T extends StoreListItem>
       case PaginationState.errorLoadingPage:
         return _getErrorPageWidget();
 
+      case PaginationState.succeedLoadingPage:
+        if (viewModel.paginatedList.isAllItemsLoaded) {
+          return viewModel.endListWidget ?? const SizedBox.shrink();
+        }
+
+        return const SizedBox.shrink();
+
       default:
-        return Container();
+        return const SizedBox.shrink();
     }
   }
 
@@ -99,28 +104,30 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
     extends LoadableListViewModel<Item> {
   LoadablePaginatedListViewModel({
     Key? key,
-    required Widget errorWidget,
-    required Widget emptyStateWidget,
     required Widget Function(int) itemBuilder,
     required Widget Function(int) itemSeparator,
+    required Widget errorWidget,
+    required Widget emptyStateWidget,
     required OperationState loadListRequestState,
     required OperationState loadPageRequestState,
     required this.paginatedList,
     required this.errorPageWidget,
     VoidCallback? loadList,
     EdgeInsets? padding,
+    Widget? endListWidget,
     this.loadPage,
   }) : super(
           items: paginatedList.items,
-          loadListRequestState: loadListRequestState,
-          loadPageRequestState: loadPageRequestState,
           itemBuilder: itemBuilder,
-          loadList: loadList,
+          itemSeparator: itemSeparator,
           errorWidget: errorWidget,
           emptyStateWidget: emptyStateWidget,
+          loadListRequestState: loadListRequestState,
+          loadPageRequestState: loadPageRequestState,
+          loadList: loadList,
           padding: padding,
+          endListWidget: endListWidget,
           key: key,
-          itemSeparator: itemSeparator,
         );
 
   final VoidCallback? loadPage;

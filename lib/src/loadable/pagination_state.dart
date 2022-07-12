@@ -5,4 +5,5 @@ enum PaginationState {
   loadingPage,
   error,
   errorLoadingPage,
+  succeedLoadingPage,
 }
