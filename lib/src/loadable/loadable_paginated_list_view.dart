@@ -148,6 +148,8 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
       return PaginationState.errorLoadingPage;
     } else if (loadPageRequestState.isInProgress) {
       return PaginationState.loadingPage;
+    } else if (loadPageRequestState.isSucceed) {
+      return PaginationState.succeedLoadingPage;
     }
 
     return PaginationState.idle;
