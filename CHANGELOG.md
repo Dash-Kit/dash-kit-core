@@ -1,3 +1,7 @@
+## [3.1.6]
+
+- Fixes for 3.1.5
+
 ## [3.1.5]
 
 - Added endListWidget to PaginatedListView, temporary removed equals operator from paginated_list
