@@ -40,17 +40,7 @@ class LoadablePaginatedListState<T extends StoreListItem>
   void initState() {
     super.initState();
 
-    scrollController.addListener(() {
-      final canLoad = (viewModel.loadPageRequestState.isSucceed ||
-              viewModel.loadPageRequestState.isIdle) &&
-          viewModel.paginatedList.isAllItemsLoaded == false;
-
-      if (scrollController.position.pixels ==
-              scrollController.position.maxScrollExtent &&
-          canLoad) {
-        viewModel.loadPage?.call();
-      }
-    });
+    scrollController.addListener(_onScrollChanged);
   }
 
   @override
@@ -58,6 +48,12 @@ class LoadablePaginatedListState<T extends StoreListItem>
     return index == viewModel.itemsCount - 1
         ? _getLastItem(viewModel.getPaginationState())
         : super.buildListItem(context, index);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.removeListener(_onScrollChanged);
   }
 
   Widget _getLastItem(PaginationState state) {
@@ -97,6 +93,18 @@ class LoadablePaginatedListState<T extends StoreListItem>
 
   Widget _getErrorPageWidget() {
     return viewModel.errorPageWidget;
+  }
+
+  void _onScrollChanged() {
+    final canLoad = (viewModel.loadPageRequestState.isSucceed ||
+            viewModel.loadPageRequestState.isIdle) &&
+        viewModel.paginatedList.isAllItemsLoaded == false;
+
+    if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent &&
+        canLoad) {
+      viewModel.loadPage?.call();
+    }
   }
 }
 

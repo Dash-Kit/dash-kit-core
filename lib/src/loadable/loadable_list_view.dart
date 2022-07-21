@@ -43,9 +43,7 @@ class LoadableListViewState<T extends StoreListItem>
       viewModel.loadList?.call();
     }
 
-    scrollController.addListener(() {
-      widget.onChangeContentOffset?.call(scrollController.position.pixels);
-    });
+    scrollController.addListener(_onScrollChanged);
   }
 
   @override
@@ -81,6 +79,7 @@ class LoadableListViewState<T extends StoreListItem>
   @override
   void dispose() {
     super.dispose();
+    scrollController.removeListener(_onScrollChanged);
     scrollController.dispose();
   }
 
@@ -112,6 +111,10 @@ class LoadableListViewState<T extends StoreListItem>
 
   Widget buildSeparator(BuildContext context, int index) {
     return viewModel.itemSeparator(index);
+  }
+
+  void _onScrollChanged() {
+    widget.onChangeContentOffset?.call(scrollController.position.pixels);
   }
 }
 

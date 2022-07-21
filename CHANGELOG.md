@@ -1,3 +1,7 @@
+## [3.1.7]
+
+- Fixed scroll listeners
+
 ## [3.1.6]
 
 - Fixes for 3.1.5
