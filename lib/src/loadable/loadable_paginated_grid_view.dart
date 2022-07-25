@@ -9,10 +9,10 @@ class LoadablePaginatedGridView<T extends StoreListItem>
     required LoadablePaginatedGridViewModel<T> viewModel,
     void Function(double offset)? onChangeContentOffset,
   }) : super(
-    key: key,
-    viewModel: viewModel,
-    onChangeContentOffset: onChangeContentOffset,
-  );
+          key: key,
+          viewModel: viewModel,
+          onChangeContentOffset: onChangeContentOffset,
+        );
 
   @override
   State<StatefulWidget> createState() {
@@ -30,19 +30,13 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
   void initState() {
     super.initState();
 
-    scrollController.addListener(() {
-      final canLoad = viewModel.loadPageRequestState == null
-          ? false
-          : (viewModel.loadPageRequestState!.isSucceed ||
-          viewModel.loadPageRequestState!.isIdle) &&
-          viewModel.paginatedList.isAllItemsLoaded == false;
+    scrollController.addListener(_onScrollChanged);
+  }
 
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent &&
-          canLoad) {
-        viewModel.loadPage!();
-      }
-    });
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.removeListener(_onScrollChanged);
   }
 
   @override
@@ -62,10 +56,10 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
   Widget _getProgressPageWidget(ScrollController scrollController) {
     WidgetsBinding.instance
         .addPostFrameCallback((_) => scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 100),
-      curve: Curves.linear,
-    ));
+              scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 100),
+              curve: Curves.linear,
+            ));
 
     return Container(
       padding: const EdgeInsets.all(8),
@@ -76,6 +70,20 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
 
   Widget _getErrorPageWidget() {
     return viewModel.errorPageWidget;
+  }
+
+  void _onScrollChanged() {
+    final canLoad = viewModel.loadPageRequestState == null
+        ? false
+        : (viewModel.loadPageRequestState!.isSucceed ||
+                viewModel.loadPageRequestState!.isIdle) &&
+            viewModel.paginatedList.isAllItemsLoaded == false;
+
+    if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent &&
+        canLoad) {
+      viewModel.loadPage!();
+    }
   }
 }
 
@@ -96,18 +104,18 @@ class LoadablePaginatedGridViewModel<Item extends StoreListItem>
     Widget? header,
     this.loadPage,
   }) : super(
-    items: paginatedList.items,
-    loadListRequestState: loadListRequestState,
-    loadPageRequestState: loadPageRequestState,
-    itemBuilder: itemBuilder,
-    loadList: loadList,
-    errorWidget: errorWidget,
-    emptyStateWidget: emptyStateWidget,
-    padding: padding,
-    key: key,
-    gridDelegate: gridDelegate,
-    header: header,
-  );
+          items: paginatedList.items,
+          loadListRequestState: loadListRequestState,
+          loadPageRequestState: loadPageRequestState,
+          itemBuilder: itemBuilder,
+          loadList: loadList,
+          errorWidget: errorWidget,
+          emptyStateWidget: emptyStateWidget,
+          padding: padding,
+          key: key,
+          gridDelegate: gridDelegate,
+          header: header,
+        );
 
   final VoidCallback? loadPage;
   final PaginatedList<Item> paginatedList;

@@ -32,9 +32,7 @@ class LoadableGridViewState<T extends StoreListItem>
       viewModel.loadList!();
     }
 
-    scrollController.addListener(() {
-      widget.onChangeContentOffset?.call(scrollController.position.pixels);
-    });
+    scrollController.addListener(_onScrollChanged);
   }
 
   @override
@@ -58,10 +56,7 @@ class LoadableGridViewState<T extends StoreListItem>
         physics: const AlwaysScrollableScrollPhysics(),
         controller: scrollController,
         slivers: <Widget>[
-          if (viewModel.header != null)
-            SliverToBoxAdapter(
-              child: viewModel.header,
-            ),
+          if (viewModel.header != null) viewModel.header!,
           SliverPadding(
             padding: viewModel.padding!,
             sliver: SliverGrid(
@@ -81,6 +76,7 @@ class LoadableGridViewState<T extends StoreListItem>
   @override
   void dispose() {
     super.dispose();
+    scrollController.removeListener(_onScrollChanged);
     scrollController.dispose();
   }
 
@@ -112,6 +108,10 @@ class LoadableGridViewState<T extends StoreListItem>
 
   Widget getLastItem() {
     return const SizedBox.shrink();
+  }
+
+  void _onScrollChanged() {
+    widget.onChangeContentOffset?.call(scrollController.position.pixels);
   }
 }
 
