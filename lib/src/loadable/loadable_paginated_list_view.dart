@@ -1,5 +1,4 @@
 import 'package:dash_kit_core/dash_kit_core.dart';
-import 'package:dash_kit_core/src/loadable/pagination_state.dart';
 import 'package:flutter/material.dart';
 
 class LoadablePaginatedListView<T extends StoreListItem>

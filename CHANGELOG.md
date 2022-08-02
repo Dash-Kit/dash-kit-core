@@ -1,3 +1,7 @@
+## [3.1.8]
+
+- Fixed equals in paginated list
+
 ## [3.1.7]
 
 - Fixed scroll listeners
