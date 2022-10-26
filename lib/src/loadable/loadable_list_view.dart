@@ -13,6 +13,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
     this.shrinkWrap = false,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
+    this.progressIndicator = const CircularProgressIndicator(),
   }) : super(key: key);
 
   final LoadableListViewModel<T> viewModel;
@@ -22,6 +23,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
   final bool shrinkWrap;
   final Axis scrollDirection;
   final bool reverse;
+  final Widget progressIndicator;
 
   @override
   State<StatefulWidget> createState() {
@@ -61,19 +63,37 @@ class LoadableListViewState<T extends StoreListItem>
         break;
     }
 
-    return ListView.separated(
-      shrinkWrap: widget.shrinkWrap,
-      key: viewModel.key,
-      physics: widget.scrollPhysics,
-      padding: viewModel.padding,
-      itemCount: viewModel.itemsCount,
-      controller: scrollController,
-      cacheExtent: widget.cacheExtent,
-      itemBuilder: buildListItem,
-      separatorBuilder: buildSeparator,
-      scrollDirection: widget.scrollDirection,
-      reverse: widget.reverse,
-    );
+    return CustomScrollView(
+        key: viewModel.key,
+        shrinkWrap: widget.shrinkWrap,
+        physics: widget.scrollPhysics,
+        controller: scrollController,
+        cacheExtent: widget.cacheExtent,
+        scrollDirection: widget.scrollDirection,
+        reverse: widget.reverse,
+        slivers: [
+          if (viewModel.header != null)
+            SliverToBoxAdapter(child: viewModel.header!),
+          SliverPadding(
+            padding: viewModel.padding ?? EdgeInsets.zero,
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return Column(
+                    children: [
+                      buildListItem(context, index),
+                      if (index != viewModel.itemsCount - 1)
+                        buildSeparator(context, index),
+                    ],
+                  );
+                },
+                childCount: viewModel.itemsCount,
+              ),
+            ),
+          ),
+          if (viewModel.endListWidget != null)
+            SliverToBoxAdapter(child: viewModel.endListWidget),
+        ]);
   }
 
   @override
@@ -87,7 +107,7 @@ class LoadableListViewState<T extends StoreListItem>
     return Container(
       padding: viewModel.padding,
       alignment: Alignment.center,
-      child: const CircularProgressIndicator(),
+      child: widget.progressIndicator,
     );
   }
 
@@ -100,8 +120,8 @@ class LoadableListViewState<T extends StoreListItem>
   }
 
   Widget getLoadingWidget() {
-    return const Center(
-      child: CircularProgressIndicator(),
+    return Center(
+      child: widget.progressIndicator,
     );
   }
 
@@ -129,6 +149,7 @@ class LoadableListViewModel<Item extends StoreListItem> {
     required this.itemSeparator,
     this.loadList,
     this.padding,
+    this.header,
     this.endListWidget,
     this.key,
   });
@@ -142,6 +163,7 @@ class LoadableListViewModel<Item extends StoreListItem> {
   final OperationState loadPageRequestState;
   final VoidCallback? loadList;
   final EdgeInsets? padding;
+  final Widget? header;
   final Widget? endListWidget;
   final Key? key;
 

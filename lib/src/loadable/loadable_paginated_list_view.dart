@@ -12,6 +12,7 @@ class LoadablePaginatedListView<T extends StoreListItem>
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
     void Function(double offset)? onChangeContentOffset,
+    Widget progressIndicator = const CircularProgressIndicator(),
   }) : super(
           key: key,
           viewModel: viewModel,
@@ -21,6 +22,7 @@ class LoadablePaginatedListView<T extends StoreListItem>
           shrinkWrap: shrinkWrap,
           scrollDirection: scrollDirection,
           reverse: reverse,
+          progressIndicator: progressIndicator,
         );
 
   @override
@@ -77,16 +79,18 @@ class LoadablePaginatedListState<T extends StoreListItem>
 
   Widget _getProgressPageWidget(ScrollController scrollController) {
     WidgetsBinding.instance
-        .addPostFrameCallback((_) => scrollController.animateTo(
-              scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 100),
-              curve: Curves.linear,
-            ));
+        .addPostFrameCallback((_) => widget.cacheExtent == null
+            ? scrollController.animateTo(
+                scrollController.position.maxScrollExtent,
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.linear,
+              )
+            : null);
 
     return Container(
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.only(top: 8),
-      child: const Center(child: CircularProgressIndicator()),
+      child: Center(child: widget.progressIndicator),
     );
   }
 
@@ -98,10 +102,10 @@ class LoadablePaginatedListState<T extends StoreListItem>
     final canLoad = (viewModel.loadPageRequestState.isSucceed ||
             viewModel.loadPageRequestState.isIdle) &&
         viewModel.paginatedList.isAllItemsLoaded == false;
+    final maxScrollExtent =
+        scrollController.position.maxScrollExtent - (widget.cacheExtent ?? 0);
 
-    if (scrollController.position.pixels ==
-            scrollController.position.maxScrollExtent &&
-        canLoad) {
+    if (scrollController.position.pixels > maxScrollExtent && canLoad) {
       viewModel.loadPage?.call();
     }
   }
@@ -121,6 +125,7 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
     required this.errorPageWidget,
     VoidCallback? loadList,
     EdgeInsets? padding,
+    Widget? header,
     Widget? endListWidget,
     this.loadPage,
   }) : super(
@@ -133,6 +138,7 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
           loadPageRequestState: loadPageRequestState,
           loadList: loadList,
           padding: padding,
+          header: header,
           endListWidget: endListWidget,
           key: key,
         );
