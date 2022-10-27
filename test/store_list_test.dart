@@ -2,9 +2,10 @@ import 'package:dash_kit_core/dash_kit_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class NumberStoreListItem extends StoreListItem {
-  final int id;
-
   NumberStoreListItem(this.id);
+
+  @override
+  final int id;
 }
 
 void main() {

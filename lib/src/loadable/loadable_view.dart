@@ -7,7 +7,8 @@ class LoadableView extends StatelessWidget {
     this.padding,
     this.backgroundColor = Colors.white,
     this.indicatorColor,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final Widget child;
   final bool isLoading;

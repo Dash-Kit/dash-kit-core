@@ -6,26 +6,21 @@ abstract class StoreListItem {
 }
 
 class StoreList<T extends StoreListItem> {
-  BuiltList<T>? _itemListCache;
-
-  BuiltList<Object> _itemsIds;
-  BuiltMap<Object, T> _items;
-
-  StoreList._(this._itemsIds, this._items, this._itemListCache);
-
   factory StoreList([Iterable<T> list = const []]) {
     final filteredItems = list.toBuiltList();
 
     final itemListCache = filteredItems;
     final itemsIds = filteredItems.map((i) => i.id).toBuiltList();
-    final items = Map<Object, T>.fromIterable(
-      filteredItems,
-      key: (v) => v.id,
-      value: (v) => v,
-    ).build();
+    final items = {for (var v in filteredItems) v.id: v}.build();
 
     return StoreList._(itemsIds, items, itemListCache);
   }
+
+  StoreList._(this._itemsIds, this._items, this._itemListCache);
+
+  BuiltList<T>? _itemListCache;
+  BuiltList<Object> _itemsIds;
+  BuiltMap<Object, T> _items;
 
   BuiltList<T> get items {
     _itemListCache ??= _itemsIds.map((id) => _items[id]!).toBuiltList();
