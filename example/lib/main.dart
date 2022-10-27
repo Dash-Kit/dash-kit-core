@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dash_kit_core/dash_kit_core.dart';
 import 'package:example/app_state.dart';
 import 'package:flutter/material.dart' hide Action;
@@ -21,13 +23,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({
+    required this.title,
+    Key? key,
+  }) : super(key: key);
 
   final String title;
 
@@ -58,14 +63,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   TextFormField(
                     controller: _emailController,
-                    decoration: InputDecoration(hintText: 'Email'),
+                    decoration: const InputDecoration(hintText: 'Email'),
                   ),
                   TextFormField(
                     controller: _passwordController,
-                    decoration: InputDecoration(hintText: 'Password'),
+                    decoration: const InputDecoration(hintText: 'Password'),
                     obscureText: true,
                   ),
-                  TextButton(onPressed: _onLoginPressed, child: Text('LOG IN')),
+                  TextButton(
+                    onPressed: _onLoginPressed,
+                    child: const Text('LOG IN'),
+                  ),
                 ],
               ),
             ),
@@ -75,8 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _onLoginPressed() async {
-    context
+  Future<void> _onLoginPressed() async {
+    return context
         .dispatch(
           LoginAction(
             email: _emailController.text,
@@ -96,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
               borderRadius: BorderRadius.circular(6.0),
             ),
             backgroundColor: Colors.white,
-            child: SizedBox(
+            child: const SizedBox(
               height: 100,
               width: 100,
               child: Center(
@@ -146,7 +154,8 @@ class LoginAction extends Action<AppState> {
   @override
   Future<AppState> reduce() async {
     // Here you can add any logic to get your user;
-    final currentUserName = await Future.delayed(Duration(seconds: 5), () {
+    final currentUserName =
+        await Future.delayed(const Duration(seconds: 5), () {
       if (email.isNotEmpty && password.isNotEmpty) {
         return 'UserName';
       }

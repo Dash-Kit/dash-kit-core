@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:dash_kit_core/dash_kit_core.dart';
+import 'package:flutter/material.dart';
 
 class LoadablePaginatedGridView<T extends StoreListItem>
     extends LoadableGridView<T> {
   const LoadablePaginatedGridView({
-    Key? key,
     required LoadablePaginatedGridViewModel<T> viewModel,
     void Function(double offset)? onChangeContentOffset,
+    Key? key,
   }) : super(
           key: key,
           viewModel: viewModel,
@@ -89,7 +89,6 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
 class LoadablePaginatedGridViewModel<Item extends StoreListItem>
     extends LoadableGridViewModel<Item> {
   LoadablePaginatedGridViewModel({
-    Key? key,
     required Widget errorWidget,
     required Widget emptyStateWidget,
     required Widget Function(int) itemBuilder,
@@ -102,6 +101,7 @@ class LoadablePaginatedGridViewModel<Item extends StoreListItem>
     EdgeInsets? padding,
     Widget? header,
     this.loadPage,
+    Key? key,
   }) : super(
           items: paginatedList.items,
           loadListRequestState: loadListRequestState,

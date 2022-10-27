@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:dash_kit_core/dash_kit_core.dart';
+import 'package:flutter/material.dart';
 
 class LoadableItemView extends StatelessWidget {
   const LoadableItemView({
@@ -8,7 +8,8 @@ class LoadableItemView extends StatelessWidget {
     required this.errorWidget,
     this.padding,
     this.backgroundColor,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final Widget child;
   final Widget errorWidget;

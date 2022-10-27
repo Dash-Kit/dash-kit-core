@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:dash_kit_core/dash_kit_core.dart';
+import 'package:flutter/material.dart';
 
 class LoadableGridView<T extends StoreListItem> extends StatefulWidget {
   const LoadableGridView({
-    Key? key,
     required this.viewModel,
     this.onChangeContentOffset,
+    Key? key,
   }) : super(key: key);
 
   final LoadableGridViewModel<T> viewModel;

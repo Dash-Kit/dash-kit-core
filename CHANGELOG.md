@@ -1,3 +1,8 @@
+## [3.1.9]
+
+- Fixed lists for using slivers
+- Fixed analyzer warnings
+
 ## [3.1.8]
 
 - Fixed equals in paginated list

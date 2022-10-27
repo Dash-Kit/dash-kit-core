@@ -114,7 +114,6 @@ class LoadablePaginatedListState<T extends StoreListItem>
 class LoadablePaginatedListViewModel<Item extends StoreListItem>
     extends LoadableListViewModel<Item> {
   LoadablePaginatedListViewModel({
-    Key? key,
     required Widget Function(int) itemBuilder,
     required Widget Function(int) itemSeparator,
     required Widget errorWidget,
@@ -128,6 +127,7 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
     Widget? header,
     Widget? endListWidget,
     this.loadPage,
+    Key? key,
   }) : super(
           items: paginatedList.items,
           itemBuilder: itemBuilder,

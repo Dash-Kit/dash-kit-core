@@ -5,7 +5,8 @@ class BlockedLoadableView extends StatelessWidget {
     required this.child,
     required this.isLoading,
     this.indicatorColor = Colors.white,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final Widget child;
   final bool isLoading;

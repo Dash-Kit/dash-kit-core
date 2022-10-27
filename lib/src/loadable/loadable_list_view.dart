@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 class LoadableListView<T extends StoreListItem> extends StatefulWidget {
   const LoadableListView({
-    Key? key,
     required this.viewModel,
     this.scrollPhysics = const AlwaysScrollableScrollPhysics(),
     this.onChangeContentOffset,
@@ -14,6 +13,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
     this.progressIndicator = const CircularProgressIndicator(),
+    Key? key,
   }) : super(key: key);
 
   final LoadableListViewModel<T> viewModel;
@@ -73,7 +73,7 @@ class LoadableListViewState<T extends StoreListItem>
         reverse: widget.reverse,
         slivers: [
           if (viewModel.header != null)
-            SliverToBoxAdapter(child: viewModel.header!),
+            SliverToBoxAdapter(child: viewModel.header),
           SliverPadding(
             padding: viewModel.padding ?? EdgeInsets.zero,
             sliver: SliverList(
