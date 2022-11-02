@@ -1,3 +1,7 @@
+## [3.1.10]
+
+- Fixed lists for using slivers
+
 ## [3.1.9]
 
 - Fixed lists for using slivers
