@@ -101,11 +101,11 @@ class LoadablePaginatedListState<T extends StoreListItem>
   void _onScrollChanged() {
     final canLoad = (viewModel.loadPageRequestState.isSucceed ||
             viewModel.loadPageRequestState.isIdle) &&
-        viewModel.paginatedList.isAllItemsLoaded == false;
+        !viewModel.paginatedList.isAllItemsLoaded;
     final maxScrollExtent =
         scrollController.position.maxScrollExtent - (widget.cacheExtent ?? 0);
 
-    if (scrollController.position.pixels > maxScrollExtent && canLoad) {
+    if (scrollController.position.pixels >= maxScrollExtent && canLoad) {
       viewModel.loadPage?.call();
     }
   }
