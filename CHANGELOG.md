@@ -7,6 +7,10 @@
 - Fixed lists for using slivers
 - Fixed analyzer warnings
 
+## [3.2.0]
+
+- Upgraded dependencies
+
 ## [3.1.8]
 
 - Fixed equals in paginated list
