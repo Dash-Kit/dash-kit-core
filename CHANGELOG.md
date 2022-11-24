@@ -1,6 +1,10 @@
+## [3.2.2]
+
+- Added maxScrollExtent to the ScrollListener
+
 ## [3.2.1]
 
-- Removed reudant parameters in LoadableListViewModel
+- Removed redundant parameters in LoadableListViewModel
 
 ## [3.2.0]
 
