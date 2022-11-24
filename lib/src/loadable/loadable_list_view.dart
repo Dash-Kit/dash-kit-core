@@ -144,7 +144,6 @@ class LoadableListViewModel<Item extends StoreListItem> {
     required this.itemBuilder,
     required this.emptyStateWidget,
     required this.loadListRequestState,
-    required this.loadPageRequestState,
     required this.errorWidget,
     required this.itemSeparator,
     this.loadList,
@@ -160,7 +159,6 @@ class LoadableListViewModel<Item extends StoreListItem> {
   final Widget errorWidget;
   final Widget emptyStateWidget;
   final OperationState loadListRequestState;
-  final OperationState loadPageRequestState;
   final VoidCallback? loadList;
   final EdgeInsets? padding;
   final Widget? header;

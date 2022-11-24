@@ -1,3 +1,11 @@
+## [3.2.1]
+
+- Removed reudant parameters in LoadableListViewModel
+
+## [3.2.0]
+
+- Upgraded dependencies
+
 ## [3.1.10]
 
 - Fixed lists for using slivers
@@ -6,10 +14,6 @@
 
 - Fixed lists for using slivers
 - Fixed analyzer warnings
-
-## [3.2.0]
-
-- Upgraded dependencies
 
 ## [3.1.8]
 
