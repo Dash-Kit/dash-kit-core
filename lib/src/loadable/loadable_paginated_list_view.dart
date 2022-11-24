@@ -119,7 +119,7 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
     required Widget errorWidget,
     required Widget emptyStateWidget,
     required OperationState loadListRequestState,
-    required OperationState loadPageRequestState,
+    required this.loadPageRequestState,
     required this.paginatedList,
     required this.errorPageWidget,
     VoidCallback? loadList,
@@ -135,7 +135,6 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
           errorWidget: errorWidget,
           emptyStateWidget: emptyStateWidget,
           loadListRequestState: loadListRequestState,
-          loadPageRequestState: loadPageRequestState,
           loadList: loadList,
           padding: padding,
           header: header,
@@ -146,6 +145,7 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
   final VoidCallback? loadPage;
   final PaginatedList<Item> paginatedList;
   final Widget errorPageWidget;
+  final OperationState loadPageRequestState;
 
   @override
   int get itemsCount => super.itemsCount + 1;
