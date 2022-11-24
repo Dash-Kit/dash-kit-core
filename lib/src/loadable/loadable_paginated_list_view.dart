@@ -11,7 +11,7 @@ class LoadablePaginatedListView<T extends StoreListItem>
     bool shrinkWrap = false,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    void Function(double offset)? onChangeContentOffset,
+    ScrollListener? onChangeContentOffset,
     Widget progressIndicator = const CircularProgressIndicator(),
   }) : super(
           key: key,
