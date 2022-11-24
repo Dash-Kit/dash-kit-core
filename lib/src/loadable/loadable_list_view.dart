@@ -3,6 +3,11 @@ import 'package:dash_kit_core/src/states/operation_state.dart';
 import 'package:dash_kit_core/src/utils/store_list.dart';
 import 'package:flutter/material.dart';
 
+typedef ScrollListener = void Function({
+  required double offset,
+  required double maxScrollExtent,
+});
+
 class LoadableListView<T extends StoreListItem> extends StatefulWidget {
   const LoadableListView({
     required this.viewModel,
@@ -18,7 +23,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
 
   final LoadableListViewModel<T> viewModel;
   final ScrollPhysics scrollPhysics;
-  final void Function(double offset)? onChangeContentOffset;
+  final ScrollListener? onChangeContentOffset;
   final double? cacheExtent;
   final bool shrinkWrap;
   final Axis scrollDirection;
@@ -134,7 +139,10 @@ class LoadableListViewState<T extends StoreListItem>
   }
 
   void _onScrollChanged() {
-    widget.onChangeContentOffset?.call(scrollController.position.pixels);
+    widget.onChangeContentOffset?.call(
+      offset: scrollController.position.pixels,
+      maxScrollExtent: scrollController.position.maxScrollExtent,
+    );
   }
 }
 
