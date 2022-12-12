@@ -3,29 +3,37 @@ import 'package:dash_kit_core/dash_kit_core.dart';
 class PaginatedList<T extends StoreListItem> {
   PaginatedList({
     required this.items,
-    required this.totalCount,
+    required this.isAllItemsLoaded,
   });
+
+  PaginatedList.withTotalCount({
+    required this.items,
+    required int totalCount,
+  }) : isAllItemsLoaded = items.items.length >= totalCount;
 
   PaginatedList.empty()
       : this(
           items: StoreList<T>(),
-          totalCount: 0,
+          isAllItemsLoaded: true,
         );
-
-  final StoreList<T> items;
-  final int totalCount;
-
-  late final bool isAllItemsLoaded = items.items.length >= totalCount;
 
   PaginatedList<T> update({
     StoreList<T>? items,
-    int? totalCount,
+    bool? isAllItemsLoaded,
   }) {
+    assert(
+      items == null && isAllItemsLoaded != null,
+      'You should update the list first',
+    );
+
     return PaginatedList(
       items: items ?? this.items,
-      totalCount: totalCount ?? this.totalCount,
+      isAllItemsLoaded: isAllItemsLoaded ?? this.isAllItemsLoaded,
     );
   }
+
+  final StoreList<T> items;
+  final bool isAllItemsLoaded;
 
   @override
   bool operator ==(Object other) =>
@@ -33,8 +41,8 @@ class PaginatedList<T extends StoreListItem> {
       other is PaginatedList &&
           runtimeType == other.runtimeType &&
           items == other.items &&
-          totalCount == other.totalCount;
+          isAllItemsLoaded == other.isAllItemsLoaded;
 
   @override
-  int get hashCode => items.hashCode ^ totalCount.hashCode;
+  int get hashCode => items.hashCode ^ isAllItemsLoaded.hashCode;
 }
