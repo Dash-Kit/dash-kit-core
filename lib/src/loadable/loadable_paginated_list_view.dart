@@ -57,6 +57,13 @@ class LoadablePaginatedListState<T extends StoreListItem>
     scrollController.removeListener(_onScrollChanged);
   }
 
+  @override
+  Widget buildFooter() {
+    return SliverToBoxAdapter(
+      child: viewModel.paginatedList.isAllItemsLoaded ? viewModel.footer : null,
+    );
+  }
+
   Widget _getLastItem(PaginationState state) {
     switch (state) {
       case PaginationState.loadingPage:
@@ -65,28 +72,12 @@ class LoadablePaginatedListState<T extends StoreListItem>
       case PaginationState.errorLoadingPage:
         return _getErrorPageWidget();
 
-      case PaginationState.succeedLoadingPage:
-        if (viewModel.paginatedList.isAllItemsLoaded) {
-          return viewModel.endListWidget ?? const SizedBox.shrink();
-        }
-
-        return const SizedBox.shrink();
-
       default:
         return const SizedBox.shrink();
     }
   }
 
   Widget _getProgressPageWidget(ScrollController scrollController) {
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => widget.cacheExtent == null
-            ? scrollController.animateTo(
-                scrollController.position.maxScrollExtent,
-                duration: const Duration(milliseconds: 100),
-                curve: Curves.linear,
-              )
-            : null);
-
     return Container(
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.only(top: 8),
@@ -125,7 +116,7 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
     VoidCallback? loadList,
     EdgeInsets? padding,
     Widget? header,
-    Widget? endListWidget,
+    Widget? footer,
     this.loadPage,
     Key? key,
   }) : super(
@@ -138,7 +129,7 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
           loadList: loadList,
           padding: padding,
           header: header,
-          endListWidget: endListWidget,
+          footer: footer,
           key: key,
         );
 
