@@ -6,21 +6,14 @@ abstract class StoreListItem {
 }
 
 class StoreList<T extends StoreListItem> {
-  factory StoreList([Iterable<T> list = const []]) {
-    final filteredItems = list.toBuiltList();
-
-    final itemListCache = filteredItems;
-    final itemsIds = filteredItems.map((i) => i.id).toBuiltList();
-    final items = {for (var v in filteredItems) v.id: v}.build();
-
-    return StoreList._(itemsIds, items, itemListCache);
-  }
-
-  StoreList._(this._itemsIds, this._items, this._itemListCache);
+  StoreList([Iterable<T> list = const []])
+      : _itemListCache = list.toBuiltList(),
+        _itemsIds = list.map((i) => i.id).toBuiltList(),
+        _items = {for (var v in list) v.id: v}.build();
 
   BuiltList<T>? _itemListCache;
-  BuiltList<Object> _itemsIds;
-  BuiltMap<Object, T> _items;
+  final BuiltList<Object> _itemsIds;
+  final BuiltMap<Object, T> _items;
 
   BuiltList<T> get items {
     _itemListCache ??= _itemsIds.map((id) => _items[id]!).toBuiltList();
@@ -31,6 +24,18 @@ class StoreList<T extends StoreListItem> {
   BuiltList<Object> get itemsIds => _itemsIds;
 
   BuiltMap<Object, T> get itemsMap => _items;
+
+  int get length => items.length;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StoreList &&
+          runtimeType == other.runtimeType &&
+          _items == other._items;
+
+  @override
+  int get hashCode => _items.hashCode;
 
   T? getItem(Object id) => _items[id];
 
@@ -75,14 +80,4 @@ class StoreList<T extends StoreListItem> {
 
     return StoreList(updatedItems);
   }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is StoreList &&
-          runtimeType == other.runtimeType &&
-          _items == other._items;
-
-  @override
-  int get hashCode => _items.hashCode;
 }

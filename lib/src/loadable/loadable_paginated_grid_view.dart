@@ -103,7 +103,7 @@ class LoadablePaginatedGridViewModel<Item extends StoreListItem>
     this.loadPage,
     Key? key,
   }) : super(
-          items: paginatedList.items,
+          items: paginatedList,
           loadListRequestState: loadListRequestState,
           loadPageRequestState: loadPageRequestState,
           itemBuilder: itemBuilder,

@@ -129,7 +129,7 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
     this.loadPage,
     Key? key,
   }) : super(
-          items: paginatedList.items,
+          items: paginatedList,
           itemBuilder: itemBuilder,
           itemSeparator: itemSeparator,
           errorWidget: errorWidget,

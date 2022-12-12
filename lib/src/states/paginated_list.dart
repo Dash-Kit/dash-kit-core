@@ -1,28 +1,27 @@
 import 'package:dash_kit_core/dash_kit_core.dart';
 
-class PaginatedList<T extends StoreListItem> {
+class PaginatedList<T extends StoreListItem> extends StoreList<T> {
   PaginatedList({
-    required this.items,
+    required List<T> items,
     required this.totalCount,
-  });
+  }) : super(items);
 
   PaginatedList.empty()
       : this(
-          items: StoreList<T>(),
+          items: <T>[],
           totalCount: 0,
         );
 
-  final StoreList<T> items;
   final int totalCount;
 
-  late final bool isAllItemsLoaded = items.items.length >= totalCount;
+  late final bool isAllItemsLoaded = items.length >= totalCount;
 
   PaginatedList<T> update({
-    StoreList<T>? items,
+    List<T>? items,
     int? totalCount,
   }) {
     return PaginatedList(
-      items: items ?? this.items,
+      items: items ?? this.items.toList(),
       totalCount: totalCount ?? this.totalCount,
     );
   }
