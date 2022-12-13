@@ -1,3 +1,7 @@
+## [3.3.0]
+
+- Updated PaginatedList model and PaginatedList view structure. 
+
 ## [3.2.2]
 
 - Added maxScrollExtent to the ScrollListener
