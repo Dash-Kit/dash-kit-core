@@ -96,8 +96,7 @@ class LoadableListViewState<T extends StoreListItem>
               ),
             ),
           ),
-          if (viewModel.endListWidget != null)
-            SliverToBoxAdapter(child: viewModel.endListWidget),
+          if (viewModel.footer != null) buildFooter(),
         ]);
   }
 
@@ -138,6 +137,10 @@ class LoadableListViewState<T extends StoreListItem>
     return viewModel.itemSeparator(index);
   }
 
+  Widget buildFooter() {
+    return SliverToBoxAdapter(child: viewModel.footer);
+  }
+
   void _onScrollChanged() {
     widget.onChangeContentOffset?.call(
       offset: scrollController.position.pixels,
@@ -157,7 +160,7 @@ class LoadableListViewModel<Item extends StoreListItem> {
     this.loadList,
     this.padding,
     this.header,
-    this.endListWidget,
+    this.footer,
     this.key,
   });
 
@@ -170,7 +173,7 @@ class LoadableListViewModel<Item extends StoreListItem> {
   final VoidCallback? loadList;
   final EdgeInsets? padding;
   final Widget? header;
-  final Widget? endListWidget;
+  final Widget? footer;
   final Key? key;
 
   int get itemsCount => items.items.length;
