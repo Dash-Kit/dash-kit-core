@@ -1,3 +1,7 @@
+## [3.3.1]
+
+- Removed unused Store entity 
+
 ## [3.3.0]
 
 - Updated PaginatedList model and PaginatedList view structure. 
