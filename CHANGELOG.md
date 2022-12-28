@@ -1,3 +1,7 @@
+## [3.4.0]
+
+- Add the shrinkWrap parameter to LoadableGridViewModel
+
 ## [3.3.1]
 
 - Removed unused Store entity 
