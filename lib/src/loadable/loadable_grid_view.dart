@@ -51,7 +51,7 @@ class LoadableGridViewState<T extends StoreListItem>
 
     return CustomScrollView(
         key: viewModel.key,
-        shrinkWrap: true,
+        shrinkWrap: viewModel.shrinkWrap,
         physics: const AlwaysScrollableScrollPhysics(),
         controller: scrollController,
         slivers: <Widget>[
@@ -128,6 +128,7 @@ class LoadableGridViewModel<Item extends StoreListItem> {
     this.physics,
     this.padding,
     this.header,
+    this.shrinkWrap = false,
   });
 
   final Key? key;
@@ -142,6 +143,7 @@ class LoadableGridViewModel<Item extends StoreListItem> {
   final SliverGridDelegate gridDelegate;
   final ScrollPhysics? physics;
   final Widget? header;
+  final bool shrinkWrap;
 
   int get itemsCount => items.items.length;
 
