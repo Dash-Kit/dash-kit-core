@@ -22,18 +22,23 @@ class StoreList<T extends StoreListItem> {
   BuiltList<Object> _itemsIds;
   BuiltMap<Object, T> _items;
 
+  /// Returns a [BuiltList] objects type of [T]
   BuiltList<T> get items {
     _itemListCache ??= _itemsIds.map((id) => _items[id]!).toBuiltList();
 
     return _itemListCache!;
   }
 
+  /// Returns a [BuiltList] items id`s type of [Object]
   BuiltList<Object> get itemsIds => _itemsIds;
 
+  /// Returns a [BuiltMap] objects with key [Object] and type [T]
   BuiltMap<Object, T> get itemsMap => _items;
 
+  /// Returns a [T] object by [id]
   T? getItem(Object id) => _items[id];
 
+  /// Returns a [StoreList] with added [value] object
   StoreList<T> addItem(Object? id, T? value) {
     if (id == null || value == null) {
       return this;
@@ -44,6 +49,7 @@ class StoreList<T extends StoreListItem> {
     return StoreList(updatedItems);
   }
 
+  /// Returns a [StoreList] with added [values] objects
   StoreList<T> addAll(Iterable<T> values) {
     if (values.isEmpty) {
       return this;
@@ -54,6 +60,7 @@ class StoreList<T extends StoreListItem> {
     return StoreList(updatedItems);
   }
 
+  /// Returns a [StoreList] with updated by [id] identificator [value] object
   StoreList<T> updateItem(Object? id, T? value) {
     if (id == null || value == null) {
       return this;
@@ -70,6 +77,7 @@ class StoreList<T extends StoreListItem> {
     return StoreList(updatedItems);
   }
 
+  /// Returns a [StoreList] with removed by [id] object
   StoreList<T> deleteItem(Object id) {
     final updatedItems = items.rebuild((b) => b.removeWhere((e) => e.id == id));
 

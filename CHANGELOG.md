@@ -1,3 +1,7 @@
+## [3.4.1]
+
+- Covered with the documentation comments
+
 ## [3.4.0]
 
 - Add the shrinkWrap parameter to LoadableGridViewModel
