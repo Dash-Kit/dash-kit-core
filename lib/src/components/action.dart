@@ -20,12 +20,7 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
   /// Default: `null`
   Object? get operationKey => null;
 
-  /// This is an optional method that may be overridden to run during action
-  /// dispatching, before `reduce`. If this method throws an error, the
-  /// `reduce` method will NOT run, but the method `after` will.
-  /// It may be synchronous (returning `void`)
-  /// on async (returning `Future<void>`).
-  /// You should NOT return `FutureOr`.
+  /// Calls parent callback [ReduxAction.before]
   ///
   /// As the side effect - it calls [SetOperationStateAction] with
   /// [OperationState.inProgress] value or with
@@ -61,12 +56,7 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
     };
   }
 
-  /// This is an optional method that may be overridden to run during action
-  /// dispatching, after `reduce`. If this method throws an error, the
-  /// error will be swallowed (will not throw). So you should only run code that
-  /// can't throw errors. It may be synchronous only.
-  /// Note this method will always be called,
-  /// even if errors were thrown by `before` or `reduce`.
+  /// Calls parent callback [ReduxAction.after]
   ///
   /// As the side effect - it calls [SetOperationStateAction] with
   /// [OperationState.success] value or with
