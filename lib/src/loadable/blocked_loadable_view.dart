@@ -5,8 +5,8 @@ class BlockedLoadableView extends StatelessWidget {
     required this.child,
     required this.isLoading,
     this.indicatorColor = Colors.white,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget child;
   final bool isLoading;
@@ -20,7 +20,7 @@ class BlockedLoadableView extends StatelessWidget {
         Positioned.fill(
           child: Visibility(
             visible: isLoading,
-            child: Container(
+            child: ColoredBox(
               color: Colors.black54,
               child: Center(
                 child: CircularProgressIndicator(

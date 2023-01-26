@@ -19,9 +19,12 @@ class SetOperationStateAction<T extends GlobalState> extends ReduxAction<T> {
 
   @override
   String toString() {
-    final state = operationState //
-        .toString()
-        .replaceAll('${(OperationState).toString()}.', '');
+    final operationStateString = (OperationState).toString();
+    const emptyString = '';
+    final state = operationState.toString().replaceAll(
+          '$operationStateString.',
+          emptyString,
+        );
 
     return '$operationKey: $state';
   }

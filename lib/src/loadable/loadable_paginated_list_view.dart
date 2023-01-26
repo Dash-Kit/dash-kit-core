@@ -4,26 +4,16 @@ import 'package:flutter/material.dart';
 class LoadablePaginatedListView<T extends StoreListItem>
     extends LoadableListView<T> {
   const LoadablePaginatedListView({
-    required LoadablePaginatedListViewModel<T> viewModel,
-    Key? key,
-    ScrollPhysics scrollPhysics = const AlwaysScrollableScrollPhysics(),
-    double? cacheExtent,
-    bool shrinkWrap = false,
-    Axis scrollDirection = Axis.vertical,
-    bool reverse = false,
-    ScrollListener? onChangeContentOffset,
-    Widget progressIndicator = const CircularProgressIndicator(),
-  }) : super(
-          key: key,
-          viewModel: viewModel,
-          scrollPhysics: scrollPhysics,
-          onChangeContentOffset: onChangeContentOffset,
-          cacheExtent: cacheExtent,
-          shrinkWrap: shrinkWrap,
-          scrollDirection: scrollDirection,
-          reverse: reverse,
-          progressIndicator: progressIndicator,
-        );
+    required LoadablePaginatedListViewModel<T> super.viewModel,
+    super.key,
+    super.scrollPhysics,
+    super.cacheExtent,
+    super.shrinkWrap,
+    super.scrollDirection,
+    super.reverse,
+    super.onChangeContentOffset,
+    super.progressIndicator,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -105,32 +95,22 @@ class LoadablePaginatedListState<T extends StoreListItem>
 class LoadablePaginatedListViewModel<Item extends StoreListItem>
     extends LoadableListViewModel<Item> {
   LoadablePaginatedListViewModel({
-    required Widget Function(int) itemBuilder,
-    required Widget Function(int) itemSeparator,
-    required Widget errorWidget,
-    required Widget emptyStateWidget,
-    required OperationState loadListRequestState,
+    required super.itemBuilder,
+    required super.itemSeparator,
+    required super.errorWidget,
+    required super.emptyStateWidget,
+    required super.loadListRequestState,
     required this.loadPageRequestState,
     required this.paginatedList,
     required this.errorPageWidget,
-    VoidCallback? loadList,
-    EdgeInsets? padding,
-    Widget? header,
-    Widget? footer,
+    super.loadList,
+    super.padding,
+    super.header,
+    super.footer,
     this.loadPage,
-    Key? key,
+    super.key,
   }) : super(
           items: paginatedList.items,
-          itemBuilder: itemBuilder,
-          itemSeparator: itemSeparator,
-          errorWidget: errorWidget,
-          emptyStateWidget: emptyStateWidget,
-          loadListRequestState: loadListRequestState,
-          loadList: loadList,
-          padding: padding,
-          header: header,
-          footer: footer,
-          key: key,
         );
 
   final VoidCallback? loadPage;

@@ -18,8 +18,8 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
     this.progressIndicator = const CircularProgressIndicator(),
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final LoadableListViewModel<T> viewModel;
   final ScrollPhysics scrollPhysics;
@@ -103,8 +103,9 @@ class LoadableListViewState<T extends StoreListItem>
   @override
   void dispose() {
     super.dispose();
-    scrollController.removeListener(_onScrollChanged);
-    scrollController.dispose();
+    scrollController
+      ..removeListener(_onScrollChanged)
+      ..dispose();
   }
 
   Widget buildProgressState() {

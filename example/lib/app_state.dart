@@ -14,6 +14,12 @@ abstract class AppState
 
   AppState._();
 
+  factory AppState.initial() {
+    return AppState(
+      (s) => s..profileState = ProfileState.initial().toBuilder(),
+    );
+  }
+
   // You should make your fields immutable either
   ProfileState get profileState;
 
@@ -40,11 +46,5 @@ abstract class AppState
   @override
   OperationState getOperationState(Object operationKey) {
     return operationsState[operationKey] ?? OperationState.idle;
-  }
-
-  static AppState initial() {
-    return AppState(
-      (b) => b.profileState = ProfileState.initial().toBuilder(),
-    );
   }
 }

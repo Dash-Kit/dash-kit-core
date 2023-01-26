@@ -11,11 +11,9 @@ abstract class ProfileState
 
   ProfileState._();
 
-  String get name;
+  factory ProfileState.initial() => ProfileState(
+        (b) => b..name = '',
+      );
 
-  static ProfileState initial() {
-    return ProfileState(
-      (b) => b.name = '',
-    );
-  }
+  String get name;
 }
