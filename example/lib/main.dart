@@ -8,7 +8,7 @@ import 'package:flutter/material.dart' hide Action;
 void main() {
   runApp(StoreProvider<AppState>(
     store: Store(initialState: AppState.initial()),
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
@@ -17,6 +17,8 @@ enum Operation {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,8 +34,8 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
     required this.title,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String title;
 
@@ -57,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, operationState) => LoadableView(
           isLoading: operationState.isInProgress,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: Form(
               key: _formKey,
               child: Column(
@@ -102,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context) {
           return Dialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6.0),
+              borderRadius: BorderRadius.circular(6),
             ),
             backgroundColor: Colors.white,
             child: const SizedBox(
@@ -125,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context) {
           return Dialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6.0),
+              borderRadius: BorderRadius.circular(6),
             ),
             backgroundColor: Colors.white,
             child: SizedBox(

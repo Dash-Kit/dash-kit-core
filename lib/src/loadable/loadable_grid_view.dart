@@ -5,8 +5,8 @@ class LoadableGridView<T extends StoreListItem> extends StatefulWidget {
   const LoadableGridView({
     required this.viewModel,
     this.onChangeContentOffset,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final LoadableGridViewModel<T> viewModel;
   final void Function(double offset)? onChangeContentOffset;
@@ -75,8 +75,9 @@ class LoadableGridViewState<T extends StoreListItem>
   @override
   void dispose() {
     super.dispose();
-    scrollController.removeListener(_onScrollChanged);
-    scrollController.dispose();
+    scrollController
+      ..removeListener(_onScrollChanged)
+      ..dispose();
   }
 
   Widget buildProgressState() {
