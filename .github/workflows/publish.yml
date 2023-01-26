@@ -16,7 +16,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       
       - name: Setup Flutter SDK
-      - uses: flutter-actions/setup-flutter@v2
+        uses: flutter-actions/setup-flutter@v2
         with:
             channel: stable
             version: 3.7.0
