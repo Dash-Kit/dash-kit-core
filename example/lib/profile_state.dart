@@ -6,13 +6,14 @@ part 'profile_state.g.dart';
 
 abstract class ProfileState
     implements Built<ProfileState, ProfileStateBuilder> {
-  factory ProfileState([void Function(ProfileStateBuilder) updates]) =
-      _$ProfileState;
+  factory ProfileState([
+    void Function(ProfileStateBuilder state) updates,
+  ]) = _$ProfileState;
 
   ProfileState._();
 
   factory ProfileState.initial() => ProfileState(
-        (b) => b..name = '',
+        (state) => state..name = '',
       );
 
   String get name;
