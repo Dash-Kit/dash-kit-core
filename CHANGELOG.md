@@ -1,3 +1,6 @@
+## [3.5.0]
+- Incremented the Flutter SDK version to 3.7.0
+
 ## [3.4.1]
 
 - Covered with the documentation comments
