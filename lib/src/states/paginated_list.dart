@@ -21,10 +21,7 @@ class PaginatedList<T extends StoreListItem> {
     StoreList<T>? items,
     bool? isAllItemsLoaded,
   }) {
-    assert(
-      items == null && isAllItemsLoaded != null,
-      'You should update the list first',
-    );
+    assert(items != null, 'You should update the list first');
 
     return PaginatedList(
       items: items ?? this.items,

@@ -1,3 +1,6 @@
+## [3.5.1]
+- Fixed [PaginatedList.update] method
+
 ## [3.5.0]
 - Incremented the Flutter SDK version to 3.7.0
 
