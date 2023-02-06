@@ -10,7 +10,7 @@ class NumberStoreListItem extends StoreListItem {
 
 void main() {
   test('Initialisation with empty list', () {
-    final storeList1 = StoreList(<StoreListItem>[]);
+    final storeList1 = StoreList(const <StoreListItem>[]);
     expect(storeList1.items.isEmpty, true);
   });
 
@@ -24,15 +24,19 @@ void main() {
     expect(storeList.itemsIds, equals([1, 2, 3]));
     expect(storeList.items.map((i) => i.id), equals([1, 2, 3]));
 
-    final itemMapKeys = storeList.itemsMap.keys.toList();
-    itemMapKeys.sort();
+    final itemMapKeys = storeList.itemsMap.keys.toList()..sort();
     expect(itemMapKeys, equals([1, 2, 3]));
   });
 
   test('Null item is ignored on adding it to list', () {
-    final storeList = StoreList(<StoreListItem>[NumberStoreListItem(1)]);
-
-    storeList.addItem(null, null);
+    final storeList = StoreList(
+      <StoreListItem>[
+        NumberStoreListItem(1),
+      ],
+    ).addItem(
+      null,
+      null,
+    );
 
     expect(storeList.itemsIds, equals([1]));
     expect(storeList.items.map((i) => i.id), equals([1]));

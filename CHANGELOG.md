@@ -1,3 +1,7 @@
+## [3.6.0]
+- Update `analysis_options.yaml`
+- `analysis_options` now enxends from `dash_kit_lints` rules
+
 ## [3.5.1]
 - Fixed [PaginatedList.update] method
 

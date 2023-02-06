@@ -4,14 +4,10 @@ import 'package:flutter/material.dart';
 class LoadablePaginatedGridView<T extends StoreListItem>
     extends LoadableGridView<T> {
   const LoadablePaginatedGridView({
-    required LoadablePaginatedGridViewModel<T> viewModel,
-    void Function(double offset)? onChangeContentOffset,
-    Key? key,
-  }) : super(
-          key: key,
-          viewModel: viewModel,
-          onChangeContentOffset: onChangeContentOffset,
-        );
+    required LoadablePaginatedGridViewModel<T> super.viewModel,
+    super.onChangeContentOffset,
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -72,15 +68,22 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
   }
 
   void _onScrollChanged() {
-    final canLoad = viewModel.loadPageRequestState == null
-        ? false
-        : (viewModel.loadPageRequestState!.isSucceed ||
-                viewModel.loadPageRequestState!.isIdle) &&
-            viewModel.paginatedList.isAllItemsLoaded == false;
+    final loadPageRequestState = viewModel.loadPageRequestState;
+    bool canLoad;
+    if (loadPageRequestState == null) {
+      canLoad = false;
+    } else {
+      final isSucceed = loadPageRequestState.isSucceed;
+      final isIdle = loadPageRequestState.isIdle;
+      final isAllItemsNotLoaded = !viewModel.paginatedList.isAllItemsLoaded;
 
-    if (scrollController.position.pixels ==
-            scrollController.position.maxScrollExtent &&
-        canLoad) {
+      canLoad = (isSucceed || isIdle) && isAllItemsNotLoaded;
+    }
+
+    final currentPixelsPosition = scrollController.position.pixels;
+    final maxScrollExtent = scrollController.position.maxScrollExtent;
+    final isCurrentPixelsPositionEnd = currentPixelsPosition == maxScrollExtent;
+    if (isCurrentPixelsPositionEnd && canLoad) {
       viewModel.loadPage!();
     }
   }
@@ -89,31 +92,21 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
 class LoadablePaginatedGridViewModel<Item extends StoreListItem>
     extends LoadableGridViewModel<Item> {
   LoadablePaginatedGridViewModel({
-    required Widget errorWidget,
-    required Widget emptyStateWidget,
-    required Widget Function(int) itemBuilder,
-    required SliverGridDelegate gridDelegate,
-    required OperationState loadListRequestState,
-    required OperationState loadPageRequestState,
+    required super.errorWidget,
+    required super.emptyStateWidget,
+    required super.itemBuilder,
+    required super.gridDelegate,
+    required super.loadListRequestState,
+    required OperationState super.loadPageRequestState,
     required this.paginatedList,
     required this.errorPageWidget,
-    VoidCallback? loadList,
-    EdgeInsets? padding,
-    Widget? header,
+    super.loadList,
+    super.padding,
+    super.header,
     this.loadPage,
-    Key? key,
+    super.key,
   }) : super(
           items: paginatedList.items,
-          loadListRequestState: loadListRequestState,
-          loadPageRequestState: loadPageRequestState,
-          itemBuilder: itemBuilder,
-          loadList: loadList,
-          errorWidget: errorWidget,
-          emptyStateWidget: emptyStateWidget,
-          padding: padding,
-          key: key,
-          gridDelegate: gridDelegate,
-          header: header,
         );
 
   final VoidCallback? loadPage;

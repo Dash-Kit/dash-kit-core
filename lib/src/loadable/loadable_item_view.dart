@@ -8,8 +8,8 @@ class LoadableItemView extends StatelessWidget {
     required this.errorWidget,
     this.padding,
     this.backgroundColor,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget child;
   final Widget errorWidget;

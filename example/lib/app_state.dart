@@ -10,9 +10,17 @@ part 'app_state.g.dart';
 // The main thing you should notice here is GlobalState;
 abstract class AppState
     implements Built<AppState, AppStateBuilder>, GlobalState {
-  factory AppState([void Function(AppStateBuilder) updates]) = _$AppState;
+  factory AppState([
+    void Function(AppStateBuilder state) updates,
+  ]) = _$AppState;
 
   AppState._();
+
+  factory AppState.initial() {
+    return AppState(
+      (state) => state..profileState = ProfileState.initial().toBuilder(),
+    );
+  }
 
   // You should make your fields immutable either
   ProfileState get profileState;
@@ -40,11 +48,5 @@ abstract class AppState
   @override
   OperationState getOperationState(Object operationKey) {
     return operationsState[operationKey] ?? OperationState.idle;
-  }
-
-  static AppState initial() {
-    return AppState(
-      (b) => b.profileState = ProfileState.initial().toBuilder(),
-    );
   }
 }

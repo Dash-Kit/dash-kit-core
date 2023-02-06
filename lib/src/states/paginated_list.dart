@@ -1,7 +1,9 @@
 import 'package:dash_kit_core/dash_kit_core.dart';
+import 'package:flutter/material.dart';
 
+@immutable
 class PaginatedList<T extends StoreListItem> {
-  PaginatedList({
+  const PaginatedList({
     required this.items,
     required this.isAllItemsLoaded,
   });

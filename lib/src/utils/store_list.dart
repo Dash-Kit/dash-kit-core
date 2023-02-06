@@ -1,10 +1,12 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:dash_kit_core/dash_kit_core.dart';
+import 'package:flutter/material.dart';
 
 abstract class StoreListItem {
   Object get id;
 }
 
+@immutable
 class StoreList<T extends StoreListItem> {
   factory StoreList([Iterable<T> list = const []]) {
     final filteredItems = list.toBuiltList();
@@ -16,18 +18,14 @@ class StoreList<T extends StoreListItem> {
     return StoreList._(itemsIds, items, itemListCache);
   }
 
-  StoreList._(this._itemsIds, this._items, this._itemListCache);
+  const StoreList._(this._itemsIds, this._items, this._itemListCache);
 
-  BuiltList<T>? _itemListCache;
-  BuiltList<Object> _itemsIds;
-  BuiltMap<Object, T> _items;
+  final BuiltList<T> _itemListCache;
+  final BuiltList<Object> _itemsIds;
+  final BuiltMap<Object, T> _items;
 
   /// Returns a [BuiltList] objects type of [T]
-  BuiltList<T> get items {
-    _itemListCache ??= _itemsIds.map((id) => _items[id]!).toBuiltList();
-
-    return _itemListCache!;
-  }
+  BuiltList<T> get items => _itemListCache;
 
   /// Returns a [BuiltList] items id`s type of [Object]
   BuiltList<Object> get itemsIds => _itemsIds;
@@ -40,8 +38,10 @@ class StoreList<T extends StoreListItem> {
 
   /// Returns a [StoreList] with added [value] object
   StoreList<T> addItem(Object? id, T? value) {
+    final self = this;
+
     if (id == null || value == null) {
-      return this;
+      return self;
     }
 
     final updatedItems = items.rebuild((b) => b.add(value));
@@ -51,8 +51,10 @@ class StoreList<T extends StoreListItem> {
 
   /// Returns a [StoreList] with added [values] objects
   StoreList<T> addAll(Iterable<T> values) {
+    final self = this;
+
     if (values.isEmpty) {
-      return this;
+      return self;
     }
 
     final updatedItems = items.rebuild((b) => b.addAll(values));
@@ -62,14 +64,16 @@ class StoreList<T extends StoreListItem> {
 
   /// Returns a [StoreList] with updated by [id] identificator [value] object
   StoreList<T> updateItem(Object? id, T? value) {
+    final self = this;
+
     if (id == null || value == null) {
-      return this;
+      return self;
     }
 
     final updateIndex = items.indexWhere((e) => e.id == id);
 
     if (updateIndex < 0) {
-      return this;
+      return self;
     }
 
     final updatedItems = items.rebuild((b) => b[updateIndex] = value);
