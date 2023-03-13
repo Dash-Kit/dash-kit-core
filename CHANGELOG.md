@@ -1,5 +1,6 @@
 ## [3.6.1]
 - Added customisation of scroll controller into lists
+- Added opportunity to use custom slivers as headers
 
 ## [3.6.0]
 - Update `analysis_options.yaml`
