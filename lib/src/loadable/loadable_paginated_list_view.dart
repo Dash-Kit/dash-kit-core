@@ -13,6 +13,7 @@ class LoadablePaginatedListView<T extends StoreListItem>
     super.reverse,
     super.onChangeContentOffset,
     super.progressIndicator,
+    super.scrollController,
   });
 
   @override

@@ -18,6 +18,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
     this.progressIndicator = const CircularProgressIndicator(),
+    this.scrollController,
     super.key,
   });
 
@@ -29,6 +30,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
   final Axis scrollDirection;
   final bool reverse;
   final Widget progressIndicator;
+  final ScrollController? scrollController;
 
   @override
   State<StatefulWidget> createState() {
@@ -38,7 +40,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
 
 class LoadableListViewState<T extends StoreListItem>
     extends State<LoadableListView> {
-  final ScrollController scrollController = ScrollController();
+  late final ScrollController scrollController;
 
   LoadableListViewModel<T> get viewModel =>
       widget.viewModel as LoadableListViewModel<T>;
@@ -50,6 +52,7 @@ class LoadableListViewState<T extends StoreListItem>
       viewModel.loadList?.call();
     }
 
+    scrollController = widget.scrollController ?? ScrollController();
     scrollController.addListener(_onScrollChanged);
   }
 

@@ -5,11 +5,13 @@ class LoadableGridView<T extends StoreListItem> extends StatefulWidget {
   const LoadableGridView({
     required this.viewModel,
     this.onChangeContentOffset,
+    this.scrollController,
     super.key,
   });
 
   final LoadableGridViewModel<T> viewModel;
   final void Function(double offset)? onChangeContentOffset;
+  final ScrollController? scrollController;
 
   @override
   State<StatefulWidget> createState() {
@@ -19,7 +21,7 @@ class LoadableGridView<T extends StoreListItem> extends StatefulWidget {
 
 class LoadableGridViewState<T extends StoreListItem>
     extends State<LoadableGridView> {
-  final ScrollController scrollController = ScrollController();
+  late final ScrollController scrollController;
 
   LoadableGridViewModel<T> get viewModel =>
       widget.viewModel as LoadableGridViewModel<T>;
@@ -31,6 +33,7 @@ class LoadableGridViewState<T extends StoreListItem>
       viewModel.loadList!();
     }
 
+    scrollController = widget.scrollController ?? ScrollController();
     scrollController.addListener(_onScrollChanged);
   }
 
