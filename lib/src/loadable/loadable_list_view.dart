@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dash_kit_core/src/loadable/pagination_state.dart';
 import 'package:dash_kit_core/src/states/operation_state.dart';
 import 'package:dash_kit_core/src/utils/store_list.dart';
@@ -94,16 +96,8 @@ class LoadableListViewState<T extends StoreListItem>
         padding: viewModel.padding ?? EdgeInsets.zero,
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              return Column(
-                children: [
-                  buildListItem(context, index),
-                  if (index != viewModel.itemsCount - 1)
-                    buildSeparator(context, index),
-                ],
-              );
-            },
-            childCount: viewModel.itemsCount,
+            sliverDelegateBuilder,
+            childCount: _computeActualChildCount(viewModel.itemsCount),
           ),
         ),
       ),
@@ -117,6 +111,18 @@ class LoadableListViewState<T extends StoreListItem>
     scrollController
       ..removeListener(_onScrollChanged)
       ..dispose();
+  }
+
+  Widget sliverDelegateBuilder(BuildContext context, int index) {
+    final itemIndex = index ~/ 2;
+    final Widget? widget;
+    if (index.isEven) {
+      widget = buildListItem(context, itemIndex);
+    } else {
+      widget = buildSeparator(context, itemIndex);
+    }
+
+    return widget;
   }
 
   Widget buildProgressState() {
@@ -152,6 +158,10 @@ class LoadableListViewState<T extends StoreListItem>
       offset: scrollController.position.pixels,
       maxScrollExtent: scrollController.position.maxScrollExtent,
     );
+  }
+
+  static int _computeActualChildCount(int itemCount) {
+    return max(0, itemCount * 2 - 1);
   }
 }
 
