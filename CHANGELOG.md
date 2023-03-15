@@ -1,6 +1,10 @@
+## [3.6.1]
+- Added customisation of scroll controller into lists
+- Added opportunity to use custom slivers as headers
+
 ## [3.6.0]
 - Update `analysis_options.yaml`
-- `analysis_options` now enxends from `dash_kit_lints` rules
+- `analysis_options` now extends from `dash_kit_lints` rules
 
 ## [3.5.1]
 - Fixed [PaginatedList.update] method

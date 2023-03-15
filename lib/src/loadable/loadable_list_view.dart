@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dash_kit_core/src/loadable/pagination_state.dart';
 import 'package:dash_kit_core/src/states/operation_state.dart';
 import 'package:dash_kit_core/src/utils/store_list.dart';
@@ -18,6 +20,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
     this.progressIndicator = const CircularProgressIndicator(),
+    this.scrollController,
     super.key,
   });
 
@@ -29,6 +32,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
   final Axis scrollDirection;
   final bool reverse;
   final Widget progressIndicator;
+  final ScrollController? scrollController;
 
   @override
   State<StatefulWidget> createState() {
@@ -38,7 +42,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
 
 class LoadableListViewState<T extends StoreListItem>
     extends State<LoadableListView> {
-  final ScrollController scrollController = ScrollController();
+  late final ScrollController scrollController;
 
   LoadableListViewModel<T> get viewModel =>
       widget.viewModel as LoadableListViewModel<T>;
@@ -50,54 +54,55 @@ class LoadableListViewState<T extends StoreListItem>
       viewModel.loadList?.call();
     }
 
+    scrollController = widget.scrollController ?? ScrollController();
     scrollController.addListener(_onScrollChanged);
   }
 
   @override
   Widget build(BuildContext context) {
+    return CustomScrollView(
+      key: viewModel.key,
+      shrinkWrap: widget.shrinkWrap,
+      physics: widget.scrollPhysics,
+      controller: scrollController,
+      cacheExtent: widget.cacheExtent,
+      scrollDirection: widget.scrollDirection,
+      reverse: widget.reverse,
+      slivers: [
+        if (viewModel.sliverHeader != null) viewModel.sliverHeader!,
+        ...buildSliver(),
+      ],
+    );
+  }
+
+  List<Widget> buildSliver() {
     final state = viewModel.getPaginationState();
 
-    switch (state) {
-      case PaginationState.loading:
-        return buildProgressState();
-      case PaginationState.empty:
-        return buildEmptyState();
-      case PaginationState.error:
-        return buildErrorState();
-      default:
-        break;
+    if (state == PaginationState.loading) {
+      return [SliverFillRemaining(child: buildProgressState())];
     }
 
-    return CustomScrollView(
-        key: viewModel.key,
-        shrinkWrap: widget.shrinkWrap,
-        physics: widget.scrollPhysics,
-        controller: scrollController,
-        cacheExtent: widget.cacheExtent,
-        scrollDirection: widget.scrollDirection,
-        reverse: widget.reverse,
-        slivers: [
-          if (viewModel.header != null)
-            SliverToBoxAdapter(child: viewModel.header),
-          SliverPadding(
-            padding: viewModel.padding ?? EdgeInsets.zero,
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return Column(
-                    children: [
-                      buildListItem(context, index),
-                      if (index != viewModel.itemsCount - 1)
-                        buildSeparator(context, index),
-                    ],
-                  );
-                },
-                childCount: viewModel.itemsCount,
-              ),
-            ),
+    if (state == PaginationState.empty) {
+      return [SliverToBoxAdapter(child: buildEmptyState())];
+    }
+
+    if (state == PaginationState.error) {
+      return [SliverToBoxAdapter(child: buildErrorState())];
+    }
+
+    return [
+      if (viewModel.header != null) SliverToBoxAdapter(child: viewModel.header),
+      SliverPadding(
+        padding: viewModel.padding ?? EdgeInsets.zero,
+        sliver: SliverList(
+          delegate: SliverChildBuilderDelegate(
+            sliverDelegateBuilder,
+            childCount: _computeActualChildCount(viewModel.itemsCount),
           ),
-          if (viewModel.footer != null) buildFooter(),
-        ]);
+        ),
+      ),
+      if (viewModel.footer != null) buildFooter(),
+    ];
   }
 
   @override
@@ -106,6 +111,18 @@ class LoadableListViewState<T extends StoreListItem>
     scrollController
       ..removeListener(_onScrollChanged)
       ..dispose();
+  }
+
+  Widget sliverDelegateBuilder(BuildContext context, int index) {
+    final itemIndex = index ~/ 2;
+    final Widget? widget;
+    if (index.isEven) {
+      widget = buildListItem(context, itemIndex);
+    } else {
+      widget = buildSeparator(context, itemIndex);
+    }
+
+    return widget;
   }
 
   Widget buildProgressState() {
@@ -122,12 +139,6 @@ class LoadableListViewState<T extends StoreListItem>
 
   Widget buildEmptyState() {
     return viewModel.emptyStateWidget;
-  }
-
-  Widget getLoadingWidget() {
-    return Center(
-      child: widget.progressIndicator,
-    );
   }
 
   Widget buildListItem(BuildContext context, int index) {
@@ -148,6 +159,10 @@ class LoadableListViewState<T extends StoreListItem>
       maxScrollExtent: scrollController.position.maxScrollExtent,
     );
   }
+
+  static int _computeActualChildCount(int itemCount) {
+    return max(0, itemCount * 2 - 1);
+  }
 }
 
 class LoadableListViewModel<Item extends StoreListItem> {
@@ -160,6 +175,7 @@ class LoadableListViewModel<Item extends StoreListItem> {
     required this.itemSeparator,
     this.loadList,
     this.padding,
+    this.sliverHeader,
     this.header,
     this.footer,
     this.key,
@@ -173,6 +189,7 @@ class LoadableListViewModel<Item extends StoreListItem> {
   final OperationState loadListRequestState;
   final VoidCallback? loadList;
   final EdgeInsets? padding;
+  final Widget? sliverHeader;
   final Widget? header;
   final Widget? footer;
   final Key? key;

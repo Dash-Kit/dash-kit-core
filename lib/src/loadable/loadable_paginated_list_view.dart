@@ -13,6 +13,7 @@ class LoadablePaginatedListView<T extends StoreListItem>
     super.reverse,
     super.onChangeContentOffset,
     super.progressIndicator,
+    super.scrollController,
   });
 
   @override
@@ -105,13 +106,12 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
     required this.errorPageWidget,
     super.loadList,
     super.padding,
+    super.sliverHeader,
     super.header,
     super.footer,
     this.loadPage,
     super.key,
-  }) : super(
-          items: paginatedList.items,
-        );
+  }) : super(items: paginatedList.items);
 
   final VoidCallback? loadPage;
   final PaginatedList<Item> paginatedList;
