@@ -63,6 +63,12 @@ class LoadablePaginatedListState<T extends StoreListItem>
       case PaginationState.errorLoadingPage:
         return _getErrorPageWidget();
 
+      case PaginationState.refreshing:
+        if (viewModel.itemsCount == 0) {
+          return viewModel.emptyStateWidget;
+        }
+        return const SizedBox.shrink();
+
       default:
         return const SizedBox.shrink();
     }
@@ -134,6 +140,8 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
       return PaginationState.loadingPage;
     } else if (loadPageRequestState.isSucceed) {
       return PaginationState.succeedLoadingPage;
+    } else if (loadPageRequestState.isRefreshing) {
+      return PaginationState.refreshing;
     }
 
     return PaginationState.idle;

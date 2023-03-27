@@ -3,6 +3,7 @@ enum PaginationState {
   empty,
   loading,
   loadingPage,
+  refreshing,
   error,
   errorLoadingPage,
   succeedLoadingPage,
