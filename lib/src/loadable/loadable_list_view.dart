@@ -82,12 +82,12 @@ class LoadableListViewState<T extends StoreListItem>
       return [SliverFillRemaining(child: buildProgressState())];
     }
 
-    if (state == PaginationState.empty) {
-      return [SliverToBoxAdapter(child: buildEmptyState())];
-    }
-
     if (state == PaginationState.error) {
       return [SliverToBoxAdapter(child: buildErrorState())];
+    }
+
+    if (state == PaginationState.empty || viewModel.itemsCount == 0) {
+      return [SliverToBoxAdapter(child: buildEmptyState())];
     }
 
     return [

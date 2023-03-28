@@ -53,26 +53,27 @@ class LoadableGridViewState<T extends StoreListItem>
     }
 
     return CustomScrollView(
-        key: viewModel.key,
-        shrinkWrap: viewModel.shrinkWrap,
-        physics: const AlwaysScrollableScrollPhysics(),
-        controller: scrollController,
-        slivers: <Widget>[
-          if (viewModel.header != null) viewModel.header!,
-          SliverPadding(
-            padding: viewModel.padding!,
-            sliver: SliverGrid(
-              gridDelegate: viewModel.gridDelegate,
-              delegate: SliverChildBuilderDelegate(
-                buildListItem,
-                childCount: viewModel.itemsCount,
-              ),
+      key: viewModel.key,
+      shrinkWrap: viewModel.shrinkWrap,
+      physics: const AlwaysScrollableScrollPhysics(),
+      controller: scrollController,
+      slivers: <Widget>[
+        if (viewModel.header != null) viewModel.header!,
+        SliverPadding(
+          padding: viewModel.padding!,
+          sliver: SliverGrid(
+            gridDelegate: viewModel.gridDelegate,
+            delegate: SliverChildBuilderDelegate(
+              buildListItem,
+              childCount: viewModel.itemsCount,
             ),
           ),
-          SliverToBoxAdapter(
-            child: getLastItem(),
-          ),
-        ]);
+        ),
+        SliverToBoxAdapter(
+          child: getLastItem(),
+        ),
+      ],
+    );
   }
 
   @override
