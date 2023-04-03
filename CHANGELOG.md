@@ -1,3 +1,6 @@
+## [3.6.2]
+- Fixed display empty widget for loadable list
+
 ## [3.6.1]
 - Added customisation of scroll controller into lists
 - Added opportunity to use custom slivers as headers
