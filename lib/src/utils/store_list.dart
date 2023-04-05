@@ -93,8 +93,6 @@ class StoreList<T extends StoreListItem> {
       other is StoreList &&
           runtimeType == other.runtimeType &&
           _items == other._items;
-
-
 }
 
 abstract class StoreListItem {
