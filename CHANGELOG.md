@@ -1,3 +1,7 @@
+## [3.7.0]
+- Fixed an issue with disposing scroll controllers
+- Fixed processing of the refresh state in `loadable_list.dart`
+
 ## [3.6.1]
 - Added customisation of scroll controller into lists
 - Added opportunity to use custom slivers as headers

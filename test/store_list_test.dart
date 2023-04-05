@@ -1,12 +1,7 @@
 import 'package:dash_kit_core/dash_kit_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class NumberStoreListItem extends StoreListItem {
-  NumberStoreListItem(this.id);
-
-  @override
-  final int id;
-}
+import 'models/number_store_list_item.dart';
 
 void main() {
   test('Initialisation with empty list', () {

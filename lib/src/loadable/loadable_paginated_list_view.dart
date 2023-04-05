@@ -29,23 +29,11 @@ class LoadablePaginatedListState<T extends StoreListItem>
       widget.viewModel as LoadablePaginatedListViewModel<T>;
 
   @override
-  void initState() {
-    super.initState();
-
-    scrollController.addListener(_onScrollChanged);
-  }
-
-  @override
-  Widget buildListItem(BuildContext context, int index) {
+  Widget buildListItem(int index) {
     return index == viewModel.itemsCount - 1
+        // ignore: avoid-returning-widgets
         ? _getLastItem(viewModel.getPaginationState())
-        : super.buildListItem(context, index);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    scrollController.removeListener(_onScrollChanged);
+        : super.buildListItem(index);
   }
 
   @override
@@ -55,40 +43,33 @@ class LoadablePaginatedListState<T extends StoreListItem>
     );
   }
 
-  Widget _getLastItem(PaginationState state) {
-    switch (state) {
-      case PaginationState.loadingPage:
-        return _getProgressPageWidget(scrollController);
+  @override
+  void onScrollChanged(ScrollNotification scrollInfo) {
+    final canLoad = (viewModel.loadPageRequestState.isSucceed ||
+            viewModel.loadPageRequestState.isIdle) &&
+        !viewModel.paginatedList.isAllItemsLoaded;
+    final maxScrollExtent =
+        scrollInfo.metrics.maxScrollExtent - (widget.cacheExtent ?? 0);
 
-      case PaginationState.errorLoadingPage:
-        return _getErrorPageWidget();
-
-      default:
-        return const SizedBox.shrink();
+    if (scrollInfo.metrics.pixels >= maxScrollExtent && canLoad) {
+      viewModel.loadPage?.call();
     }
   }
 
-  Widget _getProgressPageWidget(ScrollController scrollController) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.only(top: 8),
-      child: Center(child: widget.progressIndicator),
-    );
-  }
+  Widget _getLastItem(PaginationState state) {
+    switch (state) {
+      case PaginationState.loadingPage:
+        return Container(
+          padding: const EdgeInsets.all(8),
+          margin: const EdgeInsets.only(top: 8),
+          child: Center(child: widget.progressIndicator),
+        );
 
-  Widget _getErrorPageWidget() {
-    return viewModel.errorPageWidget;
-  }
+      case PaginationState.errorLoadingPage:
+        return viewModel.errorPageWidget;
 
-  void _onScrollChanged() {
-    final canLoad = (viewModel.loadPageRequestState.isSucceed ||
-            viewModel.loadPageRequestState.isIdle) &&
-        viewModel.paginatedList.isAllItemsLoaded == false;
-    final maxScrollExtent =
-        scrollController.position.maxScrollExtent - (widget.cacheExtent ?? 0);
-
-    if (scrollController.position.pixels >= maxScrollExtent && canLoad) {
-      viewModel.loadPage?.call();
+      default:
+        return const SizedBox.shrink();
     }
   }
 }

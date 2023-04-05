@@ -39,33 +39,18 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
   Widget getLastItem() {
     switch (viewModel.getPaginationState()) {
       case PaginationState.loadingPage:
-        return _getProgressPageWidget(scrollController);
+        return Container(
+          padding: const EdgeInsets.all(8),
+          margin: const EdgeInsets.only(top: 8),
+          child: const Center(child: CircularProgressIndicator()),
+        );
 
       case PaginationState.errorLoadingPage:
-        return _getErrorPageWidget();
+        return viewModel.errorPageWidget;
 
       default:
         return Container();
     }
-  }
-
-  Widget _getProgressPageWidget(ScrollController scrollController) {
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => scrollController.animateTo(
-              scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 100),
-              curve: Curves.linear,
-            ));
-
-    return Container(
-      padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.only(top: 8),
-      child: const Center(child: CircularProgressIndicator()),
-    );
-  }
-
-  Widget _getErrorPageWidget() {
-    return viewModel.errorPageWidget;
   }
 
   void _onScrollChanged() {

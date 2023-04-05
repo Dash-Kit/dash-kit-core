@@ -4,12 +4,12 @@ abstract class GlobalState {
   BuiltMap<Object, OperationState> get operationsState;
 
   /// Returns the [T] with updated [OperationState]
-  /// by [operationKey] and [operationState] value
+  /// by [operationKey] and [operationState] value.
   T updateOperation<T extends GlobalState>(
     Object? operationKey,
     OperationState operationState,
   );
 
-  /// Returns an [OperationState] value by the [operationKey]
+  /// Returns an [OperationState] value by the [operationKey].
   OperationState getOperationState(Object operationKey);
 }
