@@ -10,30 +10,29 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
 
   /// Describes the [Action] as called for Refresh.
   /// In that case [OperationState] during the [Action] would be the
-  /// [OperationState.refreshing]
+  /// [OperationState.refreshing].
   final bool isRefreshing;
 
   bool _isSuccessfullyCompleted = false;
 
   /// Returns an [operationKey]
   ///
-  /// Default: `null`
+  /// Default: `null`.
+  // ignore: no-object-declaration
   Object? get operationKey => null;
 
   /// Calls parent callback [ReduxAction.before]
   ///
   /// As the side effect - it calls [SetOperationStateAction] with
   /// [OperationState.inProgress] value or with
-  /// [OperationState.refreshing] if [isRefreshing]
+  /// [OperationState.refreshing] if [isRefreshing].
   @override
   FutureOr<void> before() {
     super.before();
 
     dispatch(SetOperationStateAction<T>(
       operationKey,
-      isRefreshing == true
-          ? OperationState.refreshing
-          : OperationState.inProgress,
+      isRefreshing ? OperationState.refreshing : OperationState.inProgress,
     ));
   }
 
@@ -45,6 +44,7 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
       return () {
         final newState = reduce();
         _isSuccessfullyCompleted = true;
+
         return newState;
       };
     }
@@ -52,6 +52,7 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
     return () async {
       final newState = await reduce();
       _isSuccessfullyCompleted = true;
+
       return newState;
     };
   }
@@ -60,7 +61,7 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
   ///
   /// As the side effect - it calls [SetOperationStateAction] with
   /// [OperationState.success] value or with
-  /// [OperationState.error] if the [Action] ends with an error
+  /// [OperationState.error] if the [Action] ends with an error.
   @override
   void after() {
     super.after();

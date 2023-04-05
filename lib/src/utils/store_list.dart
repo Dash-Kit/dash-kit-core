@@ -2,10 +2,6 @@ import 'package:built_collection/built_collection.dart';
 import 'package:dash_kit_core/dash_kit_core.dart';
 import 'package:flutter/material.dart';
 
-abstract class StoreListItem {
-  Object get id;
-}
-
 @immutable
 class StoreList<T extends StoreListItem> {
   factory StoreList([Iterable<T> list = const []]) {
@@ -24,19 +20,22 @@ class StoreList<T extends StoreListItem> {
   final BuiltList<Object> _itemsIds;
   final BuiltMap<Object, T> _items;
 
-  /// Returns a [BuiltList] objects type of [T]
+  /// Returns a [BuiltList] objects type of [T].
   BuiltList<T> get items => _itemListCache;
 
-  /// Returns a [BuiltList] items id`s type of [Object]
+  /// Returns a [BuiltList] items id`s type of [Object].
   BuiltList<Object> get itemsIds => _itemsIds;
 
-  /// Returns a [BuiltMap] objects with key [Object] and type [T]
+  /// Returns a [BuiltMap] objects with key [Object] and type [T].
   BuiltMap<Object, T> get itemsMap => _items;
 
-  /// Returns a [T] object by [id]
+  @override
+  int get hashCode => _items.hashCode;
+
+  /// Returns a [T] object by [id].
   T? getItem(Object id) => _items[id];
 
-  /// Returns a [StoreList] with added [value] object
+  /// Returns a [StoreList] with added [value] object.
   StoreList<T> addItem(Object? id, T? value) {
     final self = this;
 
@@ -49,7 +48,7 @@ class StoreList<T extends StoreListItem> {
     return StoreList(updatedItems);
   }
 
-  /// Returns a [StoreList] with added [values] objects
+  /// Returns a [StoreList] with added [values] objects.
   StoreList<T> addAll(Iterable<T> values) {
     final self = this;
 
@@ -62,7 +61,7 @@ class StoreList<T extends StoreListItem> {
     return StoreList(updatedItems);
   }
 
-  /// Returns a [StoreList] with updated by [id] identificator [value] object
+  /// Returns a [StoreList] with updated by [id] identificator [value] object.
   StoreList<T> updateItem(Object? id, T? value) {
     final self = this;
 
@@ -81,7 +80,7 @@ class StoreList<T extends StoreListItem> {
     return StoreList(updatedItems);
   }
 
-  /// Returns a [StoreList] with removed by [id] object
+  /// Returns a [StoreList] with removed by [id] object.
   StoreList<T> deleteItem(Object id) {
     final updatedItems = items.rebuild((b) => b.removeWhere((e) => e.id == id));
 
@@ -94,7 +93,9 @@ class StoreList<T extends StoreListItem> {
       other is StoreList &&
           runtimeType == other.runtimeType &&
           _items == other._items;
+}
 
-  @override
-  int get hashCode => _items.hashCode;
+abstract class StoreListItem {
+  // ignore: no-object-declaration
+  Object get id;
 }

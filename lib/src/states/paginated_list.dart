@@ -19,6 +19,12 @@ class PaginatedList<T extends StoreListItem> {
           isAllItemsLoaded: true,
         );
 
+  final StoreList<T> items;
+  final bool isAllItemsLoaded;
+
+  @override
+  int get hashCode => items.hashCode ^ isAllItemsLoaded.hashCode;
+
   PaginatedList<T> update({
     StoreList<T>? items,
     bool? isAllItemsLoaded,
@@ -31,9 +37,6 @@ class PaginatedList<T extends StoreListItem> {
     );
   }
 
-  final StoreList<T> items;
-  final bool isAllItemsLoaded;
-
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -41,7 +44,4 @@ class PaginatedList<T extends StoreListItem> {
           runtimeType == other.runtimeType &&
           items == other.items &&
           isAllItemsLoaded == other.isAllItemsLoaded;
-
-  @override
-  int get hashCode => items.hashCode ^ isAllItemsLoaded.hashCode;
 }

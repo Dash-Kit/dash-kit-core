@@ -21,23 +21,21 @@ class LoadableView extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Positioned.fill(child: child),
-        Positioned.fill(child: _getLoadingWidget()),
-      ],
-    );
-  }
-
-  Widget _getLoadingWidget() {
-    return Visibility(
-      visible: isLoading,
-      child: Container(
-        padding: padding,
-        color: backgroundColor,
-        child: Center(
-          child: CircularProgressIndicator(
-            valueColor: indicatorColor,
+        Positioned.fill(
+          child: Visibility(
+            visible: isLoading,
+            child: Container(
+              padding: padding,
+              color: backgroundColor,
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: indicatorColor,
+                ),
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

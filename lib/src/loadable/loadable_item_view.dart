@@ -23,30 +23,26 @@ class LoadableItemView extends StatelessWidget {
       children: <Widget>[
         Positioned.fill(child: child),
         if (requestState.isInProgress)
-          Positioned.fill(child: _getLoadingWidget()),
+          Positioned.fill(
+            child: Container(
+              padding: padding,
+              color: backgroundColor ?? Colors.white,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
         if (requestState.isFailed)
-          Positioned.fill(child: _getErrorWidget(context)),
+          Positioned.fill(
+            child: Container(
+              padding: padding,
+              color: backgroundColor ?? Colors.white,
+              child: Center(
+                child: errorWidget,
+              ),
+            ),
+          ),
       ],
-    );
-  }
-
-  Widget _getLoadingWidget() {
-    return Container(
-      padding: padding,
-      color: backgroundColor ?? Colors.white,
-      child: const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
-  Widget _getErrorWidget(BuildContext context) {
-    return Container(
-      padding: padding,
-      color: backgroundColor ?? Colors.white,
-      child: Center(
-        child: errorWidget,
-      ),
     );
   }
 }

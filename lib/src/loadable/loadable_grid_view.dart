@@ -43,36 +43,42 @@ class LoadableGridViewState<T extends StoreListItem>
 
     switch (state) {
       case PaginationState.loading:
-        return buildProgressState();
+        return Container(
+          padding: viewModel.padding,
+          alignment: Alignment.center,
+          child: const CircularProgressIndicator(),
+        );
       case PaginationState.empty:
-        return buildEmptyState();
+        return viewModel.emptyStateWidget;
       case PaginationState.error:
-        return buildErrorState();
+        return viewModel.errorWidget;
       default:
         break;
     }
 
     return CustomScrollView(
-        key: viewModel.key,
-        shrinkWrap: viewModel.shrinkWrap,
-        physics: const AlwaysScrollableScrollPhysics(),
-        controller: scrollController,
-        slivers: <Widget>[
-          if (viewModel.header != null) viewModel.header!,
-          SliverPadding(
-            padding: viewModel.padding!,
-            sliver: SliverGrid(
-              gridDelegate: viewModel.gridDelegate,
-              delegate: SliverChildBuilderDelegate(
-                buildListItem,
-                childCount: viewModel.itemsCount,
-              ),
+      key: viewModel.key,
+      shrinkWrap: viewModel.shrinkWrap,
+      physics: const AlwaysScrollableScrollPhysics(),
+      controller: scrollController,
+      slivers: <Widget>[
+        if (viewModel.header != null) viewModel.header!,
+        SliverPadding(
+          padding: viewModel.padding!,
+          sliver: SliverGrid(
+            gridDelegate: viewModel.gridDelegate,
+            delegate: SliverChildBuilderDelegate(
+              buildListItem,
+              childCount: viewModel.itemsCount,
             ),
           ),
-          SliverToBoxAdapter(
-            child: getLastItem(),
-          ),
-        ]);
+        ),
+        SliverToBoxAdapter(
+          // ignore: avoid-returning-widgets
+          child: getLastItem(),
+        ),
+      ],
+    );
   }
 
   @override
@@ -83,29 +89,13 @@ class LoadableGridViewState<T extends StoreListItem>
       ..dispose();
   }
 
-  Widget buildProgressState() {
-    return Container(
-      padding: viewModel.padding,
-      alignment: Alignment.center,
-      child: const CircularProgressIndicator(),
-    );
-  }
-
-  Widget buildErrorState() {
-    return viewModel.errorWidget;
-  }
-
-  Widget buildEmptyState() {
-    return viewModel.emptyStateWidget;
-  }
-
   Widget getLoadingWidget() {
     return const Center(
       child: CircularProgressIndicator(),
     );
   }
 
-  Widget buildListItem(BuildContext context, int index) {
+  Widget buildListItem(BuildContext _, int index) {
     return viewModel.itemBuilder(index);
   }
 
