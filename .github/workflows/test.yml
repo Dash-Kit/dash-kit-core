@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  publish:
+  test:
     permissions:
       id-token: write # This is required for authentication using OIDC
     runs-on: ubuntu-latest
@@ -26,3 +26,6 @@ jobs:
 
       - name: Format
         run: dart format -o none . --set-exit-if-changed
+
+      - name: Test
+        run: flutter test
