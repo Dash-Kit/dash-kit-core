@@ -194,7 +194,8 @@ class LoadableListViewModel<Item extends StoreListItem> {
       return PaginationState.loading;
     }
 
-    if (loadListRequestState.isSucceed && items.items.isEmpty) {
+    if ((loadListRequestState.isSucceed || loadListRequestState.isRefreshing) &&
+        items.items.isEmpty) {
       return PaginationState.empty;
     }
 
