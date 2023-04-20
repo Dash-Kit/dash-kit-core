@@ -84,6 +84,7 @@ class LoadableListViewState<T extends StoreListItem>
     if (state == PaginationState.loading) {
       return [
         SliverFillRemaining(
+          hasScrollBody: false,
           child: _ProgressState(
             padding: viewModel.padding,
             progressIndicator: widget.progressIndicator,
@@ -93,11 +94,21 @@ class LoadableListViewState<T extends StoreListItem>
     }
 
     if (state == PaginationState.empty) {
-      return [SliverToBoxAdapter(child: viewModel.emptyStateWidget)];
+      return [
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: viewModel.emptyStateWidget,
+        ),
+      ];
     }
 
     if (state == PaginationState.error) {
-      return [SliverToBoxAdapter(child: viewModel.errorWidget)];
+      return [
+        SliverFillRemaining(
+          hasScrollBody: false,
+          child: viewModel.errorWidget,
+        ),
+      ];
     }
 
     return [
