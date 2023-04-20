@@ -1,3 +1,6 @@
+## [3.7.1]
+- Fixed rendering empty and error states in `loadable_list` 
+
 ## [3.7.0]
 - Fixed an issue with disposing scroll controllers
 - Fixed processing of the refresh state in `loadable_list.dart`
