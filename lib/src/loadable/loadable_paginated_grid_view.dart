@@ -5,7 +5,7 @@ class LoadablePaginatedGridView<T extends StoreListItem>
     extends LoadableGridView<T> {
   const LoadablePaginatedGridView({
     required LoadablePaginatedGridViewModel<T> super.viewModel,
-    super.onChangeContentOffset,
+    @Deprecated('You should use scrollController') super.onChangeContentOffset,
     super.scrollController,
     super.key,
   });

@@ -11,7 +11,7 @@ class LoadablePaginatedListView<T extends StoreListItem>
     super.shrinkWrap,
     super.scrollDirection,
     super.reverse,
-    super.onChangeContentOffset,
+    @Deprecated('You should use scrollController') super.onChangeContentOffset,
     super.progressIndicator,
     super.scrollController,
   });
@@ -29,6 +29,18 @@ class LoadablePaginatedListState<T extends StoreListItem>
       widget.viewModel as LoadablePaginatedListViewModel<T>;
 
   @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(_onScrollChanged);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.removeListener(_onScrollChanged);
+  }
+
+  @override
   Widget buildListItem(int index) {
     return index == viewModel.itemsCount - 1
         // ignore: avoid-returning-widgets
@@ -43,15 +55,14 @@ class LoadablePaginatedListState<T extends StoreListItem>
     );
   }
 
-  @override
-  void onScrollChanged(ScrollNotification scrollInfo) {
+  void _onScrollChanged() {
     final canLoad = (viewModel.loadPageRequestState.isSucceed ||
             viewModel.loadPageRequestState.isIdle) &&
         !viewModel.paginatedList.isAllItemsLoaded;
     final maxScrollExtent =
-        scrollInfo.metrics.maxScrollExtent - (widget.cacheExtent ?? 0);
+        scrollController.position.maxScrollExtent - (widget.cacheExtent ?? 0);
 
-    if (scrollInfo.metrics.pixels >= maxScrollExtent && canLoad) {
+    if (scrollController.position.pixels >= maxScrollExtent && canLoad) {
       viewModel.loadPage?.call();
     }
   }

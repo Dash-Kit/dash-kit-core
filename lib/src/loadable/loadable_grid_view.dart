@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 class LoadableGridView<T extends StoreListItem> extends StatefulWidget {
   const LoadableGridView({
     required this.viewModel,
-    this.onChangeContentOffset,
+    @Deprecated('You should use scrollController') this.onChangeContentOffset,
     this.scrollController,
     super.key,
   });
 
   final LoadableGridViewModel<T> viewModel;
+  @Deprecated('You should use scrollController')
   final void Function(double offset)? onChangeContentOffset;
   final ScrollController? scrollController;
 
@@ -34,7 +35,6 @@ class LoadableGridViewState<T extends StoreListItem>
     }
 
     scrollController = widget.scrollController ?? ScrollController();
-    scrollController.addListener(_onScrollChanged);
   }
 
   @override
@@ -81,14 +81,6 @@ class LoadableGridViewState<T extends StoreListItem>
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    scrollController
-      ..removeListener(_onScrollChanged)
-      ..dispose();
-  }
-
   Widget getLoadingWidget() {
     return const Center(
       child: CircularProgressIndicator(),
@@ -101,10 +93,6 @@ class LoadableGridViewState<T extends StoreListItem>
 
   Widget getLastItem() {
     return const SizedBox.shrink();
-  }
-
-  void _onScrollChanged() {
-    widget.onChangeContentOffset?.call(scrollController.position.pixels);
   }
 }
 

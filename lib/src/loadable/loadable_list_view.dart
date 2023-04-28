@@ -14,7 +14,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
   const LoadableListView({
     required this.viewModel,
     this.scrollPhysics = const AlwaysScrollableScrollPhysics(),
-    this.onChangeContentOffset,
+    @Deprecated('You should use scrollController') this.onChangeContentOffset,
     this.cacheExtent,
     this.shrinkWrap = false,
     this.scrollDirection = Axis.vertical,
@@ -26,6 +26,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
 
   final LoadableListViewModel<T> viewModel;
   final ScrollPhysics scrollPhysics;
+  @Deprecated('You should use scrollController')
   final ScrollListener? onChangeContentOffset;
   final double? cacheExtent;
   final bool shrinkWrap;
@@ -42,12 +43,15 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
 
 class LoadableListViewState<T extends StoreListItem>
     extends State<LoadableListView> {
+  late final ScrollController scrollController;
+
   LoadableListViewModel<T> get viewModel =>
       widget.viewModel as LoadableListViewModel<T>;
 
   @override
   void initState() {
     super.initState();
+    scrollController = widget.scrollController ?? ScrollController();
     if (viewModel.loadListRequestState.isIdle) {
       viewModel.loadList?.call();
     }
@@ -55,26 +59,19 @@ class LoadableListViewState<T extends StoreListItem>
 
   @override
   Widget build(BuildContext context) {
-    return NotificationListener<ScrollEndNotification>(
-      child: CustomScrollView(
-        key: viewModel.key,
-        shrinkWrap: widget.shrinkWrap,
-        physics: widget.scrollPhysics,
-        controller: widget.scrollController,
-        cacheExtent: widget.cacheExtent,
-        scrollDirection: widget.scrollDirection,
-        reverse: widget.reverse,
-        slivers: [
-          if (viewModel.sliverHeader != null) viewModel.sliverHeader!,
-          // ignore: avoid-returning-widgets
-          ...buildSliver(),
-        ],
-      ),
-      onNotification: (scrollInfo) {
-        onScrollChanged(scrollInfo);
-
-        return true;
-      },
+    return CustomScrollView(
+      key: viewModel.key,
+      shrinkWrap: widget.shrinkWrap,
+      physics: widget.scrollPhysics,
+      controller: scrollController,
+      cacheExtent: widget.cacheExtent,
+      scrollDirection: widget.scrollDirection,
+      reverse: widget.reverse,
+      slivers: [
+        if (viewModel.sliverHeader != null) viewModel.sliverHeader!,
+        // ignore: avoid-returning-widgets
+        ...buildSliver(),
+      ],
     );
   }
 
@@ -151,13 +148,6 @@ class LoadableListViewState<T extends StoreListItem>
 
   Widget buildFooter() {
     return SliverToBoxAdapter(child: viewModel.footer);
-  }
-
-  void onScrollChanged(ScrollNotification scrollInfo) {
-    widget.onChangeContentOffset?.call(
-      offset: scrollInfo.metrics.pixels,
-      maxScrollExtent: scrollInfo.metrics.maxScrollExtent,
-    );
   }
 
   static int _computeActualChildCount(int itemCount) {
