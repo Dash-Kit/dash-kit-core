@@ -1,3 +1,6 @@
+## [3.7.2]
+- `onNotification` return `true` in `loadable_list_view.dart`
+
 ## [3.7.1]
 - Fixed rendering empty and error states in `loadable_list` 
 

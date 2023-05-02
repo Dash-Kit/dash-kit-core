@@ -73,7 +73,7 @@ class LoadableListViewState<T extends StoreListItem>
       onNotification: (scrollInfo) {
         onScrollChanged(scrollInfo);
 
-        return true;
+        return false;
       },
     );
   }
