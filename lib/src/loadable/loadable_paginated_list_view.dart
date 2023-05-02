@@ -44,7 +44,8 @@ class LoadablePaginatedListState<T extends StoreListItem>
   }
 
   @override
-  void onScrollChanged(ScrollNotification scrollInfo) {
+  bool onScrollChanged(ScrollNotification scrollInfo) {
+    super.onScrollChanged(scrollInfo);
     final canLoad = (viewModel.loadPageRequestState.isSucceed ||
             viewModel.loadPageRequestState.isIdle) &&
         !viewModel.paginatedList.isAllItemsLoaded;
@@ -53,7 +54,11 @@ class LoadablePaginatedListState<T extends StoreListItem>
 
     if (scrollInfo.metrics.pixels >= maxScrollExtent && canLoad) {
       viewModel.loadPage?.call();
+
+      return true;
     }
+
+    return false;
   }
 
   Widget _getLastItem(PaginationState state) {
