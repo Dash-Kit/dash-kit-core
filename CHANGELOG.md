@@ -1,3 +1,6 @@
+## [3.7.2]
+- Added `RefreshIndicator` support on Android 
+
 ## [3.7.1]
 - Fixed rendering empty and error states in `loadable_list` 
 

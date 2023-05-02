@@ -56,6 +56,7 @@ class LoadableListViewState<T extends StoreListItem>
   @override
   Widget build(BuildContext context) {
     return NotificationListener<ScrollEndNotification>(
+      onNotification: onScrollChanged,
       child: CustomScrollView(
         key: viewModel.key,
         shrinkWrap: widget.shrinkWrap,
@@ -70,11 +71,6 @@ class LoadableListViewState<T extends StoreListItem>
           ...buildSliver(),
         ],
       ),
-      onNotification: (scrollInfo) {
-        onScrollChanged(scrollInfo);
-
-        return true;
-      },
     );
   }
 
@@ -153,11 +149,13 @@ class LoadableListViewState<T extends StoreListItem>
     return SliverToBoxAdapter(child: viewModel.footer);
   }
 
-  void onScrollChanged(ScrollNotification scrollInfo) {
+  bool onScrollChanged(ScrollNotification scrollInfo) {
     widget.onChangeContentOffset?.call(
       offset: scrollInfo.metrics.pixels,
       maxScrollExtent: scrollInfo.metrics.maxScrollExtent,
     );
+
+    return true;
   }
 
   static int _computeActualChildCount(int itemCount) {
