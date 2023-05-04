@@ -5,7 +5,7 @@ import 'package:dash_kit_core/src/states/operation_state.dart';
 import 'package:dash_kit_core/src/utils/store_list.dart';
 import 'package:flutter/material.dart';
 
-typedef ScrollListener = void Function({
+typedef ScrollListener = bool Function({
   required double offset,
   required double maxScrollExtent,
 });
@@ -149,14 +149,12 @@ class LoadableListViewState<T extends StoreListItem>
     return SliverToBoxAdapter(child: viewModel.footer);
   }
 
-  bool onScrollChanged(ScrollNotification scrollInfo) {
-    widget.onChangeContentOffset?.call(
-      offset: scrollInfo.metrics.pixels,
-      maxScrollExtent: scrollInfo.metrics.maxScrollExtent,
-    );
-
-    return true;
-  }
+  bool onScrollChanged(ScrollNotification scrollInfo) =>
+      widget.onChangeContentOffset?.call(
+        offset: scrollInfo.metrics.pixels,
+        maxScrollExtent: scrollInfo.metrics.maxScrollExtent,
+      ) ??
+      false;
 
   static int _computeActualChildCount(int itemCount) {
     return max(0, itemCount * 2 - 1);
