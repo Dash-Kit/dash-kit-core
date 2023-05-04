@@ -1,5 +1,8 @@
+## [3.7.3]
+- Added `RefreshIndicator` support on Android in `loadable_list`
+
 ## [3.7.2]
-- Added `RefreshIndicator` support on Android 
+- Added `RefreshIndicator` support on Android in `loadable_paginated_list`
 
 ## [3.7.1]
 - Fixed rendering empty and error states in `loadable_list` 
@@ -9,7 +12,7 @@
 - Fixed processing of the refresh state in `loadable_list.dart`
 
 ## [3.6.1]
-- Added customisation of scroll controller into lists
+- Added customization of scroll controller into lists
 - Added opportunity to use custom slivers as headers
 
 ## [3.6.0]
