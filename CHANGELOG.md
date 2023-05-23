@@ -1,3 +1,8 @@
+## [4.0.0]
+- Upgraded dart to v3
+- Upgraded `dash_kit_lints` dependency
+- Added `physics` param to `LoadableGridView`
+
 ## [3.7.3]
 - Added `RefreshIndicator` support on Android in `loadable_list`
 
