@@ -59,7 +59,7 @@ class LoadableGridViewState<T extends StoreListItem>
     return CustomScrollView(
       key: viewModel.key,
       shrinkWrap: viewModel.shrinkWrap,
-      physics: const AlwaysScrollableScrollPhysics(),
+      physics: viewModel.physics ?? const AlwaysScrollableScrollPhysics(),
       controller: scrollController,
       slivers: <Widget>[
         if (viewModel.header != null) viewModel.header!,

@@ -89,6 +89,7 @@ class LoadablePaginatedGridViewModel<Item extends StoreListItem>
     super.loadList,
     super.padding,
     super.header,
+    super.physics,
     this.loadPage,
     super.key,
   }) : super(
