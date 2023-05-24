@@ -23,19 +23,6 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
       widget.viewModel as LoadablePaginatedGridViewModel<T>;
 
   @override
-  void initState() {
-    super.initState();
-
-    scrollController.addListener(_onScrollChanged);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    scrollController.removeListener(_onScrollChanged);
-  }
-
-  @override
   Widget getLastItem() {
     switch (viewModel.getPaginationState()) {
       case PaginationState.loadingPage:
@@ -53,7 +40,10 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
     }
   }
 
-  void _onScrollChanged() {
+  @override
+  bool onScrollChanged(ScrollNotification scrollInfo) {
+    super.onScrollChanged(scrollInfo);
+
     final loadPageRequestState = viewModel.loadPageRequestState;
     bool canLoad;
     if (loadPageRequestState == null) {
@@ -66,12 +56,16 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
       canLoad = (isSucceed || isIdle) && isAllItemsNotLoaded;
     }
 
-    final currentPixelsPosition = scrollController.position.pixels;
-    final maxScrollExtent = scrollController.position.maxScrollExtent;
+    final currentPixelsPosition = scrollInfo.metrics.pixels;
+    final maxScrollExtent = scrollInfo.metrics.maxScrollExtent;
     final isCurrentPixelsPositionEnd = currentPixelsPosition == maxScrollExtent;
     if (isCurrentPixelsPositionEnd && canLoad) {
       viewModel.loadPage!();
+
+      return true;
     }
+
+    return false;
   }
 }
 

@@ -10,7 +10,7 @@ class LoadableGridView<T extends StoreListItem> extends StatefulWidget {
   });
 
   final LoadableGridViewModel<T> viewModel;
-  final void Function(double offset)? onChangeContentOffset;
+  final ScrollListener? onChangeContentOffset;
   final ScrollController? scrollController;
 
   @override
@@ -21,8 +21,6 @@ class LoadableGridView<T extends StoreListItem> extends StatefulWidget {
 
 class LoadableGridViewState<T extends StoreListItem>
     extends State<LoadableGridView> {
-  late final ScrollController scrollController;
-
   LoadableGridViewModel<T> get viewModel =>
       widget.viewModel as LoadableGridViewModel<T>;
 
@@ -32,9 +30,6 @@ class LoadableGridViewState<T extends StoreListItem>
     if (viewModel.loadList != null && viewModel.loadListRequestState.isIdle) {
       viewModel.loadList!();
     }
-
-    scrollController = widget.scrollController ?? ScrollController();
-    scrollController.addListener(_onScrollChanged);
   }
 
   @override
@@ -56,37 +51,32 @@ class LoadableGridViewState<T extends StoreListItem>
         break;
     }
 
-    return CustomScrollView(
-      key: viewModel.key,
-      shrinkWrap: viewModel.shrinkWrap,
-      physics: viewModel.physics ?? const AlwaysScrollableScrollPhysics(),
-      controller: scrollController,
-      slivers: <Widget>[
-        if (viewModel.header != null) viewModel.header!,
-        SliverPadding(
-          padding: viewModel.padding!,
-          sliver: SliverGrid(
-            gridDelegate: viewModel.gridDelegate,
-            delegate: SliverChildBuilderDelegate(
-              buildListItem,
-              childCount: viewModel.itemsCount,
+    return NotificationListener<ScrollEndNotification>(
+      onNotification: onScrollChanged,
+      child: CustomScrollView(
+        key: viewModel.key,
+        shrinkWrap: viewModel.shrinkWrap,
+        physics: viewModel.physics ?? const AlwaysScrollableScrollPhysics(),
+        controller: widget.scrollController,
+        slivers: <Widget>[
+          if (viewModel.header != null) viewModel.header!,
+          SliverPadding(
+            padding: viewModel.padding!,
+            sliver: SliverGrid(
+              gridDelegate: viewModel.gridDelegate,
+              delegate: SliverChildBuilderDelegate(
+                buildListItem,
+                childCount: viewModel.itemsCount,
+              ),
             ),
           ),
-        ),
-        SliverToBoxAdapter(
-          // ignore: avoid-returning-widgets
-          child: getLastItem(),
-        ),
-      ],
+          SliverToBoxAdapter(
+            // ignore: avoid-returning-widgets
+            child: getLastItem(),
+          ),
+        ],
+      ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    scrollController
-      ..removeListener(_onScrollChanged)
-      ..dispose();
   }
 
   Widget getLoadingWidget() {
@@ -103,9 +93,12 @@ class LoadableGridViewState<T extends StoreListItem>
     return const SizedBox.shrink();
   }
 
-  void _onScrollChanged() {
-    widget.onChangeContentOffset?.call(scrollController.position.pixels);
-  }
+  bool onScrollChanged(ScrollNotification scrollInfo) =>
+      widget.onChangeContentOffset?.call(
+        offset: scrollInfo.metrics.pixels,
+        maxScrollExtent: scrollInfo.metrics.maxScrollExtent,
+      ) ??
+      false;
 }
 
 class LoadableGridViewModel<Item extends StoreListItem> {
