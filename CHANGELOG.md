@@ -1,33 +1,47 @@
+## [4.1.0]
+
+- Wrapped `CustomScroll` view into `ScrollNotification` in `LoadableGridView` due to the outer
+  scrollController dispose.
+
 ## [4.0.0]
+
 - Upgraded dart to v3
 - Upgraded `dash_kit_lints` dependency
 - Added `physics` param to `LoadableGridView`
 
 ## [3.7.3]
+
 - Added `RefreshIndicator` support on Android in `loadable_list`
 
 ## [3.7.2]
+
 - Added `RefreshIndicator` support on Android in `loadable_paginated_list`
 
 ## [3.7.1]
-- Fixed rendering empty and error states in `loadable_list` 
+
+- Fixed rendering empty and error states in `loadable_list`
 
 ## [3.7.0]
+
 - Fixed an issue with disposing scroll controllers
 - Fixed processing of the refresh state in `loadable_list.dart`
 
 ## [3.6.1]
+
 - Added customization of scroll controller into lists
 - Added opportunity to use custom slivers as headers
 
 ## [3.6.0]
+
 - Update `analysis_options.yaml`
 - `analysis_options` now extends from `dash_kit_lints` rules
 
 ## [3.5.1]
+
 - Fixed [PaginatedList.update] method
 
 ## [3.5.0]
+
 - Incremented the Flutter SDK version to 3.7.0
 
 ## [3.4.1]
@@ -40,11 +54,11 @@
 
 ## [3.3.1]
 
-- Removed unused Store entity 
+- Removed unused Store entity
 
 ## [3.3.0]
 
-- Updated PaginatedList model and PaginatedList view structure. 
+- Updated PaginatedList model and PaginatedList view structure.
 
 ## [3.2.2]
 
