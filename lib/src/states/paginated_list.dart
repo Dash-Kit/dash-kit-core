@@ -38,10 +38,5 @@ class PaginatedList<T extends StoreListItem> {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is PaginatedList &&
-          runtimeType == other.runtimeType &&
-          items == other.items &&
-          isAllItemsLoaded == other.isAllItemsLoaded;
+  bool operator ==(Object other) => identical(this, other);
 }

@@ -88,11 +88,7 @@ class StoreList<T extends StoreListItem> {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is StoreList &&
-          runtimeType == other.runtimeType &&
-          _items == other._items;
+  bool operator ==(Object other) => identical(this, other);
 }
 
 abstract class StoreListItem {
