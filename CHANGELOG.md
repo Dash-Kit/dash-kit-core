@@ -1,3 +1,7 @@
+## [4.1.1]
+
+- Fix `operator ==` in `StoreList` and `PaginatedList`
+
 ## [4.1.0]
 
 - Wrapped `CustomScroll` view into `ScrollNotification` in `LoadableGridView` due to the outer
