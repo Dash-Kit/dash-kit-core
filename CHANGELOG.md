@@ -1,3 +1,7 @@
+## [4.1.1]
+
+- Added default padding value - `EdgetInsets.zero` for `LoadableGridView`
+
 ## [4.1.0]
 
 - Wrapped `CustomScroll` view into `ScrollNotification` in `LoadableGridView` due to the outer
