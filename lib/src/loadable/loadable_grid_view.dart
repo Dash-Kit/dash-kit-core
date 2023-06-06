@@ -61,7 +61,7 @@ class LoadableGridViewState<T extends StoreListItem>
         slivers: <Widget>[
           if (viewModel.header != null) viewModel.header!,
           SliverPadding(
-            padding: viewModel.padding!,
+            padding: viewModel.padding ?? EdgeInsets.zero,
             sliver: SliverGrid(
               gridDelegate: viewModel.gridDelegate,
               delegate: SliverChildBuilderDelegate(
