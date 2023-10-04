@@ -1,3 +1,7 @@
+## [4.2.0]
+
+- Bump dependencies
+
 ## [4.1.1]
 
 - Added default padding value - `EdgetInsets.zero` for `LoadableGridView`

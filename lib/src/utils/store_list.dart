@@ -9,7 +9,7 @@ class StoreList<T extends StoreListItem> {
 
     final itemListCache = filteredItems;
     final itemsIds = filteredItems.map((i) => i.id).toBuiltList();
-    final items = {for (var v in filteredItems) v.id: v}.build();
+    final items = {for (final v in filteredItems) v.id: v}.build();
 
     return StoreList._(itemsIds, items, itemListCache);
   }
