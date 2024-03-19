@@ -5,7 +5,7 @@ class LoadableView extends StatelessWidget {
     required this.child,
     required this.isLoading,
     this.padding,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor,
     this.indicatorColor,
     super.key,
   });
@@ -13,7 +13,7 @@ class LoadableView extends StatelessWidget {
   final Widget child;
   final bool isLoading;
   final EdgeInsetsGeometry? padding;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final Animation<Color>? indicatorColor;
 
   @override
@@ -26,7 +26,8 @@ class LoadableView extends StatelessWidget {
             visible: isLoading,
             child: Container(
               padding: padding,
-              color: backgroundColor,
+              color:
+                  backgroundColor ?? Theme.of(context).colorScheme.background,
               child: Center(
                 child: CircularProgressIndicator(
                   valueColor: indicatorColor,
