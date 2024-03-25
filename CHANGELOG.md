@@ -1,3 +1,9 @@
+## [4.3.0]
+
+- Bump dependencies
+- Breaking changes in async_redux package
+- BREAKING CHANGE: `backgroundColor` property in Loadable widgets now uses `Theme.of(context).colorScheme.background by default
+
 ## [4.2.0]
 
 - Bump dependencies

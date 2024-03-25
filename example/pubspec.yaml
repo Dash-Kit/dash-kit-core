@@ -7,10 +7,10 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
-  build_runner: ^2.1.10
-  built_value: ^8.3.0
-  built_value_generator: ^8.3.0
-  cupertino_icons: ^1.0.4
+  build_runner: ^2.4.8
+  built_value: ^8.9.1
+  built_value_generator: ^8.9.1
+  cupertino_icons: ^1.0.6
 
   dash_kit_core:
     path: ../
@@ -18,7 +18,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  platform: ^3.1.0
+  platform: ^3.1.4
 
 dev_dependencies:
   flutter_test:

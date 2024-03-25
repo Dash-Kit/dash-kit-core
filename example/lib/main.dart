@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _onLoginPressed() async {
     return context
-        .dispatch(
+        .dispatchAndWait(
           LoginAction(
             email: _emailController.text,
             password: _passwordController.text,
@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _openSuccessDialog() {
     final state = StoreProvider.state<AppState>(context);
-    final userName = state!.profileState.name;
+    final userName = state.profileState.name;
 
     showDialog(
         context: context,

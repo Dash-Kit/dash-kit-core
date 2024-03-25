@@ -26,7 +26,8 @@ class LoadableItemView extends StatelessWidget {
           Positioned.fill(
             child: Container(
               padding: padding,
-              color: backgroundColor ?? Colors.white,
+              color:
+                  backgroundColor ?? Theme.of(context).colorScheme.background,
               child: const Center(
                 child: CircularProgressIndicator(),
               ),
@@ -36,7 +37,8 @@ class LoadableItemView extends StatelessWidget {
           Positioned.fill(
             child: Container(
               padding: padding,
-              color: backgroundColor ?? Colors.white,
+              color:
+                  backgroundColor ?? Theme.of(context).colorScheme.background,
               child: Center(
                 child: errorWidget,
               ),
