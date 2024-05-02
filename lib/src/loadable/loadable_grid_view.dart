@@ -124,7 +124,7 @@ class LoadableGridViewModel<Item extends StoreListItem> {
   final Widget Function(int) itemBuilder;
   final VoidCallback? loadList;
   final EdgeInsets? padding;
-  final StoreList<Item> items;
+  final List<Item> items;
   final OperationState loadListRequestState;
   final OperationState? loadPageRequestState;
   final SliverGridDelegate gridDelegate;
@@ -132,14 +132,14 @@ class LoadableGridViewModel<Item extends StoreListItem> {
   final Widget? header;
   final bool shrinkWrap;
 
-  int get itemsCount => items.items.length;
+  int get itemsCount => items.length;
 
   PaginationState getPaginationState() {
     if (loadListRequestState.isFailed) {
       return PaginationState.error;
     } else if (loadListRequestState.isInProgress) {
       return PaginationState.loading;
-    } else if (loadListRequestState.isSucceed && items.items.isEmpty) {
+    } else if (loadListRequestState.isSucceed && items.isEmpty) {
       return PaginationState.empty;
     }
 

@@ -51,7 +51,7 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
     } else {
       final isSucceed = loadPageRequestState.isSucceed;
       final isIdle = loadPageRequestState.isIdle;
-      final isAllItemsNotLoaded = !viewModel.paginatedList.isAllItemsLoaded;
+      final isAllItemsNotLoaded = !viewModel.isAllItemsLoaded;
 
       canLoad = (isSucceed || isIdle) && isAllItemsNotLoaded;
     }
@@ -78,21 +78,20 @@ class LoadablePaginatedGridViewModel<Item extends StoreListItem>
     required super.gridDelegate,
     required super.loadListRequestState,
     required OperationState super.loadPageRequestState,
-    required this.paginatedList,
+    required super.items,
     required this.errorPageWidget,
+    required this.isAllItemsLoaded,
     super.loadList,
     super.padding,
     super.header,
     super.physics,
     this.loadPage,
     super.key,
-  }) : super(
-          items: paginatedList.items,
-        );
+  });
 
   final VoidCallback? loadPage;
-  final PaginatedList<Item> paginatedList;
   final Widget errorPageWidget;
+  final bool isAllItemsLoaded;
 
   @override
   PaginationState getPaginationState() {
