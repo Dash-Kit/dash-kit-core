@@ -39,7 +39,7 @@ class LoadablePaginatedListState<T extends StoreListItem>
   @override
   Widget buildFooter() {
     return SliverToBoxAdapter(
-      child: viewModel.paginatedList.isAllItemsLoaded ? viewModel.footer : null,
+      child: viewModel.isAllItemsLoaded ? viewModel.footer : null,
     );
   }
 
@@ -48,7 +48,7 @@ class LoadablePaginatedListState<T extends StoreListItem>
     super.onScrollChanged(scrollInfo);
     final canLoad = (viewModel.loadPageRequestState.isSucceed ||
             viewModel.loadPageRequestState.isIdle) &&
-        !viewModel.paginatedList.isAllItemsLoaded;
+        !viewModel.isAllItemsLoaded;
     final maxScrollExtent =
         scrollInfo.metrics.maxScrollExtent - (widget.cacheExtent ?? 0);
 
@@ -87,9 +87,10 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
     required super.errorWidget,
     required super.emptyStateWidget,
     required super.loadListRequestState,
+    required super.items,
     required this.loadPageRequestState,
-    required this.paginatedList,
     required this.errorPageWidget,
+    required this.isAllItemsLoaded,
     super.loadList,
     super.padding,
     super.sliverHeader,
@@ -97,12 +98,12 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
     super.footer,
     this.loadPage,
     super.key,
-  }) : super(items: paginatedList.items);
+  });
 
   final VoidCallback? loadPage;
-  final PaginatedList<Item> paginatedList;
   final Widget errorPageWidget;
   final OperationState loadPageRequestState;
+  final bool isAllItemsLoaded;
 
   @override
   int get itemsCount => super.itemsCount + 1;

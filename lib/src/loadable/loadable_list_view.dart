@@ -177,7 +177,7 @@ class LoadableListViewModel<Item extends StoreListItem> {
     this.key,
   });
 
-  final StoreList<Item> items;
+  final List<Item> items;
   final Widget Function(int) itemBuilder;
   final Widget Function(int) itemSeparator;
   final Widget errorWidget;
@@ -190,7 +190,7 @@ class LoadableListViewModel<Item extends StoreListItem> {
   final Widget? footer;
   final Key? key;
 
-  int get itemsCount => items.items.length;
+  int get itemsCount => items.length;
 
   PaginationState getPaginationState() {
     if (loadListRequestState.isFailed) {
@@ -202,7 +202,7 @@ class LoadableListViewModel<Item extends StoreListItem> {
     }
 
     if ((loadListRequestState.isSucceed || loadListRequestState.isRefreshing) &&
-        items.items.isEmpty) {
+        items.isEmpty) {
       return PaginationState.empty;
     }
 
