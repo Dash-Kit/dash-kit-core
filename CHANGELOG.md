@@ -1,3 +1,7 @@
+## [4.5.0]
+
+- Bump dependencies
+
 ## [4.4.0]
 
 - BREAKING CHANGE: Removed PaginatedList from the ViewModels constructors
