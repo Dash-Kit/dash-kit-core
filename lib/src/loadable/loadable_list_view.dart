@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:dash_kit_core/src/loadable/pagination_state.dart';
 import 'package:dash_kit_core/src/states/operation_state.dart';
-import 'package:dash_kit_core/src/utils/store_list.dart';
 import 'package:flutter/material.dart';
 
 typedef ScrollListener = bool Function({
@@ -10,7 +9,7 @@ typedef ScrollListener = bool Function({
   required double maxScrollExtent,
 });
 
-class LoadableListView<T extends StoreListItem> extends StatefulWidget {
+class LoadableListView extends StatefulWidget {
   const LoadableListView({
     required this.viewModel,
     this.scrollPhysics = const AlwaysScrollableScrollPhysics(),
@@ -24,7 +23,7 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
     super.key,
   });
 
-  final LoadableListViewModel<T> viewModel;
+  final LoadableListViewModel viewModel;
   final ScrollPhysics scrollPhysics;
   final ScrollListener? onChangeContentOffset;
   final double? cacheExtent;
@@ -36,14 +35,12 @@ class LoadableListView<T extends StoreListItem> extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return LoadableListViewState<T>();
+    return LoadableListViewState();
   }
 }
 
-class LoadableListViewState<T extends StoreListItem>
-    extends State<LoadableListView> {
-  LoadableListViewModel<T> get viewModel =>
-      widget.viewModel as LoadableListViewModel<T>;
+class LoadableListViewState extends State<LoadableListView> {
+  LoadableListViewModel get viewModel => widget.viewModel;
 
   @override
   void initState() {
@@ -114,10 +111,12 @@ class LoadableListViewState<T extends StoreListItem>
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
             sliverDelegateBuilder,
-            childCount: _computeActualChildCount(viewModel.itemsCount),
+            childCount: _computeActualChildCount(viewModel.itemCount),
           ),
         ),
       ),
+      // ignore: avoid-returning-widgets
+      SliverToBoxAdapter(child: buildLastItem(state)),
       // ignore: avoid-returning-widgets
       if (viewModel.footer != null) buildFooter(),
     ];
@@ -138,11 +137,11 @@ class LoadableListViewState<T extends StoreListItem>
   }
 
   Widget buildListItem(int index) {
-    return viewModel.itemBuilder(index);
+    return viewModel.itemBuilder(context, index);
   }
 
   Widget buildSeparator(int index) {
-    return viewModel.itemSeparator(index);
+    return viewModel.separatorBuilder(context, index);
   }
 
   Widget buildFooter() {
@@ -159,16 +158,20 @@ class LoadableListViewState<T extends StoreListItem>
   static int _computeActualChildCount(int itemCount) {
     return max(0, itemCount * 2 - 1);
   }
+
+  Widget buildLastItem(PaginationState state) {
+    return const SizedBox();
+  }
 }
 
-class LoadableListViewModel<Item extends StoreListItem> {
+class LoadableListViewModel {
   const LoadableListViewModel({
-    required this.items,
+    required this.itemCount,
     required this.itemBuilder,
     required this.emptyStateWidget,
     required this.loadListRequestState,
     required this.errorWidget,
-    required this.itemSeparator,
+    required this.separatorBuilder,
     this.loadList,
     this.padding,
     this.sliverHeader,
@@ -177,9 +180,9 @@ class LoadableListViewModel<Item extends StoreListItem> {
     this.key,
   });
 
-  final List<Item> items;
-  final Widget Function(int) itemBuilder;
-  final Widget Function(int) itemSeparator;
+  final int itemCount;
+  final IndexedWidgetBuilder itemBuilder;
+  final IndexedWidgetBuilder separatorBuilder;
   final Widget errorWidget;
   final Widget emptyStateWidget;
   final OperationState loadListRequestState;
@@ -189,8 +192,6 @@ class LoadableListViewModel<Item extends StoreListItem> {
   final Widget? header;
   final Widget? footer;
   final Key? key;
-
-  int get itemsCount => items.length;
 
   PaginationState getPaginationState() {
     if (loadListRequestState.isFailed) {
@@ -202,7 +203,7 @@ class LoadableListViewModel<Item extends StoreListItem> {
     }
 
     if ((loadListRequestState.isSucceed || loadListRequestState.isRefreshing) &&
-        items.isEmpty) {
+        itemCount == 0) {
       return PaginationState.empty;
     }
 

@@ -1,3 +1,8 @@
+## [4.6.0]
+
+- Refactored LoadableList & PaginatedeLoadableList constructors signature
+- BREAKING CHANGE: `items` replaced with `itemCount`. `itemBuilder` and `itemSeparator` now requires additional param `BuildContext` according to the `ListView.builder` constructor
+
 ## [4.5.0]
 
 - Bump dependencies
