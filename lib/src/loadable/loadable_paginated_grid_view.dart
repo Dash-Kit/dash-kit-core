@@ -1,10 +1,9 @@
 import 'package:dash_kit_core/dash_kit_core.dart';
 import 'package:flutter/material.dart';
 
-class LoadablePaginatedGridView<T extends StoreListItem>
-    extends LoadableGridView<T> {
+class LoadablePaginatedGridView extends LoadableGridView {
   const LoadablePaginatedGridView({
-    required LoadablePaginatedGridViewModel<T> super.viewModel,
+    required LoadablePaginatedGridViewModel super.viewModel,
     super.onChangeContentOffset,
     super.scrollController,
     super.key,
@@ -12,18 +11,17 @@ class LoadablePaginatedGridView<T extends StoreListItem>
 
   @override
   State<StatefulWidget> createState() {
-    return LoadablePaginatedGridViewState<T>();
+    return LoadablePaginatedGridViewState();
   }
 }
 
-class LoadablePaginatedGridViewState<T extends StoreListItem>
-    extends LoadableGridViewState<T> {
+class LoadablePaginatedGridViewState extends LoadableGridViewState {
   @override
-  LoadablePaginatedGridViewModel<T> get viewModel =>
-      widget.viewModel as LoadablePaginatedGridViewModel<T>;
+  LoadablePaginatedGridViewModel get viewModel =>
+      widget.viewModel as LoadablePaginatedGridViewModel;
 
   @override
-  Widget getLastItem() {
+  Widget buildLastItem() {
     switch (viewModel.getPaginationState()) {
       case PaginationState.loadingPage:
         return Container(
@@ -69,8 +67,7 @@ class LoadablePaginatedGridViewState<T extends StoreListItem>
   }
 }
 
-class LoadablePaginatedGridViewModel<Item extends StoreListItem>
-    extends LoadableGridViewModel<Item> {
+class LoadablePaginatedGridViewModel extends LoadableGridViewModel {
   LoadablePaginatedGridViewModel({
     required super.errorWidget,
     required super.emptyStateWidget,
@@ -78,7 +75,7 @@ class LoadablePaginatedGridViewModel<Item extends StoreListItem>
     required super.gridDelegate,
     required super.loadListRequestState,
     required OperationState super.loadPageRequestState,
-    required super.items,
+    required super.itemCount,
     required this.errorPageWidget,
     required this.isAllItemsLoaded,
     super.loadList,

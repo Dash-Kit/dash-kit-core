@@ -1,7 +1,7 @@
 import 'package:dash_kit_core/dash_kit_core.dart';
 import 'package:flutter/material.dart';
 
-class LoadableGridView<T extends StoreListItem> extends StatefulWidget {
+class LoadableGridView extends StatefulWidget {
   const LoadableGridView({
     required this.viewModel,
     this.onChangeContentOffset,
@@ -9,20 +9,18 @@ class LoadableGridView<T extends StoreListItem> extends StatefulWidget {
     super.key,
   });
 
-  final LoadableGridViewModel<T> viewModel;
+  final LoadableGridViewModel viewModel;
   final ScrollListener? onChangeContentOffset;
   final ScrollController? scrollController;
 
   @override
   State<StatefulWidget> createState() {
-    return LoadableGridViewState<T>();
+    return LoadableGridViewState();
   }
 }
 
-class LoadableGridViewState<T extends StoreListItem>
-    extends State<LoadableGridView> {
-  LoadableGridViewModel<T> get viewModel =>
-      widget.viewModel as LoadableGridViewModel<T>;
+class LoadableGridViewState extends State<LoadableGridView> {
+  LoadableGridViewModel get viewModel => widget.viewModel;
 
   @override
   void initState() {
@@ -66,13 +64,13 @@ class LoadableGridViewState<T extends StoreListItem>
               gridDelegate: viewModel.gridDelegate,
               delegate: SliverChildBuilderDelegate(
                 buildListItem,
-                childCount: viewModel.itemsCount,
+                childCount: viewModel.itemCount,
               ),
             ),
           ),
           SliverToBoxAdapter(
             // ignore: avoid-returning-widgets
-            child: getLastItem(),
+            child: buildLastItem(),
           ),
         ],
       ),
@@ -85,11 +83,11 @@ class LoadableGridViewState<T extends StoreListItem>
     );
   }
 
-  Widget buildListItem(BuildContext _, int index) {
-    return viewModel.itemBuilder(index);
+  Widget buildListItem(BuildContext context, int index) {
+    return viewModel.itemBuilder(context, index);
   }
 
-  Widget getLastItem() {
+  Widget buildLastItem() {
     return const SizedBox.shrink();
   }
 
@@ -101,10 +99,10 @@ class LoadableGridViewState<T extends StoreListItem>
       false;
 }
 
-class LoadableGridViewModel<Item extends StoreListItem> {
+class LoadableGridViewModel {
   const LoadableGridViewModel({
     required this.itemBuilder,
-    required this.items,
+    required this.itemCount,
     required this.loadListRequestState,
     required this.errorWidget,
     required this.emptyStateWidget,
@@ -121,10 +119,10 @@ class LoadableGridViewModel<Item extends StoreListItem> {
   final Key? key;
   final Widget errorWidget;
   final Widget emptyStateWidget;
-  final Widget Function(int) itemBuilder;
+  final IndexedWidgetBuilder itemBuilder;
   final VoidCallback? loadList;
   final EdgeInsets? padding;
-  final List<Item> items;
+  final int itemCount;
   final OperationState loadListRequestState;
   final OperationState? loadPageRequestState;
   final SliverGridDelegate gridDelegate;
@@ -132,14 +130,12 @@ class LoadableGridViewModel<Item extends StoreListItem> {
   final Widget? header;
   final bool shrinkWrap;
 
-  int get itemsCount => items.length;
-
   PaginationState getPaginationState() {
     if (loadListRequestState.isFailed) {
       return PaginationState.error;
     } else if (loadListRequestState.isInProgress) {
       return PaginationState.loading;
-    } else if (loadListRequestState.isSucceed && items.isEmpty) {
+    } else if (loadListRequestState.isSucceed && itemCount == 0) {
       return PaginationState.empty;
     }
 

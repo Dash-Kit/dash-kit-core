@@ -1,10 +1,9 @@
 import 'package:dash_kit_core/dash_kit_core.dart';
 import 'package:flutter/material.dart';
 
-class LoadablePaginatedListView<T extends StoreListItem>
-    extends LoadableListView<T> {
+class LoadablePaginatedListView extends LoadableListView {
   const LoadablePaginatedListView({
-    required LoadablePaginatedListViewModel<T> super.viewModel,
+    required LoadablePaginatedListViewModel super.viewModel,
     super.key,
     super.scrollPhysics,
     super.cacheExtent,
@@ -18,21 +17,20 @@ class LoadablePaginatedListView<T extends StoreListItem>
 
   @override
   State<StatefulWidget> createState() {
-    return LoadablePaginatedListState<T>();
+    return LoadablePaginatedListState();
   }
 }
 
-class LoadablePaginatedListState<T extends StoreListItem>
-    extends LoadableListViewState<T> {
+class LoadablePaginatedListState extends LoadableListViewState {
   @override
-  LoadablePaginatedListViewModel<T> get viewModel =>
-      widget.viewModel as LoadablePaginatedListViewModel<T>;
+  LoadablePaginatedListViewModel get viewModel =>
+      widget.viewModel as LoadablePaginatedListViewModel;
 
   @override
   Widget buildListItem(int index) {
-    return index == viewModel.itemsCount - 1
+    return index == viewModel.itemCount - 1
         // ignore: avoid-returning-widgets
-        ? _getLastItem(viewModel.getPaginationState())
+        ? buildLastItem(viewModel.getPaginationState())
         : super.buildListItem(index);
   }
 
@@ -61,7 +59,8 @@ class LoadablePaginatedListState<T extends StoreListItem>
     return false;
   }
 
-  Widget _getLastItem(PaginationState state) {
+  @override
+  Widget buildLastItem(PaginationState state) {
     switch (state) {
       case PaginationState.loadingPage:
         return Container(
@@ -79,15 +78,14 @@ class LoadablePaginatedListState<T extends StoreListItem>
   }
 }
 
-class LoadablePaginatedListViewModel<Item extends StoreListItem>
-    extends LoadableListViewModel<Item> {
+class LoadablePaginatedListViewModel extends LoadableListViewModel {
   LoadablePaginatedListViewModel({
     required super.itemBuilder,
-    required super.itemSeparator,
+    required super.separatorBuilder,
     required super.errorWidget,
     required super.emptyStateWidget,
     required super.loadListRequestState,
-    required super.items,
+    required int itemCount,
     required this.loadPageRequestState,
     required this.errorPageWidget,
     required this.isAllItemsLoaded,
@@ -98,15 +96,12 @@ class LoadablePaginatedListViewModel<Item extends StoreListItem>
     super.footer,
     this.loadPage,
     super.key,
-  });
+  }) : super(itemCount: itemCount + 1);
 
   final VoidCallback? loadPage;
   final Widget errorPageWidget;
   final OperationState loadPageRequestState;
   final bool isAllItemsLoaded;
-
-  @override
-  int get itemsCount => super.itemsCount + 1;
 
   @override
   PaginationState getPaginationState() {
