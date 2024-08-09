@@ -27,6 +27,14 @@ class LoadablePaginatedListState extends LoadableListViewState {
       widget.viewModel as LoadablePaginatedListViewModel;
 
   @override
+  Widget buildListItem(int index) {
+    return index == viewModel.itemCount - 1
+        // ignore: avoid-returning-widgets
+        ? buildLastItem(viewModel.getPaginationState())
+        : super.buildListItem(index);
+  }
+
+  @override
   Widget buildFooter() {
     return SliverToBoxAdapter(
       child: viewModel.isAllItemsLoaded ? viewModel.footer : null,
@@ -77,7 +85,7 @@ class LoadablePaginatedListViewModel extends LoadableListViewModel {
     required super.errorWidget,
     required super.emptyStateWidget,
     required super.loadListRequestState,
-    required super.itemCount,
+    required int itemCount,
     required this.loadPageRequestState,
     required this.errorPageWidget,
     required this.isAllItemsLoaded,
@@ -88,7 +96,7 @@ class LoadablePaginatedListViewModel extends LoadableListViewModel {
     super.footer,
     this.loadPage,
     super.key,
-  });
+  }) : super(itemCount: itemCount + 1);
 
   final VoidCallback? loadPage;
   final Widget errorPageWidget;

@@ -116,8 +116,6 @@ class LoadableListViewState extends State<LoadableListView> {
         ),
       ),
       // ignore: avoid-returning-widgets
-      SliverToBoxAdapter(child: buildLastItem(state)),
-      // ignore: avoid-returning-widgets
       if (viewModel.footer != null) buildFooter(),
     ];
   }
