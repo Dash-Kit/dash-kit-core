@@ -116,6 +116,10 @@ class LoadablePaginatedListViewModel extends LoadableListViewModel {
       return PaginationState.loadingPage;
     } else if (loadPageRequestState.isSucceed) {
       return PaginationState.succeedLoadingPage;
+    } else if ((loadListRequestState.isSucceed ||
+            loadListRequestState.isRefreshing) &&
+        itemCount == 1) {
+      return PaginationState.empty;
     }
 
     return PaginationState.idle;
