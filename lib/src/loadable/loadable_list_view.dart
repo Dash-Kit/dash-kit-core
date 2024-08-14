@@ -42,6 +42,8 @@ class LoadableListView extends StatefulWidget {
 class LoadableListViewState extends State<LoadableListView> {
   LoadableListViewModel get viewModel => widget.viewModel;
 
+  int get actualItemsCount => viewModel.itemCount;
+
   @override
   void initState() {
     super.initState();
@@ -111,7 +113,7 @@ class LoadableListViewState extends State<LoadableListView> {
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
             sliverDelegateBuilder,
-            childCount: _computeActualChildCount(viewModel.itemCount),
+            childCount: _computeActualChildCount(actualItemsCount),
           ),
         ),
       ),
