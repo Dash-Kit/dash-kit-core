@@ -1,3 +1,7 @@
+## [4.6.1]
+
+- Fix empty state.
+
 ## [4.6.0]
 
 - Refactored LoadableList & PaginatedeLoadableList constructors signature
