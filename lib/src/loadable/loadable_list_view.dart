@@ -201,7 +201,7 @@ class LoadableListViewModel {
     }
 
     if ((loadListRequestState.isSucceed || loadListRequestState.isRefreshing) &&
-        itemCount == 0) {
+        itemCount == 1) {
       return PaginationState.empty;
     }
 
