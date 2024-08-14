@@ -26,11 +26,12 @@ class LoadablePaginatedListState extends LoadableListViewState {
   LoadablePaginatedListViewModel get viewModel =>
       widget.viewModel as LoadablePaginatedListViewModel;
 
-  int get _actualItemsCount => viewModel.itemCount + 1;
+  @override
+  int get actualItemsCount => viewModel.itemCount + 1;
 
   @override
   Widget buildListItem(int index) {
-    return index == _actualItemsCount - 1
+    return index == actualItemsCount - 1
         // ignore: avoid-returning-widgets
         ? buildLastItem(viewModel.getPaginationState())
         : super.buildListItem(index);
