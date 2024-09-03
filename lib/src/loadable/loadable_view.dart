@@ -26,7 +26,8 @@ class LoadableView extends StatelessWidget {
             visible: isLoading,
             child: Container(
               padding: padding,
-              color: backgroundColor ?? Theme.of(context).colorScheme.surface,
+              color:
+                  backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
               child: Center(
                 child: CircularProgressIndicator(
                   valueColor: indicatorColor,
