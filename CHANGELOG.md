@@ -1,3 +1,7 @@
+## [4.6.2]
+
+- Fix an issue with the default background color in `LoadableView` & `LoadableItemView`
+
 ## [4.6.1]
 
 - Fix empty state.
