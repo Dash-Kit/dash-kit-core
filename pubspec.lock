@@ -42,18 +42,18 @@ packages:
     dependency: "direct main"
     description:
       name: async_redux
-      sha256: "592e4d11b618045ff9c45a1b3478f6b409695072ad98da2dc536b6571ddebdbe"
+      sha256: "78b719130469a64c09c0f815731360738d5220d888540b7f1a836840d6372618"
       url: "https://pub.dev"
     source: hosted
-    version: "23.1.1"
+    version: "24.0.2"
   async_redux_core:
     dependency: transitive
     description:
       name: async_redux_core
-      sha256: c515e546ac7ccc461bce8bfb9204867d5b9ea4a15c91ae99a8be04e09d7265ed
+      sha256: "6a68b02e81cb0ae8b34ee8968be509b13302eaa6679b7e33bf12b0d9a4596644"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -162,10 +162,10 @@ packages:
     dependency: transitive
     description:
       name: fast_immutable_collections
-      sha256: c3c73f4f989d3302066e4ec94e6ec73b5dc872592d02194f49f1352d64126b8c
+      sha256: e5e27788db94c5f1046585566a5cf63a8139a0d743cf9fdcab7ae7b0c3701a4a
       url: "https://pub.dev"
     source: hosted
-    version: "10.2.4"
+    version: "11.0.0"
   ffi:
     dependency: transitive
     description:
@@ -606,10 +606,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: f652077d0bdf60abe4c1f6377448e8655008eef28f128bc023f7b5e8dfeb48fc
+      sha256: "5c5f338a667b4c644744b661f309fb8080bb94b18a7e91ef1dbd343bed00ed6d"
       url: "https://pub.dev"
     source: hosted
-    version: "14.2.4"
+    version: "14.2.5"
   watcher:
     dependency: transitive
     description:
@@ -622,10 +622,10 @@ packages:
     dependency: transitive
     description:
       name: weak_map
-      sha256: "95ca338f0cdf5f0022cc283dfa4d97f6f6b03752f67eca85ebe6d7a679ffe3ed"
+      sha256: bf2cd4bbdba35cf407c41a290085240715ecfba82ea553e78fdeab6fe56d915e
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "4.0.0"
   web:
     dependency: transitive
     description:
@@ -683,5 +683,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.4.0 <4.0.0"
+  dart: ">=3.5.0 <4.0.0"
   flutter: ">=3.22.0"
