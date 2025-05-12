@@ -19,7 +19,7 @@ jobs:
         uses: flutter-actions/setup-flutter@v2
         with:
             channel: stable
-            version: 3.24.0
+            version: 3.29.3
       
       - name: Install dependencies
         run: flutter pub get
