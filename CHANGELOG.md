@@ -1,3 +1,7 @@
+## [4.6.3]
+
+- Bump dependencies
+
 ## [4.6.2]
 
 - Fix an issue with the default background color in `LoadableView` & `LoadableItemView`
