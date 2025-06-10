@@ -1,3 +1,7 @@
+## [4.7.2]
+
+- Remove `_isSuccessfullyCompleted` and `wrapReduce` from `Action` class
+
 ## [4.7.1]
 
 - Change `FutureOr<T?> wrapReduce(Reducer<T> reduce)` to `Future<T?> wrapReduce(Reducer<T> reduce)` to fix the issue
