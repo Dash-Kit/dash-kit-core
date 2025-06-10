@@ -1,3 +1,11 @@
+## [4.7.1]
+
+- Change `FutureOr<T?> wrapReduce(Reducer<T> reduce)` to `Future<T?> wrapReduce(Reducer<T> reduce)` to fix the issue
+
+## [4.7.0]
+
+- Bump dependencies
+
 ## [4.6.3]
 
 - Bump dependencies

@@ -37,7 +37,7 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
   }
 
   @override
-  FutureOr<T?> wrapReduce(Reducer<T> reduce) async {
+  Future<T?> wrapReduce(Reducer<T> reduce) async {
     final newState = await reduce();
     _isSuccessfullyCompleted = true;
 
