@@ -13,8 +13,6 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
   /// [OperationState.refreshing].
   final bool isRefreshing;
 
-  bool _isSuccessfullyCompleted = false;
-
   /// Returns an [operationKey]
   ///
   /// Default: `null`.
@@ -36,14 +34,6 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
     ));
   }
 
-  @override
-  Future<T?> wrapReduce(Reducer<T> reduce) async {
-    final newState = await reduce();
-    _isSuccessfullyCompleted = true;
-
-    return newState;
-  }
-
   /// Calls parent callback [ReduxAction.after]
   ///
   /// As the side effect - it calls [SetOperationStateAction] with
@@ -55,7 +45,9 @@ abstract class Action<T extends GlobalState> extends ReduxAction<T> {
 
     dispatch(SetOperationStateAction<T>(
       operationKey,
-      _isSuccessfullyCompleted ? OperationState.success : OperationState.error,
+      status.originalError == null && status.wrappedError == null
+          ? OperationState.success
+          : OperationState.error,
     ));
   }
 
